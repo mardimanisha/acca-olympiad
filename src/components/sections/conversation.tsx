@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { ArrowRight, Info } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FadeIn } from "@/components/motion";
 import { FatherAvatar, StudentAvatar } from "@/components/mascots";
 import { Section, Wrap } from "@/components/site";
@@ -27,15 +28,22 @@ function Person({ who, active, className }: { who: Speaker; active: boolean; cla
             who === "father" ? "bg-mint" : "bg-cream",
           )}
         >
-          {p.photo && <AvatarImage
+          {p.photo ? (
+            // next/image renders the photo in the server HTML; base-ui's AvatarImage only swapped it in
+            // after a client-side load check, which left the illustration showing in some browsers
+            <Image
               src={p.photo}
               alt={p.name}
+              fill
+              sizes="(min-width: 640px) 104px, 72px"
               // father art is half-length, student art is head only: zoom so both faces read at a similar size
               className={cn("object-contain", who === "father" ? "translate-y-[14%] scale-[1.3]" : "translate-y-[6%] scale-[0.92]")}
-            />}
-          <AvatarFallback className={who === "father" ? "bg-mint" : "bg-cream"}>
-            {who === "father" ? <FatherAvatar /> : <StudentAvatar />}
-          </AvatarFallback>
+            />
+          ) : (
+            <AvatarFallback className={who === "father" ? "bg-mint" : "bg-cream"}>
+              {who === "father" ? <FatherAvatar /> : <StudentAvatar />}
+            </AvatarFallback>
+          )}
         </Avatar>
       </motion.div>
       <b className="mt-3 text-[0.95rem] text-navy">{p.name}</b>

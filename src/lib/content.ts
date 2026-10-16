@@ -40,7 +40,7 @@ export type Line = { who: Speaker; text: string; kind?: "key" | "about" | "cta" 
 
 /**
  * Chat participants. `photo` is a 3D avatar in /public/avatars (Microsoft Fluent Emoji, MIT — see
- * THIRD_PARTY_NOTICES.md); the illustrated fallback shows while it loads or if it is missing.
+ * THIRD_PARTY_NOTICES.md); without a `photo` the illustration is shown.
  */
 export const SPEAKERS: Record<Speaker, { name: string; caption: string; photo?: string }> = {
   father: { name: "Father", caption: "Asking the big question", photo: "/avatars/father.png" },
