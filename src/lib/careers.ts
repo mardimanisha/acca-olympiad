@@ -1,0 +1,166 @@
+export type Career = {
+  id: string;
+  angle: number;
+  label: string;
+  short: string;
+  name: string;
+  cat: string;
+  one: string;
+  work: string;
+  roles: string[];
+  route: string[];
+  qual: string;
+  dur: string;
+  cost: string;
+  skills: string[];
+  fit: string[];
+  /** entry, mid-career, senior */
+  sal: [string, string, string];
+  /** bar widths (%) for the three salary levels */
+  w: [number, number, number];
+  entry: string;
+  salNote?: string;
+};
+
+export const CAREERS: Career[] = [
+ {id:'ca',angle:0,label:'CA',short:'CA',name:'Chartered Accountant (CA)',cat:'Professional qualification · ICAI',
+  one:"India's flagship accounting qualification for audit, tax and financial reporting.",
+  work:'Audit company accounts, plan and file taxes, prepare and review financial statements, and advise businesses on compliance and decisions.',
+  roles:['Statutory auditor','Tax consultant','Financial controller','CFO track'],
+  route:['Class 12','CA Foundation','Intermediate','Articleship','CA Final'],
+  qual:'ICAI CA; B.Com alongside is common, or graduate entry route',dur:'4.5 – 5+ years',cost:'Fees + coaching vary · verify',
+  skills:['Accounting','Tax law','Auditing','Analytical thinking','Attention to detail'],
+  fit:['enjoy accountancy and rules-based problem solving','can stay consistent through multi-level exams','like advising people on money decisions'],
+  sal:['₹7 – 12 L','₹15 – 30 L','₹35 L +'],w:[35,65,100],entry:'₹7–12 L entry'},
+ {id:'acca',angle:24,label:'ACCA',short:'ACCA',name:'ACCA · Global accounting',cat:'Professional qualification · UK body',
+  one:'An internationally recognised accounting qualification built around global standards (IFRS).',
+  work:'Financial reporting, audit, tax and business advisory, often for multinationals, Big 4 firms and global finance centres in India.',
+  roles:['Audit associate','IFRS reporting analyst','Financial analyst','Finance manager'],
+  route:['Class 12','Applied Knowledge','Applied Skills','Strategic Professional','Experience'],
+  qual:'ACCA; often paired with B.Com. Exemptions possible for graduates · verify',dur:'2.5 – 4 years',cost:'Exam fees in GBP; varies · verify',
+  skills:['IFRS reporting','Audit','Excel','Business English','Analytical thinking'],
+  fit:['want an accounting career with global mobility','prefer flexible, paper-by-paper exams','are comfortable studying in English'],
+  sal:['₹5 – 9 L','₹10 – 20 L','₹25 L +'],w:[28,55,90],entry:'₹5–9 L entry'},
+ {id:'cpa',angle:48,label:'CPA',short:'CPA',name:'US CPA',cat:'Professional qualification · USA',
+  one:'The US licensed accountant credential, valued by firms serving American clients.',
+  work:'US GAAP accounting, audit and US tax work, often from India for global firms and shared-service centres.',
+  roles:['US GAAP accountant','Audit associate (US clients)','US tax specialist','Controller'],
+  route:['Graduation','Credit evaluation','Core exams','Discipline exam','Licensure'],
+  qual:'Graduation with required credits; state-board rules apply · verify',dur:'1 – 2 years after graduation',cost:'Exam fees in USD; varies · verify',
+  skills:['US GAAP','Audit','US taxation','Excel','Communication'],
+  fit:['plan to work with US clients or firms','already have or are pursuing a commerce degree','like structured, exam-based learning'],
+  sal:['₹6 – 10 L','₹12 – 25 L','₹30 L +'],w:[30,60,95],entry:'₹6–10 L entry'},
+ {id:'cma',angle:72,label:'CMA',short:'CMA',name:'CMA · Management accounting',cat:'Professional qualification · ICMAI / US CMA',
+  one:'Cost and management accounting: helping companies plan, control costs and decide.',
+  work:'Costing, budgeting, performance analysis and decision support for manufacturing, services and corporate finance teams.',
+  roles:['Cost accountant','Management accountant','Budget analyst','Finance controller'],
+  route:['Class 12','Foundation','Intermediate','Final','Practical training'],
+  qual:'CMA India (ICMAI) or US CMA (IMA) · verify the route',dur:'3 – 4 years',cost:'Fees + coaching vary · verify',
+  skills:['Cost accounting','Budgeting','Excel','Business analysis','Decision making'],
+  fit:['like numbers that drive business decisions','are interested in how companies run','want a corporate finance career path'],
+  sal:['₹5 – 9 L','₹10 – 20 L','₹25 L +'],w:[28,55,90],entry:'₹5–9 L entry'},
+ {id:'cfa',angle:96,label:'CFA',short:'CFA',name:'CFA · Investment finance',cat:'Professional qualification · CFA Institute',
+  one:'The global standard for investment analysis and portfolio management.',
+  work:'Analyse companies, value stocks and bonds, build portfolios and advise clients on investments at funds, banks and research firms.',
+  roles:['Equity research analyst','Portfolio manager','Investment analyst','Wealth manager'],
+  route:['Graduation (final year)','Level I','Level II','Level III','Work experience'],
+  qual:'CFA charter; B.Com / BBA / Economics first',dur:'2.5 – 4 years',cost:'Exam fees in USD; varies · verify',
+  skills:['Financial analysis','Valuation','Economics','Excel modelling','Ethics'],
+  fit:['follow markets and like reading about companies','enjoy deep analysis and long-form study','want an investment-side career'],
+  sal:['₹6 – 12 L','₹15 – 30 L','₹40 L +'],w:[35,65,100],entry:'₹6–12 L entry'},
+ {id:'fpa',angle:120,label:'FP&A',short:'FP&A',name:'Corporate Finance · FP&A',cat:'Corporate & finance',
+  one:'Planning and analysis inside companies: budgets, forecasts and business decisions.',
+  work:'Build budgets and forecasts, track performance against plan and help business leaders decide where to invest.',
+  roles:['FP&A analyst','Business finance partner','Budgeting manager','Finance controller'],
+  route:['B.Com / BBA','Excel & modelling','Analyst role','CMA / MBA (optional)'],
+  qual:'B.Com / BBA Finance; CMA, CFA or MBA can accelerate growth',dur:'3 – 5 years to analyst role',cost:'Degree cost; varies · verify',
+  skills:['Excel modelling','Forecasting','Business sense','Presentation','Accounting'],
+  fit:['like seeing the big picture of a business','enjoy Excel and storytelling with numbers','want a corporate career'],
+  sal:['₹5 – 9 L','₹12 – 22 L','₹30 L +'],w:[28,58,92],entry:'₹5–9 L entry'},
+ {id:'research',angle:144,label:'Inv. research',short:'Research',name:'Investment Research',cat:'Markets',
+  one:'Studying companies and sectors to recommend what investors should buy or sell.',
+  work:'Read annual reports, build financial models, meet management teams and write research notes for funds and brokers.',
+  roles:['Equity research associate','Credit research analyst','Sector analyst','Fund research analyst'],
+  route:['B.Com / BBA / Economics','Modelling & valuation','Research associate','CFA (optional)'],
+  qual:'Commerce or economics degree; CFA is common',dur:'3 – 5 years',cost:'Degree + certification fees vary · verify',
+  skills:['Financial modelling','Valuation','Writing','Industry research','Curiosity'],
+  fit:['love reading about businesses','can write clearly and defend a view','enjoy detailed number work'],
+  sal:['₹5 – 10 L','₹12 – 25 L','₹35 L +'],w:[30,60,98],entry:'₹5–10 L entry'},
+ {id:'ib',angle:168,label:'IB · M&A',short:'IB · M&A',name:'Investment Banking · M&A',cat:'Markets',
+  one:'Advising companies on raising capital, mergers and acquisitions.',
+  work:'Build valuation models, prepare pitch books and work on deals such as IPOs, fundraises and acquisitions, often under tight deadlines.',
+  roles:['IB analyst','M&A associate','Transaction advisory','Corporate development'],
+  route:['Strong degree','Internships','Analyst','Associate (MBA / CFA / CA helps)'],
+  qual:'Top-tier degree; CA, CFA or MBA often valued',dur:'3 – 6 years',cost:'Varies by route · verify',
+  skills:['Valuation','Financial modelling','Communication','Resilience','Attention to detail'],
+  fit:['thrive under pressure and long hours','enjoy high-stakes deal work','are strong with models and presentations'],
+  sal:['₹10 – 20 L','₹25 – 50 L','₹60 L +'],w:[45,80,100],entry:'₹10–20 L entry'},
+ {id:'frm',angle:192,label:'FRM',short:'FRM',name:'FRM · Financial risk',cat:'Professional qualification · GARP',
+  one:'A global certification for measuring and managing financial risk.',
+  work:'Measure market, credit and operational risk for banks, funds and corporates, and set limits that keep the business safe.',
+  roles:['Risk analyst','Market risk manager','Credit risk analyst','Treasury risk specialist'],
+  route:['Graduation','FRM Part I','FRM Part II','Relevant experience'],
+  qual:'FRM certification; maths or finance-heavy degree helps',dur:'1 – 2 years',cost:'Exam fees in USD; varies · verify',
+  skills:['Statistics','Risk models','Excel / Python','Markets knowledge','Judgement'],
+  fit:['like probability and quantitative problems','are drawn to banking and markets','prefer analysis over sales'],
+  sal:['₹6 – 10 L','₹12 – 25 L','₹30 L +'],w:[30,60,95],entry:'₹6–10 L entry'},
+ {id:'risk',angle:216,label:'Risk & treasury',short:'Risk',name:'Risk, Credit & Treasury',cat:'Corporate & finance',
+  one:'Deciding who to lend to, how much risk to take and how cash is managed.',
+  work:'Assess borrowers, monitor loan portfolios, manage liquidity and interest-rate risk at banks, NBFCs and corporate treasuries.',
+  roles:['Credit analyst','Risk analyst','Treasury analyst','Portfolio manager'],
+  route:['B.Com / BBA / Economics','Bank or NBFC analyst','FRM / CFA (optional)','Risk or treasury manager'],
+  qual:'Commerce / economics degree; FRM or CFA adds depth',dur:'3 – 5 years',cost:'Degree + certification fees vary · verify',
+  skills:['Credit analysis','Financial statements','Economics','Excel','Judgement'],
+  fit:['are careful and like weighing evidence','are interested in banking','enjoy steady, analytical work'],
+  sal:['₹5 – 9 L','₹10 – 20 L','₹25 L +'],w:[28,55,90],entry:'₹5–9 L entry'},
+ {id:'bcom',angle:240,label:'B.Com / BBA',short:'B.Com',name:'B.Com · BBA Finance',cat:'Degree',
+  one:'The foundation degree for most commerce careers, on its own or alongside a qualification.',
+  work:'Graduates work in accounts, banking, operations and analysis roles, or use the degree as a base for CA, CFA, MBA and more.',
+  roles:['Accounts executive','Finance analyst trainee','Banking associate','Operations analyst'],
+  route:['Class 12','CUET / college admission','B.Com / BBA','Internships','Job or specialisation'],
+  qual:'B.Com, B.Com (Hons), BBA / BBA Finance',dur:'3 – 4 years',cost:'Varies widely by college · verify',
+  skills:['Accounting basics','Excel','Communication','Business awareness','Teamwork'],
+  fit:['want a flexible base before choosing a specialisation','plan to combine a degree with a qualification','like broad business learning'],
+  sal:['₹3 – 6 L','₹7 – 12 L','₹15 L +'],w:[18,38,60],entry:'₹3–6 L entry'},
+ {id:'mba',angle:264,label:'MBA',short:'MBA',name:'MBA · Management',cat:'Higher studies',
+  one:'A postgraduate management degree for leadership, consulting and specialist finance roles.',
+  work:'MBA graduates manage products, teams and finance functions, or advise companies as consultants.',
+  roles:['Finance manager','Management consultant','Product / brand manager','Business analyst'],
+  route:['Graduation','CAT / XAT / GMAT','MBA (2 years)','Placement'],
+  qual:'MBA / PGDM; work experience before MBA often helps',dur:'2 years (after graduation)',cost:'₹5 – 25 L+ depending on school · verify',
+  skills:['Leadership','Strategy','Communication','Finance','Problem solving'],
+  fit:['want to lead teams and businesses','enjoy competitive entrance exams','like variety across functions'],
+  sal:['₹8 – 25 L','₹20 – 40 L','₹50 L +'],w:[40,75,100],entry:'₹8–25 L entry'},
+ {id:'entre',angle:288,label:'Entrepreneurship',short:'Startup',name:'Entrepreneurship',cat:'Build your own',
+  one:'Starting and growing your own business, or taking a family business further.',
+  work:'Spot a problem, build a product or service, find customers, manage money and people, and keep improving.',
+  roles:['Founder','Family business successor','Startup operator','Independent consultant'],
+  route:['Idea','Learn & validate','Build first version','First customers','Grow'],
+  qual:'No fixed qualification; B.Com, BBA or MBA can help',dur:'Ongoing',cost:'Low (bootstrapped) to high; varies',
+  skills:['Problem solving','Selling','Money management','Resilience','Leadership'],
+  fit:['like taking initiative and owning outcomes','are comfortable with uncertainty','enjoy learning by doing'],
+  sal:['Variable','Variable','Variable'],w:[20,50,80],entry:'Variable · no fixed range',salNote:'No fixed salary range: earnings depend on the business.'},
+ {id:'govt',angle:312,label:'Govt careers',short:'Govt',name:'Government Careers',cat:'Public sector',
+  one:'Public-service roles through competitive exams: administration, banking, audit and tax.',
+  work:'Run public programmes, collect taxes, audit government accounts, or work in public-sector banks and regulators.',
+  roles:['Civil services (IAS / IRS)','Bank PO / RBI Grade B','SSC CGL posts','Audit & accounts services'],
+  route:['Graduation','Choose exam','Prelims','Mains / Interview','Training'],
+  qual:'Graduation (any stream) for most exams; check each notification',dur:'1 – 3 years preparation (varies)',cost:'Low exam fees; coaching optional · varies',
+  skills:['General studies','Quant & reasoning','English','Current affairs','Discipline'],
+  fit:['value job security and public service','can prepare steadily for long exams','follow current affairs'],
+  sal:['Pay Level 6 – 10','Pay Level 11 – 13','Pay Level 14 +'],w:[35,65,95],entry:'Pay level based',salNote:'Government pay is shown as 7th CPC pay levels plus allowances, not LPA.'},
+ {id:'higher',angle:336,label:'Higher studies',short:'Higher Ed',name:'Higher Studies',cat:'Higher studies',
+  one:"Master's degrees and research in commerce, economics and finance, in India or abroad.",
+  work:'Deepen expertise through an M.Com, MA Economics, MSc Finance or MiM, leading to specialist, research or teaching careers.',
+  roles:['Economist / research analyst','Lecturer / academic','Policy analyst','Specialist finance roles'],
+  route:['Class 12','UG degree','Entrance (CUET-PG / GRE / GMAT)',"Master's",'PhD (optional)'],
+  qual:"M.Com, MA Economics, MSc Finance, MiM; PhD optional",dur:'2 years (+ 3 – 5 for PhD)',cost:'Low (public) to high (abroad) · verify',
+  skills:['Research','Economics','Statistics','Writing','Curiosity'],
+  fit:['love learning a subject in depth','are interested in research or teaching','want to study in India or abroad'],
+  sal:['₹5 – 10 L','₹10 – 20 L','₹25 L +'],w:[28,55,90],entry:'₹5–10 L entry'}
+];
+
+export const GROUPS: [string, string[]][] = [['Professional qualifications', ['ca','acca','cma','cpa','cfa','frm']], ['Corporate & markets', ['fpa','research','ib','risk']], ['Degrees & higher studies', ['bcom','mba','higher']], ['Govt & own path', ['govt','entre']]];
+
+export const CAREER_BY_ID: Record<string, Career> = Object.fromEntries(CAREERS.map((c) => [c.id, c]));
+export const CAREER_ORDER: string[] = GROUPS.flatMap((g) => g[1]);
