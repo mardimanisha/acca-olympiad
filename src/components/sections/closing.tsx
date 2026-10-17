@@ -1,10 +1,13 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarDays, Check } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { FadeIn } from "@/components/motion";
 import { Wrap } from "@/components/site";
 import { EVENT } from "@/lib/content";
 import { cn } from "@/lib/utils";
+
+const GAINS = ["Discover your strengths.", "Explore 15+ career pathways.", "Get your personalised career report."];
+const PERKS = [`Scholarships up to ${EVENT.scholarship}`, "Career Report", "Certificate", "Career Guidance*"];
 
 /** s15 — final call to action. */
 export function FinalCta() {
@@ -14,25 +17,54 @@ export function FinalCta() {
         <FadeIn className="relative overflow-hidden rounded-tile bg-navy px-[22px] py-11 text-center text-mist sm:px-8 sm:py-[clamp(48px,6vw,80px)]">
           <span className="pointer-events-none absolute -top-[60%] left-1/2 -ml-[450px] h-[600px] w-[900px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(14,124,112,.35),transparent_65%)] [animation-duration:5s]" />
           <div className="relative">
-            <span className="eyebrow text-aqua">{EVENT.name}</span>
-            <h2 className="mx-auto mt-3 max-w-[18ch] text-[clamp(2rem,4vw,3rem)] leading-[1.08] font-extrabold tracking-[-0.03em] text-balance text-white">
-              Don&apos;t choose a career just because <em className="text-aqua not-italic">everyone else is.</em>
+            <span className="eyebrow text-aqua">Class 11 &amp; 12 Commerce Students</span>
+            <h2 className="mx-auto mt-3 max-w-[20ch] text-[clamp(2rem,4vw,3rem)] leading-[1.08] font-extrabold tracking-[-0.03em] text-balance text-white">
+              You Don&apos;t Need to Decide Your <em className="text-aqua not-italic">Entire Career</em> Today.
             </h2>
-            <p className="mx-auto mt-3.5 max-w-[54ch] text-[1.05rem]">
-              Discover your strengths. Understand your options. Explore careers and qualifications that could be right for you.
+            <p className="mx-auto mt-4 max-w-[54ch] text-[1.05rem]">
+              But before choosing your next course, college or qualification...
             </p>
-            <div className="mt-[30px] flex justify-center">
+            <p className="mx-auto mt-1 max-w-[54ch] text-[1.1rem] font-bold text-white">
+              Give yourself 60 minutes to understand your options better.
+            </p>
+
+            <div className="mx-auto mt-7 max-w-[560px] rounded-[20px] border border-navy-line bg-white/5 px-5 py-5 text-left sm:px-7">
+              <p className="font-extrabold text-white">Take the National Commerce Olympiad.</p>
+              <ul className="mt-3 grid gap-2">
+                {GAINS.map((g) => (
+                  <li key={g} className="flex items-center gap-2.5 font-semibold text-white">
+                    <span className="grid size-5 flex-none place-items-center rounded-full bg-teal text-white">
+                      <Check className="size-3" strokeWidth={3} />
+                    </span>
+                    {g}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-[0.98rem] font-semibold text-aqua">
+                And start making your next decision with more clarity.
+              </p>
+            </div>
+
+            <p className="mt-7 inline-flex items-center gap-2 rounded-full border border-navy-line px-4 py-2 text-[0.9rem] font-bold text-white">
+              <CalendarDays className="size-4 text-aqua" />
+              {EVENT.dateLong} · Online · ₹0
+            </p>
+            <div className="mt-5 flex flex-col items-center">
               <a href="#register" className={cn(buttonVariants({ variant: "amber", size: "pill" }), "max-sm:w-full")}>
-                Register for Free <ArrowRight />
+                Take the Free Olympiad <ArrowRight />
               </a>
+              <p className="mt-2.5 text-[0.88rem] font-semibold">Registration is completely free.</p>
             </div>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              {[EVENT.dateLabel, "60 minutes", "Online", "₹0 fee", `Scholarships up to ${EVENT.scholarship}`].map((m) => (
+              {PERKS.map((m) => (
                 <span key={m} className="rounded-full border border-navy-line px-3.5 py-[7px] text-[0.84rem] font-bold text-white">
                   {m}
                 </span>
               ))}
             </div>
+            <p className="mt-4 text-[0.74rem] opacity-80">
+              *Subject to terms and conditions, including scholarship eligibility and applicable programs.
+            </p>
           </div>
         </FadeIn>
       </Wrap>
