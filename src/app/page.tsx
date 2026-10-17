@@ -5,6 +5,7 @@ import { FinalCta, Footer } from "@/components/sections/closing";
 import { Conversation } from "@/components/sections/conversation";
 import { Faq } from "@/components/sections/faq";
 import { Hero } from "@/components/sections/hero";
+import { TopBar } from "@/components/top-bar";
 import { Mentor } from "@/components/sections/mentor";
 import { Receive } from "@/components/sections/receive";
 import { Report } from "@/components/sections/report";
@@ -15,6 +16,7 @@ import { Videos } from "@/components/sections/videos";
 export default function Home() {
   return (
     <main>
+      <TopBar />
       <Hero />
       <Conversation />
       <Receive />

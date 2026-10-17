@@ -1,9 +1,8 @@
 import Image from "next/image";
-import { ArrowRight, CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, Flame, GraduationCap, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
-import { Countdown } from "@/components/hero/countdown";
 import { Compass } from "@/components/hero/compass";
 import { RegisterForm } from "@/components/hero/register-form";
 import { EVENT, NAV } from "@/lib/content";
@@ -20,17 +19,6 @@ const OFFER = [
 export function Hero() {
   return (
     <section id="s01" className="pb-8">
-      <div className="sticky top-0 z-40 bg-navy text-[0.84rem] font-semibold text-[#C9D2E3]">
-        <Wrap className="flex items-center justify-center gap-3 py-2">
-          <Flame className="size-4 fill-amber text-amber" aria-hidden />
-          <span className="max-sm:hidden">
-            <b className="text-white">{EVENT.short}</b> starts in
-          </span>
-          <Countdown />
-          <span className="max-sm:hidden">· {EVENT.dateLabel}</span>
-        </Wrap>
-      </div>
-
       <header>
         <Wrap className="flex items-center justify-between py-[22px]">
           <a href="#s01" aria-label="ZSkillup home">
@@ -108,7 +96,7 @@ export function Hero() {
             </div>
           </Tile>
 
-          <Tile id="register" pad="none" className="flex scroll-mt-16 flex-col px-5 py-6 sm:p-8">
+          <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 sm:p-8">
             <h2 className="text-2xl font-extrabold tracking-[-0.02em]">Register free</h2>
             <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · confirmation on WhatsApp</p>
             <RegisterForm />
