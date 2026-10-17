@@ -3,10 +3,10 @@ import { Stagger, Tile } from "@/components/motion";
 import { Section, Wrap } from "@/components/site";
 
 const CREDENTIALS = [
-  { big: "AIR 26", small: "CA · Gold Medalist", tone: "mint" },
-  { big: "AIR 1", small: "CS · Gold Medalist", tone: "teal" },
-  { big: "US CPA", small: "Licensed", tone: "mint" },
-  { big: "Topper", small: "B.Com · University of Rajasthan", tone: "white" },
+  { big: "AIR 26", small: "CA – All India Rank 26, Gold Medalist", tone: "mint" },
+  { big: "AIR 1", small: "CS – All India Rank 1, Gold Medalist", tone: "teal" },
+  { big: "US CPA", small: "US Certified Public Accountant", tone: "mint" },
+  { big: "Topper", small: "B.Com University Topper, University of Rajasthan", tone: "white" },
 ] as const;
 
 /** s07 — mentor photo, intro and four credential tiles. */
@@ -35,7 +35,8 @@ export function Mentor() {
           <Tile pad="none" className="col-span-2 p-6 sm:p-9 lg:col-span-4">
             <span className="eyebrow">Meet your mentor</span>
             <h2 className="h-sub max-w-[26ch]">Learn About Careers From Someone Who Understands Them.</h2>
-            <p className="mt-3.5 max-w-[62ch] text-[1.02rem]">
+            <p className="mt-4 text-[1.15rem] font-extrabold text-navy">Manish Temani</p>
+            <p className="mt-1.5 max-w-[62ch] text-[1.02rem]">
               For more than two decades, Manish Temani has worked closely with students and professionals navigating
               careers in accounting, finance and professional education.
             </p>
