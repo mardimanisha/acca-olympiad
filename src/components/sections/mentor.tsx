@@ -1,24 +1,23 @@
 import Image from "next/image";
-import { BadgeCheck, GraduationCap, Medal } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Section, Wrap } from "@/components/site";
 
 const CREDENTIALS = [
-  { icon: Medal, text: "CA - All India Rank 26, Gold Medalist" },
-  { icon: Medal, text: "CS - All India Rank 1, Gold Medalist" },
-  { icon: BadgeCheck, text: "US CPA" },
-  { icon: GraduationCap, text: "B.Com University Topper, University of Rajasthan" },
-];
+  { big: "AIR 26", small: "CA · Gold Medalist", tone: "mint" },
+  { big: "AIR 1", small: "CS · Gold Medalist", tone: "teal" },
+  { big: "US CPA", small: "Licensed", tone: "mint" },
+  { big: "Topper", small: "B.Com · University of Rajasthan", tone: "white" },
+] as const;
 
-/** s07 — mentor profile and credentials. */
+/** s07 — mentor photo, intro and four credential tiles. */
 export function Mentor() {
   return (
     <Section id="s07">
       <Wrap>
-        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,.9fr)_minmax(0,2.2fr)]">
+        <Stagger className="grid grid-cols-2 gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,.9fr)_repeat(4,minmax(0,.55fr))]">
           <Tile
             pad="none"
-            className="group relative aspect-[4/4.4] overflow-hidden bg-mint lg:aspect-auto"
+            className="group relative col-span-2 aspect-[4/4.4] overflow-hidden bg-mint lg:col-span-1 lg:row-span-2 lg:aspect-auto lg:min-h-[470px]"
           >
             <Image
               src="/manish-temani.jpg"
@@ -33,26 +32,29 @@ export function Mentor() {
             </div>
           </Tile>
 
-          <Tile pad="none" className="p-6 sm:p-9">
+          <Tile pad="none" className="col-span-2 p-6 sm:p-9 lg:col-span-4">
             <span className="eyebrow">Meet your mentor</span>
             <h2 className="h-sub max-w-[26ch]">Learn About Careers From Someone Who Understands Them.</h2>
-            <p className="mt-5 text-[1.15rem] font-extrabold text-navy">Manish Temani</p>
-            <ul className="mt-3 grid gap-2.5 sm:grid-cols-2 sm:gap-x-6">
-              {CREDENTIALS.map(({ icon: Icon, text }) => (
-                <li key={text} className="flex items-start gap-2.5 text-[0.93rem] leading-snug font-bold text-navy">
-                  <span className="mt-px grid size-6 flex-none place-items-center rounded-full bg-mint text-teal-deep">
-                    <Icon className="size-3.5" />
-                  </span>
-                  {text}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-5 max-w-[66ch] text-[1.02rem]">
+            <p className="mt-3.5 max-w-[62ch] text-[1.02rem]">
               For more than two decades, Manish Temani has worked closely with students and professionals navigating
               careers in accounting, finance and professional education.
             </p>
           </Tile>
 
+          {CREDENTIALS.map((c) => (
+            <Tile key={c.big} tone={c.tone} pad="none" className="flex flex-col justify-end p-[18px] sm:p-6">
+              <b
+                className={`block text-[1.3rem] leading-[1.1] font-extrabold tracking-[-0.02em] sm:text-[1.6rem] ${
+                  c.tone === "teal" ? "text-white" : "text-teal-deep"
+                }`}
+              >
+                {c.big}
+              </b>
+              <small className={`mt-0.5 text-[0.85rem] leading-snug font-bold ${c.tone === "teal" ? "text-white" : "text-navy"}`}>
+                {c.small}
+              </small>
+            </Tile>
+          ))}
         </Stagger>
       </Wrap>
     </Section>
