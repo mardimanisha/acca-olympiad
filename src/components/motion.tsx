@@ -114,3 +114,17 @@ export function Bar({
     </span>
   );
 }
+
+/** Strike-through line that draws across its parent (position: relative) when scrolled into view. */
+export function StrikeLine({ className, delay = 0.4 }: { className?: string; delay?: number }) {
+  return (
+    <motion.span
+      aria-hidden
+      className={cn("pointer-events-none absolute inset-x-0 top-1/2 h-[3px] origin-left -translate-y-1/2 rounded-full bg-orange", className)}
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true, amount: 0.8 }}
+      transition={{ duration: 0.6, delay, ease: EASE }}
+    />
+  );
+}
