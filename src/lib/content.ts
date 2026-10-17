@@ -99,13 +99,6 @@ export const STEPS = [
   { title: "Explore & plan", text: "Join webinars and book counselling.", tone: "white" },
 ] as const;
 
-export const REPORT_POINTS = [
-  ["Topic-wise performance", "How you did in each of the eight areas"],
-  ["Strengths & development areas", "What to lean on, what to build"],
-  ["Possible career pathways", "With degree and qualification options"],
-  ["Next steps for 6–12 months", "Skills to build and salary benchmarks"],
-] as const;
-
 export const WEBINAR_TOPICS = [
   "CA & CMA",
   "ACCA & CPA",
