@@ -26,7 +26,7 @@ export function Mentor() {
         <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,.9fr)_minmax(0,2.2fr)]">
           <Tile
             pad="none"
-            className="group relative aspect-[4/4.4] overflow-hidden bg-mint lg:row-span-2 lg:aspect-auto lg:min-h-[520px]"
+            className="group relative aspect-[4/4.4] overflow-hidden bg-mint lg:aspect-auto"
           >
             <Image
               src="/manish-temani.jpg"
@@ -61,12 +61,12 @@ export function Mentor() {
             </p>
           </Tile>
 
-          <Tile tone="mint" pad="none" className="p-6 sm:p-9">
+          <Tile tone="mint" pad="none" className="p-6 sm:p-9 lg:col-span-2">
             <p className="max-w-[66ch] text-[1.02rem] font-semibold text-navy">
               Through the National Commerce Olympiad initiative, students will get access to career-learning sessions
               designed to simplify questions like:
             </p>
-            <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
+            <ul className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
               {QUESTIONS.map((q) => (
                 <li
                   key={q}
