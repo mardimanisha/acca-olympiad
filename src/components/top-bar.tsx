@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Wrap } from "@/components/site";
 import { NAV } from "@/lib/content";
@@ -36,7 +35,7 @@ function SiteHeader() {
           ))}
         </nav>
         <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill-sm" }), "max-sm:hidden")}>
-          Take the Free Career Olympiad <ArrowRight className="size-3.5" />
+          Register Free
         </a>
       </Wrap>
     </header>
