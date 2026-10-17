@@ -46,7 +46,7 @@ function CountdownStrip() {
 
 function SiteHeader() {
   return (
-    <header className="border-b border-line bg-canvas/90 backdrop-blur-md">
+    <header className="bg-canvas/90 backdrop-blur-md">
       <Wrap className="flex items-center justify-between py-2.5 sm:py-3">
         <a href="#s01" aria-label="ZSkillup home">
           <Image src="/zskillup-logo-black.png" alt="ZSkillup" width={95} height={32} className="h-8 w-auto" preload />
