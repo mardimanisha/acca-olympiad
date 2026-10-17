@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { ArrowRight, CalendarDays, Check } from "lucide-react";
+import { ArrowRight, CalendarDays } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { FadeIn } from "@/components/motion";
 import { Wrap } from "@/components/site";
 import { EVENT } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
-const GAINS = ["Discover your strengths.", "Explore 15+ career pathways.", "Get your personalised career report."];
 const PERKS = [`Scholarships up to ${EVENT.scholarship}`, "Career Report", "Certificate", "Career Guidance*"];
 
 /** s15 — final call to action. */
@@ -27,23 +26,6 @@ export function FinalCta() {
             <p className="mx-auto mt-1 max-w-[54ch] text-[1.1rem] font-bold text-white">
               Give yourself 60 minutes to understand your options better.
             </p>
-
-            <div className="mx-auto mt-7 max-w-[560px] rounded-[20px] border border-navy-line bg-white/5 px-5 py-5 text-left sm:px-7">
-              <p className="font-extrabold text-white">Take the National Commerce Olympiad.</p>
-              <ul className="mt-3 grid gap-2">
-                {GAINS.map((g) => (
-                  <li key={g} className="flex items-center gap-2.5 font-semibold text-white">
-                    <span className="grid size-5 flex-none place-items-center rounded-full bg-teal text-white">
-                      <Check className="size-3" strokeWidth={3} />
-                    </span>
-                    {g}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-3 text-[0.98rem] font-semibold text-aqua">
-                And start making your next decision with more clarity.
-              </p>
-            </div>
 
             <p className="mt-7 inline-flex items-center gap-2 rounded-full border border-navy-line px-4 py-2 text-[0.9rem] font-bold text-white">
               <CalendarDays className="size-4 text-aqua" />
