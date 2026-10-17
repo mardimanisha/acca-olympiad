@@ -63,7 +63,7 @@ export function Receive() {
           </Tile>
         </Stagger>
 
-        <div className="mt-16 sm:mt-24">
+        <div className="mt-10 sm:mt-14">
           <SectionHead
             eyebrow="What students get"
             title="Walk Away With More Than Just a Score"

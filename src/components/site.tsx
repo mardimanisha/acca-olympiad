@@ -8,7 +8,7 @@ export function Wrap({ className, ...props }: React.ComponentProps<"div">) {
 
 /** Standard vertical rhythm for content sections. */
 export function Section({ className, ...props }: React.ComponentProps<"section">) {
-  return <section className={cn("scroll-mt-16 py-[clamp(48px,6vw,80px)]", className)} {...props} />;
+  return <section className={cn("scroll-mt-28 py-[clamp(28px,3.5vw,48px)] sm:scroll-mt-32", className)} {...props} />;
 }
 
 /** Eyebrow + headline on the left, optional intro paragraph on the right. */

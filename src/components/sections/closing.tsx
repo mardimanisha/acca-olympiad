@@ -12,7 +12,7 @@ const PERKS = [`Scholarships up to ${EVENT.scholarship}`, "Career Report", "Cert
 /** s15 — final call to action. */
 export function FinalCta() {
   return (
-    <section id="s15" className="py-[clamp(48px,6vw,80px)]">
+    <section id="s15" className="py-[clamp(28px,3.5vw,48px)]">
       <Wrap>
         <FadeIn className="relative overflow-hidden rounded-tile bg-navy px-[22px] py-11 text-center text-mist sm:px-8 sm:py-[clamp(48px,6vw,80px)]">
           <span className="pointer-events-none absolute -top-[60%] left-1/2 -ml-[450px] h-[600px] w-[900px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(14,124,112,.35),transparent_65%)] [animation-duration:5s]" />

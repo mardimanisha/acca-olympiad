@@ -1,11 +1,10 @@
-import Image from "next/image";
 import { ArrowRight, CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
 import { Compass } from "@/components/hero/compass";
 import { RegisterForm } from "@/components/hero/register-form";
-import { EVENT, NAV } from "@/lib/content";
+import { EVENT } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 const OPTIONS = ["CA", "ACCA", "CMA", "CFA", "B.Com", "BBA", "Banking", "Finance", "Business"];
@@ -18,31 +17,7 @@ const OFFER = [
 
 export function Hero() {
   return (
-    <section id="s01" className="pb-8">
-      <header>
-        <Wrap className="flex items-center justify-between py-[22px]">
-          <a href="#s01" aria-label="ZSkillup home">
-            <Image src="/zskillup-logo-black.png" alt="ZSkillup" width={95} height={32} className="h-8 w-auto" preload />
-          </a>
-          <nav className="hidden gap-1.5 rounded-full border border-line bg-white p-[5px] text-[0.93rem] font-semibold lg:flex">
-            {NAV.map((n, i) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className={cn(
-                  "rounded-full px-4 py-2 text-navy transition-colors hover:bg-mint",
-                  i === 0 && "bg-mint text-teal-deep",
-                )}
-              >
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill-sm" }), "max-sm:hidden")}>
-            Register Free
-          </a>
-        </Wrap>
-      </header>
+    <section id="s01" className="pt-4 pb-6 sm:pt-6">
 
       <Wrap>
         <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px]" step={0.1}>
@@ -96,7 +71,7 @@ export function Hero() {
             </div>
           </Tile>
 
-          <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 sm:p-8">
+          <Tile id="register" pad="none" className="flex scroll-mt-28 flex-col px-5 py-6 sm:scroll-mt-32 sm:p-8">
             <h2 className="text-2xl font-extrabold tracking-[-0.02em]">Register free</h2>
             <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · confirmation on WhatsApp</p>
             <RegisterForm />
