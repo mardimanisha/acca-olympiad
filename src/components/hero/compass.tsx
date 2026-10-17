@@ -133,7 +133,7 @@ export function Compass() {
         animate={{ rotate: angle }}
         transition={{ type: "spring", stiffness: 60, damping: 9, mass: 0.8 }}
       >
-        <polygon points={`${CX},${CY - R + 22} ${CX + 11},${CY} ${CX - 11},${CY}`} fill="#E2531F" />
+        <polygon points={`${CX},${CY - R + 22} ${CX + 11},${CY} ${CX - 11},${CY}`} className="fill-teal" />
         <polygon points={`${CX},${CY + R - 22} ${CX + 11},${CY} ${CX - 11},${CY}`} className="fill-navy" />
       </motion.g>
       <circle cx={CX} cy={CY} r={10} className="fill-white stroke-navy" strokeWidth={3} />
