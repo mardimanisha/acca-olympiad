@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, CalendarDays, Clock, Flame, GraduationCap, IndianRupee, Monitor, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, Flame, GraduationCap, Users } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
@@ -9,11 +9,12 @@ import { RegisterForm } from "@/components/hero/register-form";
 import { EVENT, NAV } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
-const FACTS = [
-  { icon: Clock, text: "60 minutes" },
-  { icon: Monitor, text: "Online" },
-  { icon: IndianRupee, text: "₹0 fee" },
-  { icon: Users, text: "20,000+ students" },
+const OPTIONS = ["CA", "ACCA", "CMA", "CFA", "B.Com", "BBA", "Banking", "Finance", "Business"];
+
+const OFFER = [
+  { icon: Clock, text: "1 Free 60-Minute Assessment" },
+  { icon: CompassIcon, text: "15+ Career Paths" },
+  { icon: FileChartColumn, text: "Your Personalised Career Report" },
 ];
 
 export function Hero() {
@@ -60,38 +61,50 @@ export function Hero() {
           <Tile pad="none" className="flex flex-col items-center px-[18px] pt-7 pb-6 text-center sm:px-11 sm:pt-10 sm:pb-[34px]">
             <div className="flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-[7px] text-[0.82rem] font-bold text-teal-deep">
-                <CalendarDays className="size-[15px]" />
-                {EVENT.dateLabel} · Class 11 &amp; 12 Commerce
+                <Users className="size-[15px]" />
+                For Class 11 &amp; 12 Commerce Students
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full bg-cream px-3.5 py-[7px] text-[0.82rem] font-bold text-amber-ink">
-                <GraduationCap className="size-[15px]" />
-                Scholarships up to {EVENT.scholarship}
+              <span className="inline-flex items-center gap-2 rounded-full bg-cream px-3 py-[7px] text-[0.76rem] font-bold whitespace-nowrap text-amber-ink sm:px-3.5 sm:text-[0.82rem]">
+                <CalendarDays className="size-[15px]" />
+                {EVENT.dateLong} · Online · Completely Free
               </span>
             </div>
             <h1 className="mt-5 max-w-[22ch] text-[clamp(1.85rem,2.8vw,2.45rem)] leading-[1.12] font-extrabold tracking-[-0.03em] text-balance">
-              Commerce has <em className="text-teal not-italic">100s</em> of careers. Which one is right for you?
+              Confused About What to Do After <em className="text-teal not-italic">12th Commerce</em>?
             </h1>
-            <div className="mt-2.5 text-[1.1rem] font-semibold text-teal">Discover your strengths. Explore your future.</div>
+            <ul className="mt-4 flex max-w-[44rem] flex-wrap justify-center gap-1.5" aria-label="Common options">
+              {OPTIONS.map((o) => (
+                <li key={o} className="rounded-full border border-line bg-canvas px-2 py-1 text-[0.78rem] font-bold text-navy sm:px-2.5 sm:text-[0.82rem]">
+                  {o}?
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-[1.1rem] font-semibold text-teal">You don&apos;t have to decide your future based on guesswork.</p>
+            <p className="mt-2 max-w-[52ch] text-[0.98rem]">
+              Take the National Commerce Olympiad and discover the career paths worth exploring based on your strengths,
+              interests and aptitude.
+            </p>
             <Compass />
-            <div className="mt-[18px] text-[1.45rem] leading-[1.15] font-extrabold tracking-[-0.02em] text-navy">
-              Which direction is yours?
-              <b className="mt-2 block text-[0.8rem] tracking-[0.12em] text-teal">15 CAREER PATHS · 1 FREE OLYMPIAD</b>
-            </div>
-            <div className="mt-[18px] flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
-              <a href="#register" className={buttonVariants({ variant: "brand", size: "pill" })}>
-                Register Free <ArrowRight />
-              </a>
-              <a href="#s05" className={buttonVariants({ variant: "navy-outline", size: "pill" })}>
-                Explore Career Paths
-              </a>
-            </div>
-            <div className="mt-[26px] flex w-full flex-wrap justify-center gap-x-[18px] gap-y-2.5 border-t border-line pt-5 sm:gap-x-7">
-              {FACTS.map(({ icon: Icon, text }) => (
-                <span key={text} className="flex items-center gap-2 text-[0.95rem] font-bold text-navy">
+            <ul className="mt-[18px] flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-5">
+              {OFFER.map(({ icon: Icon, text }) => (
+                <li key={text} className="flex items-center gap-1.5 text-[0.92rem] font-bold whitespace-nowrap text-navy">
                   <Icon className="size-[18px] text-teal" />
                   {text}
-                </span>
+                </li>
               ))}
+            </ul>
+            <div className="mt-[22px] flex w-full flex-col items-center sm:w-auto">
+              <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill" }), "max-sm:w-full")}>
+                Take the Free Olympiad <ArrowRight />
+              </a>
+              <p className="mt-2.5 text-[0.86rem] font-semibold text-subtle">No fee. Takes only 60 minutes.</p>
+            </div>
+            <div className="mt-[22px] w-full border-t border-line pt-5">
+              <p className="flex items-center justify-center gap-2 text-[0.95rem] font-bold text-navy">
+                <GraduationCap className="size-[18px] flex-none text-amber" />
+                Scholarships up to {EVENT.scholarship} + Certificate for Every Participant*
+              </p>
+              <p className="note-s mt-1.5">*Scholarships for eligible students, subject to published terms.</p>
             </div>
           </Tile>
 

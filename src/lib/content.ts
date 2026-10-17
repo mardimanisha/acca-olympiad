@@ -4,6 +4,7 @@ export const EVENT = {
   name: "National Commerce Olympiad 2027",
   short: "NCO 2027",
   dateLabel: "28 Nov 2026",
+  dateLong: "28 November 2026",
   /** Start time is not confirmed yet; 10:00 IST is a placeholder for the countdown. */
   startsAt: "2026-11-28T10:00:00+05:30",
   phone: "+91 94147 94448",
