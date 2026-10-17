@@ -1,14 +1,16 @@
-import { GraduationCap } from "lucide-react";
+import { ArrowRight, GraduationCap } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 import { Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
 import { EVENT } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
-/** s12 — scholarships, watches and certificates. */
+/** s12 — scholarships, watches and certificates, framed as a bonus to career clarity. */
 export function Rewards() {
   return (
     <Section id="s12">
       <Wrap>
-        <SectionHead eyebrow="Rewards & scholarships" title="Participate. Perform. Get rewarded." />
+        <SectionHead eyebrow="Rewards & scholarships" title="Your Career Clarity Comes First. The Rewards Are a Bonus." />
         <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
           <Tile
             tone="amber"
@@ -23,25 +25,44 @@ export function Rewards() {
             <span className="relative text-[clamp(3rem,6vw,5.2rem)] leading-none font-extrabold tracking-[-0.04em]">
               <small className="mr-2 align-middle text-[0.3em] tracking-normal">up to</small>
               {EVENT.scholarship}
+              <sup className="ml-1 align-super text-[0.35em]">*</sup>
             </span>
-            <p className="relative max-w-[34ch] text-[1.1rem] font-semibold">For eligible students, towards graduation degree programmes.</p>
-            <span className="relative mt-[18px] max-w-[52ch] text-[0.76rem] opacity-85">
-              A maximum, not a guaranteed award. Subject to published terms and selection criteria.
-            </span>
+            <p className="relative max-w-[40ch] text-[1.05rem] font-semibold">
+              Top-performing eligible students can receive scholarships of up to {EVENT.scholarship} toward selected
+              graduation programs.
+            </p>
           </Tile>
           <Tile tone="teal" pad="none" className="flex flex-col gap-2 p-[26px] sm:p-[34px]">
-            <span className="eyebrow">Top 10 participants</span>
-            <span className="text-[clamp(2.2rem,3.6vw,3rem)] leading-none font-extrabold tracking-[-0.04em] text-white">Digital watches</span>
-            <p className="font-semibold">For the top ten performers.</p>
-            <span className="mt-auto pt-3.5 text-[0.76rem] opacity-85">Ranking rules to be published.</span>
+            <span className="eyebrow">Rewards for top performers</span>
+            <span className="text-[clamp(2.2rem,3.6vw,3rem)] leading-none font-extrabold tracking-[-0.04em] text-white">
+              Digital watches
+            </span>
+            <p className="font-semibold">The Top 10 performers will receive digital watches.</p>
           </Tile>
           <Tile pad="none" className="flex flex-col gap-2 p-[26px] text-navy sm:p-[34px]">
-            <span className="eyebrow">Every participant</span>
+            <span className="eyebrow">Certificate for every participant</span>
             <span className="text-[clamp(2.2rem,3.6vw,3rem)] leading-none font-extrabold tracking-[-0.04em]">Certificate</span>
-            <p className="font-semibold">Digital participation certificate.</p>
-            <span className="mt-auto pt-3.5 text-[0.76rem] opacity-85">Subject to final participation rules.</span>
+            <p className="font-semibold">
+              Successfully complete the Olympiad and receive your National Commerce Olympiad Participation Certificate.
+            </p>
+          </Tile>
+          <Tile
+            tone="navy"
+            className="flex flex-col gap-5 lg:col-span-2 lg:flex-row lg:items-center lg:justify-between lg:gap-10"
+          >
+            <div>
+              <span className="eyebrow">And most importantly</span>
+              <p className="mt-2 max-w-[60ch] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-snug font-bold text-white">
+                Every participant gets access to career insights that can help them make a better-informed decision after
+                Class 12.
+              </p>
+            </div>
+            <a href="#register" className={cn(buttonVariants({ variant: "amber", size: "pill" }), "max-lg:w-full")}>
+              Participate for Free <ArrowRight />
+            </a>
           </Tile>
         </Stagger>
+        <p className="note-s mt-4">*Scholarship eligibility and applicable programs are subject to terms and conditions.</p>
       </Wrap>
     </Section>
   );
