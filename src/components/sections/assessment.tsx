@@ -1,52 +1,71 @@
-import { ChartNoAxesColumn, ChartPie, FileText, Laptop, MessageCircle, Sigma, Target, TrendingUp } from "lucide-react";
+import { ChartNoAxesColumn, ChartPie, FileText, Laptop, MessageCircle, Sigma, Smile, Target, TrendingUp } from "lucide-react";
 import { Item, Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
 import { KEY_FACTS, STEPS } from "@/lib/content";
 
 const TOPICS = [
-  { icon: ChartNoAxesColumn, text: "Accountancy" },
-  { icon: Sigma, text: "Maths & Quant Aptitude" },
-  { icon: TrendingUp, text: "Economics" },
-  { icon: MessageCircle, text: "English & Communication" },
-  { icon: ChartPie, text: "Data & Analytical Reasoning" },
-  { icon: Laptop, text: "Technology & Digital Awareness" },
-  { icon: FileText, text: "Descriptive Case Studies" },
-  { icon: Target, text: "Interest & Motivation" },
+  { icon: ChartNoAxesColumn, title: "Accountancy", text: "Your understanding of fundamental accounting concepts." },
+  { icon: Sigma, title: "Maths & Quantitative Aptitude", text: "Numbers, calculations and quantitative thinking." },
+  { icon: TrendingUp, title: "Economics", text: "Understanding of economic concepts and real-world applications." },
+  { icon: MessageCircle, title: "English & Communication", text: "Comprehension, communication and interpretation." },
+  { icon: ChartPie, title: "Data & Analytical Reasoning", text: "Patterns, logic, data interpretation and problem solving." },
+  { icon: Laptop, title: "Technology & Digital Awareness", text: "Awareness of technology and today's digital business environment." },
+  { icon: FileText, title: "Case-Based Questions", text: "How you apply concepts to practical situations." },
+  { icon: Target, title: "Interest & Motivation", text: "The areas of commerce and finance that naturally interest you." },
 ];
 
-/** s08 — what the Olympiad covers plus key facts. */
+/** s08 — what the Olympiad assesses, key facts and a no-pressure note. */
 export function Assessment() {
   return (
     <Section id="s08">
       <Wrap>
-        <SectionHead eyebrow="Assessment details" title="60 minutes. Online. Eight areas that show how you think." />
+        <SectionHead
+          eyebrow="Assessment details"
+          title="60 Minutes That Could Give You Much More Clarity About Your Next 5 Years."
+          intro="The Olympiad looks beyond textbook marks alone. It explores different areas that can help indicate how you think, analyse, communicate and approach problems."
+        />
         <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <Tile>
-            <h3 className="text-[1.15rem] font-extrabold">What the Olympiad covers</h3>
+            <h3 className="text-[1.15rem] font-extrabold">You Will Be Assessed Across:</h3>
             <div className="mt-[18px] grid gap-3 sm:grid-cols-2">
-              {TOPICS.map(({ icon: Icon, text }) => (
+              {TOPICS.map(({ icon: Icon, title, text }) => (
                 <div
-                  key={text}
-                  className="flex items-center gap-3 rounded-2xl border border-line bg-canvas px-4 py-3.5 text-[0.94rem] leading-[1.3] font-bold text-navy transition-colors hover:border-mint-line hover:bg-mint"
+                  key={title}
+                  className="flex items-start gap-3 rounded-2xl border border-line bg-canvas px-4 py-3.5 transition-colors hover:border-mint-line hover:bg-mint"
                 >
                   <span className="ic size-[38px] rounded-[11px] [&_svg]:size-[18px]">
                     <Icon />
                   </span>
-                  {text}
+                  <div>
+                    <b className="block text-[0.94rem] leading-[1.3] text-navy">{title}</b>
+                    <p className="mt-1 text-[0.85rem] leading-snug">{text}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </Tile>
-          <Tile tone="navy">
+          <Tile tone="navy" className="flex flex-col">
             <span className="eyebrow">Key facts</span>
-            <dl className="mt-2.5 grid">
+            <dl className="mt-2.5 grid flex-1 auto-rows-fr">
               {KEY_FACTS.map(([k, v]) => (
-                <div key={k} className="flex items-baseline justify-between gap-3 border-t border-navy-line py-[15px] first:border-t-0">
+                <div key={k} className="flex items-center justify-between gap-3 border-t border-navy-line py-[15px] first:border-t-0">
                   <dt className="text-[0.72rem] font-extrabold tracking-[0.14em] text-haze uppercase">{k}</dt>
                   <dd className="text-right font-bold text-white">{v}</dd>
                 </div>
               ))}
             </dl>
+          </Tile>
+          <Tile tone="mint" className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6 lg:col-span-2">
+            <span className="ic"><Smile /></span>
+            <div>
+              <h3 className="text-[1.15rem] leading-snug font-extrabold">
+                You don&apos;t need to prepare like it&apos;s a board exam.{" "}
+                <span className="text-teal-deep">Come as you are.</span>
+              </h3>
+              <p className="mt-1 text-[0.98rem]">
+                The goal is to understand your current strengths and help you explore what comes next.
+              </p>
+            </div>
           </Tile>
           <Item className="note-s -mt-1 lg:col-span-2">
             Question pattern, marking scheme, start time and device requirements will be published once confirmed.
