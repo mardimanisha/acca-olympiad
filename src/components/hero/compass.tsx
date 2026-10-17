@@ -55,7 +55,7 @@ export function Compass() {
       viewBox="-95 18 490 368"
       role="group"
       aria-label="Career compass: pick a direction to explore"
-      className="mt-[22px] block w-full max-w-[330px] overflow-visible sm:max-w-[360px]"
+      className="absolute inset-0 m-auto block h-full max-h-[340px] w-full overflow-visible"
       onMouseLeave={() => setPaused(false)}
     >
       <circle cx={CX} cy={CY} r={R} className="fill-canvas stroke-navy" strokeWidth={3} />
@@ -116,7 +116,7 @@ export function Compass() {
                 y={ly + 5}
                 textAnchor={anchor}
                 className={cn(
-                  "text-[16px] font-extrabold tracking-[0.06em] transition-colors duration-300 sm:text-[15px]",
+                  "text-[24px] font-extrabold tracking-[0.04em] transition-colors duration-300 sm:text-[15px] sm:tracking-[0.06em]",
                   on ? "fill-teal" : "fill-navy",
                   l.cls,
                 )}

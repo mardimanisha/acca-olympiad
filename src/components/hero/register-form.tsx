@@ -11,12 +11,12 @@ import { EVENT } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 const field =
-  "h-[50px] rounded-field border-line bg-canvas px-3.5 text-[0.93rem] text-navy placeholder:text-[#8F9BAE] md:text-[0.93rem]";
+  "h-[50px] lg:h-11 rounded-field border-line bg-canvas px-3.5 text-[0.93rem] text-navy placeholder:text-[#8F9BAE] md:text-[0.93rem]";
 const label = "text-[0.8rem] font-bold text-navy";
 
 function PhoneInput({ id, name }: { id: string; name: string }) {
   return (
-    <div className="flex h-[50px] items-center gap-2 rounded-field border border-line bg-canvas pl-3.5 transition-shadow focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50">
+    <div className="flex h-[50px] items-center gap-2 rounded-field lg:h-11 border border-line bg-canvas pl-3.5 transition-shadow focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50">
       <b className="border-r border-line pr-2 text-[0.93rem] text-navy">+91</b>
       <Input
         id={id}
@@ -56,12 +56,12 @@ export function RegisterForm() {
           exit={{ opacity: 0, y: -12 }}
           className="flex flex-1 flex-col"
         >
-          <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2">
-            <div className="grid gap-[7px] sm:col-span-2">
+          <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2 lg:mt-4 lg:gap-y-3">
+            <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
               <Label htmlFor="r-name" className={label}>Student full name</Label>
               <Input id="r-name" name="name" required autoComplete="name" placeholder="e.g. Aarav Sharma" className={field} />
             </div>
-            <div className="grid gap-[7px] sm:col-span-2">
+            <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
               <Label htmlFor="r-email" className={label}>Email address</Label>
               <Input id="r-email" name="email" type="email" required autoComplete="email" placeholder="you@example.com" className={field} />
             </div>
@@ -91,7 +91,7 @@ export function RegisterForm() {
                   <Label
                     key={value}
                     className={cn(
-                      "flex h-[50px] cursor-pointer items-center gap-2.5 rounded-field border-[1.5px] border-line px-3.5 text-[0.92rem] font-bold text-navy transition-colors",
+                      "flex h-[50px] lg:h-11 cursor-pointer items-center gap-2.5 rounded-field border-[1.5px] border-line px-3.5 text-[0.92rem] font-bold text-navy transition-colors",
                       "has-data-checked:border-teal has-data-checked:bg-mint",
                     )}
                   >
