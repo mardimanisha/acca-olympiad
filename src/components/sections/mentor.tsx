@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BadgeCheck, GraduationCap, Medal, MessageCircleQuestion } from "lucide-react";
+import { BadgeCheck, GraduationCap, Medal } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Section, Wrap } from "@/components/site";
 
@@ -10,14 +10,7 @@ const CREDENTIALS = [
   { icon: GraduationCap, text: "B.Com University Topper, University of Rajasthan" },
 ];
 
-const QUESTIONS = [
-  "Which finance career should I choose?",
-  "CA, ACCA, CMA, CPA or CFA - what's the difference?",
-  "Which careers are growing?",
-  "What should I start doing while I'm still in Class 11 or 12?",
-];
-
-/** s07 — mentor profile, credentials and the questions his career-learning sessions answer. */
+/** s07 — mentor profile and credentials. */
 export function Mentor() {
   return (
     <Section id="s07">
@@ -60,23 +53,6 @@ export function Mentor() {
             </p>
           </Tile>
 
-          <Tile tone="mint" pad="none" className="p-6 sm:p-9 lg:col-span-2">
-            <p className="max-w-[66ch] text-[1.02rem] font-semibold text-navy">
-              Through the National Commerce Olympiad initiative, students will get access to career-learning sessions
-              designed to simplify questions like:
-            </p>
-            <ul className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-              {QUESTIONS.map((q) => (
-                <li
-                  key={q}
-                  className="flex items-start gap-2.5 rounded-2xl rounded-bl-md border border-mint-line bg-white px-4 py-3 text-[0.93rem] leading-snug font-bold text-navy"
-                >
-                  <MessageCircleQuestion className="mt-0.5 size-4 flex-none text-teal" />
-                  {q}
-                </li>
-              ))}
-            </ul>
-          </Tile>
         </Stagger>
       </Wrap>
     </Section>
