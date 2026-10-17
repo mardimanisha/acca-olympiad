@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { Bar, Stagger, Tile } from "@/components/motion";
+import { buttonVariants } from "@/components/ui/button";
+import { Bar, FadeIn, Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
 import { CAREER_BY_ID, CAREER_ORDER, GROUPS, type Career } from "@/lib/careers";
 import { selectCareer, useSelectedCareer } from "@/lib/career-store";
@@ -208,8 +209,8 @@ export function CareerExplorer() {
       <Wrap>
         <SectionHead
           eyebrow="Career explorer"
-          title="15 commerce paths. Tap one to see what it really takes."
-          intro="The work, the route, duration, cost, skills and indicative salary ranges."
+          title="“Commerce” Is Not One Career."
+          intro="Most students hear about the same few options after Class 12. But the world of commerce is much bigger."
         />
         <Stagger className="grid items-start gap-3.5 sm:gap-5 lg:grid-cols-[320px_minmax(0,1fr)]">
           <CareerList active={active} />
@@ -219,6 +220,11 @@ export function CareerExplorer() {
             </AnimatePresence>
           </Tile>
         </Stagger>
+        <FadeIn className="mt-8 flex justify-center">
+          <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill" }), "max-sm:w-full")}>
+            Take the Olympiad &amp; Discover My Path <ArrowRight />
+          </a>
+        </FadeIn>
       </Wrap>
     </Section>
   );
