@@ -1,5 +1,4 @@
 import { FloatingActions } from "@/components/floating";
-import { About } from "@/components/sections/about";
 import { Assessment, Steps } from "@/components/sections/assessment";
 import { CareerExplorer } from "@/components/sections/career-explorer";
 import { FinalCta, Footer } from "@/components/sections/closing";
@@ -27,7 +26,6 @@ export default function Home() {
       <Report />
       <Counselling />
       <Rewards />
-      <About />
       <Faq />
       <FinalCta />
       <Footer />

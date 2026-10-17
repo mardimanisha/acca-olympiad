@@ -9,8 +9,8 @@ npm run build
 
 ## Layout
 
-- `src/app/page.tsx` composes sections `s01`, `s03`–`s16` in the same order as the HTML design (the s02 "15 paths" marquee was removed).
-- `src/components/sections/*`: one file per section (`hero`, `conversation`, `receive`, `career-explorer`, `videos`, `mentor`, `assessment` (+ steps), `report`, `support`, `rewards`, `about`, `faq`, `closing` (final CTA + footer)).
+- `src/app/page.tsx` composes sections `s01`, `s03`–`s12` and `s14`–`s16` in the same order as the HTML design (the s02 "15 paths" marquee and the s13 "About ZSkillup" section were removed).
+- `src/components/sections/*`: one file per section (`hero`, `conversation`, `receive`, `career-explorer`, `videos`, `mentor`, `assessment` (+ steps), `report`, `support`, `rewards`, `faq`, `closing` (final CTA + footer)).
 - `src/components/motion.tsx`: `Tile` (bento card in white/mint/navy/teal/amber), `Stagger`, `FadeIn`, `Bar` and the `MotionProvider` (respects reduced motion).
 - `src/lib/content.ts`: page copy. `src/lib/careers.ts`: career explorer data (copied verbatim from V15).
 - `src/lib/career-store.ts`: selected career, shared by the hero compass and the explorer, mirrored in `#career=<id>`.
