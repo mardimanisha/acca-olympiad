@@ -1,13 +1,9 @@
-import { ArrowRight, CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
 import { Compass } from "@/components/hero/compass";
 import { RegisterForm } from "@/components/hero/register-form";
 import { EVENT } from "@/lib/content";
-import { cn } from "@/lib/utils";
-
-const OPTIONS = ["CA", "ACCA", "CMA", "CFA", "B.Com", "BBA", "Banking", "Finance", "Business"];
 
 const OFFER = [
   { icon: Clock, text: "1 Free 60-Minute Assessment" },
@@ -35,15 +31,7 @@ export function Hero() {
             <h1 className="mt-5 max-w-[22ch] text-[clamp(1.85rem,2.8vw,2.45rem)] leading-[1.12] font-extrabold tracking-[-0.03em] text-balance">
               Confused About What to Do After <em className="text-teal not-italic">12th Commerce</em>?
             </h1>
-            <ul className="mt-4 flex max-w-[44rem] flex-wrap justify-center gap-1.5" aria-label="Common options">
-              {OPTIONS.map((o) => (
-                <li key={o} className="rounded-full border border-line bg-canvas px-2 py-1 text-[0.78rem] font-bold text-navy sm:px-2.5 sm:text-[0.82rem]">
-                  {o}?
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-[1.1rem] font-semibold text-teal">You don&apos;t have to decide your future based on guesswork.</p>
-            <p className="mt-2 max-w-[52ch] text-[0.98rem]">
+            <p className="mt-4 max-w-[52ch] text-[0.98rem]">
               Take the National Commerce Olympiad and discover the career paths worth exploring based on your strengths,
               interests and aptitude.
             </p>
@@ -56,12 +44,6 @@ export function Hero() {
                 </li>
               ))}
             </ul>
-            <div className="mt-[22px] flex w-full flex-col items-center sm:w-auto">
-              <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill" }), "max-sm:w-full")}>
-                Take the Free Olympiad <ArrowRight />
-              </a>
-              <p className="mt-2.5 text-[0.86rem] font-semibold text-subtle">No fee. Takes only 60 minutes.</p>
-            </div>
             <div className="mt-[22px] w-full border-t border-line pt-5">
               <p className="flex items-center justify-center gap-2 text-[0.95rem] font-bold text-navy">
                 <GraduationCap className="size-[18px] flex-none text-amber" />
