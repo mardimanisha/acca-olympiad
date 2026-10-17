@@ -13,11 +13,11 @@ const OFFER = [
 
 export function Hero() {
   return (
-    <section id="s01" className="pt-4 pb-6 sm:pt-6">
+    <section id="s01" className="pt-1 pb-6 sm:pt-1.5">
 
       <Wrap>
-        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[max(600px,calc(100svh-100px))_auto]" step={0.1}>
-          <Tile pad="none" className="flex min-h-[calc(100svh-96px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-100px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
+        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[max(600px,calc(100svh-82px))_auto]" step={0.1}>
+          <Tile pad="none" className="flex min-h-[calc(100svh-84px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-82px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
             <div className="flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-[7px] text-[0.82rem] font-bold text-teal-deep">
                 <Users className="size-[15px]" />
