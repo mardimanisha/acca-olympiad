@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BadgeCheck, Briefcase, GraduationCap, Medal, MessageCircleQuestion } from "lucide-react";
+import { BadgeCheck, GraduationCap, Medal, MessageCircleQuestion } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Section, Wrap } from "@/components/site";
 
@@ -8,7 +8,6 @@ const CREDENTIALS = [
   { icon: Medal, text: "CS - All India Rank 1, Gold Medalist" },
   { icon: BadgeCheck, text: "US CPA" },
   { icon: GraduationCap, text: "B.Com University Topper, University of Rajasthan" },
-  { icon: Briefcase, text: "20+ Years of Experience in Finance & Professional Education" },
 ];
 
 const QUESTIONS = [
