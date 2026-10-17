@@ -1,7 +1,9 @@
-import { ChartNoAxesColumn, ChartPie, FileText, Laptop, MessageCircle, Sigma, Smile, Target, TrendingUp } from "lucide-react";
+import { ArrowRight, ChartNoAxesColumn, ChartPie, FileText, Laptop, MessageCircle, Sigma, Smile, Target, TrendingUp } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 import { Item, Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
 import { KEY_FACTS, STEPS } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
 const TOPICS = [
   { icon: ChartNoAxesColumn, title: "Accountancy", text: "Your understanding of fundamental accounting concepts." },
@@ -76,32 +78,50 @@ export function Assessment() {
   );
 }
 
-/** s09 — four steps to participate. */
+/** s09 — five steps from registering to getting guidance. */
 export function Steps() {
   return (
     <Section id="s09">
       <Wrap>
-        <SectionHead eyebrow="How to participate" title="Four simple steps." center />
-        <Stagger className="grid gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4" step={0.12}>
+        <SectionHead eyebrow="How it works" title="From “I Don't Know” to “Now I Know What to Explore.”" center />
+        <Stagger className="grid gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5" step={0.12}>
           {STEPS.map((s, i) => (
             <Tile
               key={s.title}
               tone={s.tone}
               pad="none"
               whileHover={{ y: -6 }}
-              className="flex flex-col gap-3 p-[22px] sm:min-h-[230px] sm:p-7"
+              className={cn(
+                "flex flex-col gap-3 p-[22px] sm:min-h-[230px] sm:p-6",
+                i === STEPS.length - 1 && "sm:col-span-2 lg:col-span-1",
+              )}
             >
               <span
-                className={`grid size-[46px] place-items-center rounded-[14px] text-[1.1rem] font-extrabold ${
-                  s.tone === "white" ? "bg-mint text-teal-deep" : "bg-white text-teal"
-                }`}
+                className={cn(
+                  "grid size-[46px] place-items-center rounded-[14px] text-[1rem] font-extrabold",
+                  s.tone === "white" ? "bg-mint text-teal-deep" : "bg-white text-teal",
+                )}
               >
-                {i + 1}
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-1.5 text-[1.15rem] font-extrabold sm:mt-auto">{s.title}</h3>
+              <h3 className="mt-3 text-[1.1rem] leading-snug font-extrabold">{s.title}</h3>
               <p>{s.text}</p>
             </Tile>
           ))}
+          <Tile
+            tone="navy"
+            className="flex flex-col gap-5 sm:col-span-2 lg:col-span-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10"
+          >
+            <div>
+              <p className="text-[clamp(1.15rem,1.8vw,1.4rem)] font-extrabold text-white">That&apos;s it.</p>
+              <p className="mt-1 max-w-[60ch] text-[1.02rem] font-semibold text-aqua">
+                One free assessment can become the starting point for a much smarter career conversation.
+              </p>
+            </div>
+            <a href="#register" className={cn(buttonVariants({ variant: "amber", size: "pill" }), "max-lg:w-full")}>
+              Start With the Free Olympiad <ArrowRight />
+            </a>
+          </Tile>
         </Stagger>
       </Wrap>
     </Section>

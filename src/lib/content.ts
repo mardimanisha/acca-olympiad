@@ -93,10 +93,19 @@ export const KEY_FACTS = [
 ] as const;
 
 export const STEPS = [
-  { title: "Register", text: "Fill the short form and get confirmation on WhatsApp.", tone: "teal" },
-  { title: "Take the Olympiad", text: "60-minute online assessment on 28 November 2026.", tone: "white" },
-  { title: "Get your report", text: "Receive your personalized career report.", tone: "mint" },
-  { title: "Explore & plan", text: "Join webinars and book counselling.", tone: "white" },
+  { title: "Register Free", text: "Fill in your basic details and reserve your participation.", tone: "teal" },
+  { title: "Take the Online Olympiad", text: "Complete the 60-minute assessment from home.", tone: "white" },
+  {
+    title: "Receive Your Career Report",
+    text: "Understand your performance, strengths and career pathways worth exploring.",
+    tone: "mint",
+  },
+  { title: "Explore Your Options", text: "Learn about careers, courses, qualifications and possible next steps.", tone: "white" },
+  {
+    title: "Get Guidance",
+    text: "Attend career sessions and access counselling to help you understand your options better.",
+    tone: "mint",
+  },
 ] as const;
 
 export const WEBINAR_TOPICS = [
