@@ -11,7 +11,7 @@ export function Section({ className, ...props }: React.ComponentProps<"section">
   return <section className={cn("scroll-mt-20 py-[clamp(28px,3.5vw,48px)]", className)} {...props} />;
 }
 
-/** Eyebrow + headline on the left, optional intro paragraph on the right. */
+/** Eyebrow, headline (one line where it fits) and an optional intro paragraph below. */
 export function SectionHead({
   eyebrow,
   title,
@@ -24,17 +24,10 @@ export function SectionHead({
   center?: boolean;
 }) {
   return (
-    <FadeIn
-      className={cn(
-        "mb-[22px] flex flex-col items-start gap-2.5 sm:mb-8 sm:flex-row sm:items-end sm:justify-between sm:gap-x-12 sm:gap-y-6",
-        center && "items-center text-center sm:justify-center",
-      )}
-    >
-      <div className="max-w-[640px]">
-        <span className="eyebrow">{eyebrow}</span>
-        <h2 className="h-section">{title}</h2>
-      </div>
-      {intro && <p className="m-0 max-w-[44ch] text-[1.02rem]">{intro}</p>}
+    <FadeIn className={cn("mb-[22px] sm:mb-8", center && "text-center")}>
+      <span className="eyebrow">{eyebrow}</span>
+      <h2 className="h-section">{title}</h2>
+      {intro && <p className={cn("mt-2.5 max-w-[72ch] text-[1.02rem]", center && "mx-auto")}>{intro}</p>}
     </FadeIn>
   );
 }

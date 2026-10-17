@@ -212,7 +212,7 @@ export function CareerExplorer() {
           title="“Commerce” Is Not One Career."
           intro="Most students hear about the same few options after Class 12. But the world of commerce is much bigger."
         />
-        <Stagger className="grid items-start gap-3.5 sm:gap-5 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <Stagger className="grid items-start gap-3.5 sm:gap-5 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-stretch">
           <CareerList active={active} />
           <Tile pad="none" id="career-panel" role="tabpanel" aria-live="polite" className="overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>

@@ -113,7 +113,7 @@
   }
   /* section headline */
   .h-section {
-    @apply mt-2.5 text-[clamp(1.75rem,2.8vw,2.4rem)] leading-[1.12] font-extrabold tracking-[-0.03em] text-balance text-navy;
+    @apply mt-2.5 text-[clamp(1.6rem,2.3vw,2.2rem)] leading-[1.12] font-extrabold tracking-[-0.03em] text-navy;
   }
   .h-sub {
     @apply mt-2.5 text-[clamp(1.6rem,2.6vw,2.2rem)] leading-[1.15] font-extrabold tracking-[-0.03em] text-navy;

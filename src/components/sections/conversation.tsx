@@ -104,7 +104,7 @@ function BubbleContent({ line, shown }: { line: Line; shown: boolean }) {
 
 function ClosingBanner() {
   return (
-    <div className="w-full max-w-[640px] rounded-[18px] bg-teal px-4 py-3 text-center text-white sm:px-5 sm:py-3 md:w-auto md:text-left">
+    <div className="w-full max-w-[640px] rounded-[18px] bg-teal px-4 py-3 text-center text-white sm:px-6 sm:py-3.5 md:w-auto">
       <p className="text-[0.92rem] leading-[1.3] font-bold tracking-[-0.01em] sm:text-[1.02rem]">
         Don&apos;t choose a path just because others are choosing it.
       </p>
@@ -233,7 +233,7 @@ export function Conversation() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col items-center gap-3 md:flex-row md:justify-center md:gap-5">
+          <div className="mt-8 flex flex-col items-center gap-4">
             <ClosingBanner />
             <RegisterButton />
           </div>
