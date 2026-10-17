@@ -73,11 +73,11 @@ export function RegisterForm() {
               <Label htmlFor="r-parent" className={label}>Parent&apos;s number</Label>
               <PhoneInput id="r-parent" name="parent" />
             </div>
-            <div className="grid min-w-0 gap-[7px]">
+            <div className="grid min-w-0 gap-[7px] sm:col-span-2">
               <Label htmlFor="r-school" className={label}>School name</Label>
               <Input id="r-school" name="school" required placeholder="e.g. DPS R.K. Puram" className={field} />
             </div>
-            <div className="grid min-w-0 gap-[7px]">
+            <div className="grid min-w-0 gap-[7px] sm:col-span-2">
               <Label htmlFor="r-city" className={label}>City</Label>
               <Input id="r-city" name="city" required autoComplete="address-level2" placeholder="e.g. Jaipur" className={field} />
             </div>

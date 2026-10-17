@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
 import { Wrap } from "@/components/site";
-import { NAV } from "@/lib/content";
+import { NavPills } from "@/components/nav-pills";
 import { cn } from "@/lib/utils";
 
 /** Sticky site header. The countdown and main CTA live in the bottom bar (`floating.tsx`). */
@@ -20,20 +20,7 @@ function SiteHeader() {
         <a href="#s01" aria-label="ZSkillup home">
           <Image src="/zskillup-logo-black.png" alt="ZSkillup" width={95} height={32} className="h-8 w-auto" preload />
         </a>
-        <nav className="hidden gap-1.5 rounded-full border border-line bg-white p-[5px] text-[0.93rem] font-semibold lg:flex">
-          {NAV.map((n, i) => (
-            <a
-              key={n.href}
-              href={n.href}
-              className={cn(
-                "rounded-full px-4 py-2 text-navy transition-colors hover:bg-mint",
-                i === 0 && "bg-mint text-teal-deep",
-              )}
-            >
-              {n.label}
-            </a>
-          ))}
-        </nav>
+        <NavPills />
         <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill-sm" }), "max-sm:hidden")}>
           Register Free
         </a>

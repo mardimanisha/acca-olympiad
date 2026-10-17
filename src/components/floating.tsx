@@ -46,7 +46,7 @@ export function FloatingActions() {
         transition={{ delay: 1.2, type: "spring", stiffness: 260, damping: 18 }}
         className={cn(
           "fixed right-3.5 z-50 flex items-center gap-2.5 rounded-full bg-wa font-extrabold text-white shadow-[0_16px_30px_-12px_rgba(37,211,102,.7)] transition-[bottom] duration-500 sm:right-[22px] sm:py-[9px] sm:pr-[18px] sm:pl-[9px] sm:text-[0.9rem]",
-          showBar ? "bottom-[124px] sm:bottom-[132px]" : "bottom-4 sm:bottom-[22px]",
+          showBar ? "bottom-[124px] sm:bottom-[132px] lg:bottom-[22px]" : "bottom-4 sm:bottom-[22px]",
         )}
       >
         <span className="grid size-[54px] place-items-center rounded-full bg-wa sm:size-[38px] sm:bg-white">
