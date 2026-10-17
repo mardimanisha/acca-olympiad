@@ -173,7 +173,7 @@ export function Conversation() {
             </h2>
           </div>
 
-          <div className="mx-auto mt-8 grid w-full max-w-[1100px] grid-cols-2 items-center gap-x-4 gap-y-3 md:mt-10 md:h-[max(480px,calc(100svh-160px))] md:grid-cols-[1fr_minmax(0,600px)_1fr] md:gap-x-8">
+          <div className="mx-auto mt-8 grid w-full max-w-[1100px] grid-cols-2 items-center gap-x-4 gap-y-3 md:mt-10 md:h-[max(460px,calc(100svh-210px))] md:grid-cols-[1fr_minmax(0,600px)_1fr] md:gap-x-8">
             <Person who="father" active={speaking === "father"} className="md:col-start-1 md:row-start-1 md:justify-self-end" />
             <Person
               who="student"

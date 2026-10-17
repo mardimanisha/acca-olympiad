@@ -64,7 +64,7 @@ const FOOTER = [
 export function Footer() {
   return (
     <section id="s16">
-      <footer className="bg-ink-footer pt-12 pb-6 text-[0.9rem] text-[#8E9BB5] max-sm:pb-32">
+      <footer className="bg-ink-footer pt-12 pb-36 text-[0.9rem] text-[#8E9BB5]">
         <Wrap>
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>

@@ -16,8 +16,8 @@ export function Hero() {
     <section id="s01" className="pt-4 pb-6 sm:pt-6">
 
       <Wrap>
-        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[max(600px,calc(100svh-168px))_auto]" step={0.1}>
-          <Tile pad="none" className="flex min-h-[calc(100svh-218px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-168px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
+        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[max(600px,calc(100svh-100px))_auto]" step={0.1}>
+          <Tile pad="none" className="flex min-h-[calc(100svh-96px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-100px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
             <div className="flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-[7px] text-[0.82rem] font-bold text-teal-deep">
                 <Users className="size-[15px]" />
@@ -55,7 +55,7 @@ export function Hero() {
             </div>
           </Tile>
 
-          <Tile id="register" pad="none" className="flex scroll-mt-28 flex-col px-5 py-6 sm:scroll-mt-32 sm:p-8 lg:p-7">
+          <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 sm:p-8 lg:p-7">
             <h2 className="text-2xl font-extrabold tracking-[-0.02em] lg:text-[1.35rem]">Register free</h2>
             <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · confirmation on WhatsApp</p>
             <RegisterForm />
