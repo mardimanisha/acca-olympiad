@@ -93,26 +93,44 @@ export function Hero() {
             <RegisterForm />
           </Tile>
 
-          <Tile
-            tone="amber"
-            pad="none"
-            className="flex flex-col items-start gap-2.5 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-9 sm:py-7"
-          >
-            <div>
+          <div className="grid min-w-0 gap-3.5 sm:grid-cols-3 sm:gap-5">
+            <Tile
+              tone="amber"
+              pad="none"
+              className="flex flex-col items-start justify-between gap-2.5 p-6 lg:px-[26px]"
+            >
               <span className="eyebrow">Scholarships</span>
-              <span className="mt-1.5 block text-[clamp(2.2rem,3.6vw,3rem)] leading-none font-extrabold tracking-[-0.04em]">
+              <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em]">
                 <small className="mr-1.5 align-middle text-[0.38em] tracking-normal">up to</small>
                 {EVENT.scholarship}
               </span>
-            </div>
-            <div className="max-w-[36ch] text-[0.95rem] font-semibold">
-              For eligible students, towards graduation degree programmes. Top 10 also win digital watches.
-              <br />
-              <a href="#s12" className="mt-2.5 inline-flex border-b-2 border-navy font-extrabold text-navy">
-                See all rewards →
-              </a>
-            </div>
-          </Tile>
+              <div className="text-[0.95rem] font-semibold">
+                For eligible students, towards graduation degree programmes.
+                <br />
+                <a href="#s12" className="mt-2.5 inline-flex border-b-2 border-navy font-extrabold text-navy">
+                  See all rewards →
+                </a>
+              </div>
+            </Tile>
+            <Tile
+              tone="teal"
+              pad="none"
+              className="flex flex-col items-start justify-between gap-2.5 p-6 lg:px-[26px]"
+            >
+              <span className="eyebrow">Top 10 participants</span>
+              <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em] text-white">
+                Digital watches
+              </span>
+              <div className="text-[0.95rem] font-semibold">For the top ten performers.</div>
+            </Tile>
+            <Tile pad="none" className="flex flex-col items-start justify-between gap-2.5 p-6 lg:px-[26px]">
+              <span className="eyebrow">Every participant</span>
+              <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em] text-navy">
+                Certificate
+              </span>
+              <div className="text-[0.95rem] font-semibold">Digital participation certificate.</div>
+            </Tile>
+          </div>
 
           <Tile tone="navy" pad="none" className="flex flex-col justify-center p-6 sm:px-8 sm:py-7">
             <span className="eyebrow">Olympiad day</span>

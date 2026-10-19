@@ -49,11 +49,11 @@ function Rolling({ value }: { value: number | null }) {
 }
 
 /** Compact live d/h/m/s countdown for the top bar. Renders dashes on the server, then ticks on the client. */
-export function Countdown() {
+export function Countdown({ showSeconds = true }: { showSeconds?: boolean }) {
   const parts = useCountdown();
   return (
     <span className="inline-flex gap-[5px]" aria-label="Time until the Olympiad starts" role="timer">
-      {parts.map(({ unit, value }) => (
+      {(showSeconds ? parts : parts.slice(0, 3)).map(({ unit, value }) => (
         <span
           key={unit}
           className="relative inline-flex overflow-hidden rounded-md bg-white/10 px-[7px] py-0.5 font-extrabold text-white tabular-nums"
