@@ -2,7 +2,6 @@ import Image from "next/image";
 import { House, MonitorPlay, UsersRound } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
-import { WEBINAR_TOPICS } from "@/lib/content";
 
 const SUPPORT = [
   {
@@ -66,17 +65,6 @@ export function Counselling() {
               </div>
             </Tile>
           ))}
-          <Tile pad="none" className="flex flex-wrap items-center gap-2.5 px-7 py-[22px] sm:col-span-3">
-            <b className="mr-2 text-navy">Webinar topics</b>
-            {WEBINAR_TOPICS.map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-line bg-canvas px-3.5 py-[7px] text-[0.86rem] font-bold text-navy transition-colors hover:border-teal hover:bg-mint"
-              >
-                {t}
-              </span>
-            ))}
-          </Tile>
         </Stagger>
       </Wrap>
     </Section>

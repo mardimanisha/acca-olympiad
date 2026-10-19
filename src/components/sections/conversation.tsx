@@ -102,19 +102,6 @@ function BubbleContent({ line, shown }: { line: Line; shown: boolean }) {
   return line.text;
 }
 
-function ClosingBanner() {
-  return (
-    <div className="w-full max-w-[640px] rounded-[18px] bg-teal px-4 py-3 text-center text-white sm:px-6 sm:py-3.5 md:w-auto">
-      <p className="text-[0.92rem] leading-[1.3] font-bold tracking-[-0.01em] sm:text-[1.02rem]">
-        Don&apos;t choose a path just because others are choosing it.
-      </p>
-      <p className="mt-0.5 text-[0.8rem] font-medium text-[#D6F0EB] sm:text-[0.85rem]">
-        Take the test. Explore your options. Make an informed start.
-      </p>
-    </div>
-  );
-}
-
 function RegisterButton() {
   return (
     <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill" }), "w-full flex-none md:w-fit")}>
@@ -234,7 +221,6 @@ export function Conversation() {
           </div>
 
           <div className="mt-8 flex flex-col items-center gap-4">
-            <ClosingBanner />
             <RegisterButton />
           </div>
         </FadeIn>

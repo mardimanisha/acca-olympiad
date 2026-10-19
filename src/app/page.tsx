@@ -8,7 +8,6 @@ import { Hero } from "@/components/sections/hero";
 import { TopBar } from "@/components/top-bar";
 import { Mentor } from "@/components/sections/mentor";
 import { Receive } from "@/components/sections/receive";
-import { Report } from "@/components/sections/report";
 import { Rewards } from "@/components/sections/rewards";
 import { Counselling } from "@/components/sections/support";
 import { Videos } from "@/components/sections/videos";
@@ -25,7 +24,6 @@ export default function Home() {
       <Mentor />
       <Assessment />
       <Steps />
-      <Report />
       <Counselling />
       <Rewards />
       <Faq />

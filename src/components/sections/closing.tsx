@@ -55,7 +55,7 @@ export function FinalCta() {
 }
 
 const FOOTER = [
-  { title: "Olympiad", links: [["Career explorer", "#s05"], ["Assessment", "#s08"], ["Sample report", "#s10"], ["Rewards", "#s12"]] },
+  { title: "Olympiad", links: [["Career explorer", "#s05"], ["Assessment", "#s08"], ["Rewards", "#s12"]] },
   { title: "Rules & legal", links: [["Assessment rules", "#"], ["Scholarship rules", "#"], ["Privacy notice", "#"], ["Terms", "#"]] },
   { title: "Contact", links: [[EVENT.phone, EVENT.phoneHref], ["WhatsApp community", EVENT.whatsappHref], ["FAQs", "#s14"]] },
 ];
