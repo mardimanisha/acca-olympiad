@@ -156,7 +156,7 @@ export function RegisterForm() {
           </div>
           <div className="min-h-[22px] flex-1" />
           <Button type="submit" variant="brand" size="pill" className="w-full">
-            Register Free <ArrowRight />
+            Register Now <ArrowRight />
           </Button>
           <p className="mt-2.5 text-center text-[0.74rem] text-subtle">
             Used for your confirmation, exam instructions and report.{" "}

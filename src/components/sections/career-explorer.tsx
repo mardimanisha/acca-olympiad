@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Bar, FadeIn, Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
@@ -10,55 +11,117 @@ import { selectCareer, useSelectedCareer } from "@/lib/career-store";
 import { cn } from "@/lib/utils";
 
 const LEVELS = ["Entry level", "Mid-career", "Senior"];
-const lbl = "mb-2.5 text-[0.68rem] font-extrabold tracking-[0.14em] text-subtle uppercase";
-const blk = "rounded-[18px] border border-line bg-canvas px-5 py-[18px]";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+function useDesktop() {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setOn(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return on;
+}
+
+function CareerTab({ id, active }: { id: string; active: string }) {
+  const c = CAREER_BY_ID[id];
+  const on = id === active;
+  return (
+    <button
+      role="tab"
+      aria-selected={on}
+      aria-controls="career-panel"
+      onClick={() => selectCareer(id)}
+      className={cn(
+        "relative flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-[0.9rem] font-bold whitespace-nowrap text-white outline-none focus-visible:ring-2 focus-visible:ring-aqua",
+        "max-lg:w-auto max-lg:border max-lg:border-navy-line lg:whitespace-normal",
+        !on && "transition-colors hover:bg-white/5",
+      )}
+    >
+      {on && (
+        <motion.span
+          layoutId="career-pill"
+          className="absolute inset-0 rounded-xl bg-teal"
+          transition={{ type: "spring", stiffness: 420, damping: 34 }}
+        />
+      )}
+      <span className="relative">{c.name}</span>
+      <small className={cn("relative hidden text-[0.74rem] font-semibold whitespace-nowrap lg:inline", on ? "text-[#D5EFEA]" : "text-haze")}>
+        {c.entry}
+      </small>
+    </button>
+  );
+}
 
 function CareerList({ active }: { active: string }) {
+  const desktop = useDesktop();
+  const activeGroup = GROUPS.find(([, ids]) => ids.includes(active))?.[0] ?? null;
+  // one group open at a time; null = all collapsed
+  const [open, setOpen] = useState<string | null>(activeGroup);
+  // follow the selection when it moves to another group (prev/next arrows)
+  useEffect(() => {
+    setOpen(activeGroup);
+  }, [activeGroup]);
+
+  if (!desktop) {
+    return (
+      <Tile tone="navy" pad="none" className="flex gap-1.5 overflow-x-auto p-2.5 [scrollbar-width:none]" role="tablist" aria-label="Career paths">
+        {GROUPS.flatMap(([, ids]) => ids).map((id) => (
+          <CareerTab key={id} id={id} active={active} />
+        ))}
+      </Tile>
+    );
+  }
+
   return (
-    <Tile
-      tone="navy"
-      pad="none"
-      className="flex gap-1.5 overflow-x-auto p-2.5 [scrollbar-width:none] lg:grid lg:gap-0.5 lg:overflow-visible lg:p-3"
-      role="tablist"
-      aria-label="Career paths"
-    >
-      {GROUPS.map(([group, ids]) => (
-        <div key={group} className="contents">
-          <div className="hidden px-3 pt-3.5 pb-1 text-[0.66rem] font-extrabold tracking-[0.14em] text-aqua uppercase first:pt-2 lg:block">
-            {group}
-          </div>
-          {ids.map((id) => {
-            const c = CAREER_BY_ID[id];
-            const on = id === active;
-            return (
-              <button
-                key={id}
-                role="tab"
-                aria-selected={on}
-                aria-controls="career-panel"
-                onClick={() => selectCareer(id)}
-                className={cn(
-                  "relative flex cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-[0.9rem] font-bold whitespace-nowrap text-white outline-none focus-visible:ring-2 focus-visible:ring-aqua",
-                  "max-lg:border max-lg:border-navy-line lg:whitespace-normal",
-                  !on && "transition-colors hover:bg-white/5",
-                )}
-              >
-                {on && (
-                  <motion.span
-                    layoutId="career-pill"
-                    className="absolute inset-0 rounded-xl bg-teal"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                  />
-                )}
-                <span className="relative">{c.name}</span>
-                <small className={cn("relative hidden text-[0.74rem] font-semibold whitespace-nowrap lg:inline", on ? "text-[#D5EFEA]" : "text-haze")}>
-                  {c.entry}
-                </small>
-              </button>
-            );
-          })}
-        </div>
-      ))}
+    <Tile tone="navy" pad="none" className="flex flex-col gap-1 overflow-y-auto p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="Career paths">
+      {GROUPS.map(([group, ids]) => {
+        const isOpen = open === group;
+        return (
+          <motion.div
+            key={group}
+            initial={false}
+            animate={{ flexGrow: isOpen ? 0 : 1 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="flex min-h-0 flex-col"
+          >
+            <button
+              type="button"
+              aria-expanded={isOpen}
+              onClick={() => setOpen(isOpen ? null : group)}
+              className={cn(
+                "flex flex-1 cursor-pointer items-center justify-between gap-2 rounded-xl border px-3 text-left font-extrabold text-aqua uppercase outline-none hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-aqua",
+                "transition-[font-size,letter-spacing,padding,border-color,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                isOpen ? "border-transparent py-2.5 text-[0.7rem] tracking-[0.14em]" : "border-navy-line py-4 text-[0.92rem] tracking-[0.04em]",
+              )}
+            >
+              <span className="min-w-0">{group}</span>
+              <ChevronDown className={cn("size-4 flex-none transition-transform duration-500", isOpen && "rotate-180")} />
+            </button>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  key="items"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid gap-0.5 pt-0.5 pb-1.5">
+                    {ids.map((id) => (
+                      <CareerTab key={id} id={id} active={active} />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        );
+      })}
     </Tile>
   );
 }
@@ -70,17 +133,17 @@ function CareerPanel({ c }: { c: Career }) {
 
   return (
     <motion.div
+      className="flex h-full flex-col"
       key={c.id}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex items-start justify-between gap-4 px-5 pt-[22px] pb-[18px] sm:px-8 sm:pt-[30px] sm:pb-6">
+      <div className="flex items-start justify-between gap-4 px-5 pt-[22px] pb-3 sm:px-8 sm:pt-6 sm:pb-4">
         <div>
           <span className="text-[0.72rem] font-extrabold tracking-[0.12em] text-teal uppercase">{c.cat}</span>
           <h3 className="mt-1.5 text-[1.75rem] font-extrabold tracking-[-0.02em]">{c.name}</h3>
-          <p className="mt-1.5 max-w-[56ch] text-base">{c.one}</p>
         </div>
         <div className="hidden gap-1.5 sm:flex">
           {[
@@ -99,101 +162,66 @@ function CareerPanel({ c }: { c: Career }) {
         </div>
       </div>
 
-      <div className="grid gap-3 px-4 pb-[18px] sm:grid-cols-2 sm:gap-3.5 sm:px-8 sm:pb-8">
-        <div className={blk}>
-          <div className={lbl}>What you&apos;ll do</div>
-          <p className="text-[0.94rem]">{c.work}</p>
-        </div>
-        <div className={blk}>
-          <div className={lbl}>Typical roles</div>
-          <div className="flex flex-wrap gap-1.5">
-            {c.roles.map((r) => (
-              <span key={r} className="rounded-full bg-mint px-[11px] py-1.5 text-[0.82rem] font-bold text-teal-deep">{r}</span>
-            ))}
-          </div>
-        </div>
-
-        <div className={cn(blk, "sm:col-span-2")}>
-          <div className={lbl}>Route into the field</div>
-          <ol className="flex flex-wrap items-start gap-y-3.5 sm:flex-nowrap">
-            {c.route.map((r, k) => (
-              <motion.li
-                key={r}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + k * 0.08 }}
-                className={cn(
-                  "relative flex-[0_0_33.33%] px-1 pt-[26px] text-center text-[0.8rem] font-bold text-navy sm:flex-1",
-                  // dashed connector to the next step
-                  "after:absolute after:top-3 after:left-1/2 after:w-full after:border-t-2 after:border-dashed after:border-[#B9DCD5] last:after:hidden max-sm:[&:nth-child(3n)]:after:hidden",
-                )}
-              >
-                <span
-                  className={cn(
-                    "absolute top-1.5 left-1/2 z-10 -ml-[7px] size-3.5 rounded-full border-[3px] border-teal",
-                    k === c.route.length - 1 ? "bg-teal" : "bg-white",
-                  )}
-                />
-                {r}
-              </motion.li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="grid gap-3.5 sm:col-span-2 sm:grid-cols-3">
-          {[
-            ["Qualification", c.qual],
-            ["Duration", c.dur],
-            ["Approx. cost", c.cost],
-          ].map(([k, v]) => (
-            <div key={k} className="rounded-2xl bg-mint px-4 py-3.5">
-              <small className="block text-[0.66rem] font-extrabold tracking-[0.12em] text-teal-deep uppercase">{k}</small>
-              <b className="mt-1 block text-[0.9rem] leading-[1.35] text-navy">{v}</b>
-            </div>
-          ))}
-        </div>
-
-        <div className={blk}>
-          <div className={lbl}>Key skills</div>
-          <div className="flex flex-wrap gap-1.5">
-            {c.skills.map((r) => (
-              <span key={r} className="rounded-full border border-line bg-white px-[11px] py-1.5 text-[0.82rem] font-bold text-navy">{r}</span>
-            ))}
-          </div>
-        </div>
-        <div className={blk}>
-          <div className={lbl}>Good fit if you…</div>
-          <ul className="grid gap-2 text-[0.92rem]">
-            {c.fit.map((r) => (
-              <li key={r} className="flex gap-2.5">
-                <span className="mt-[3px] grid size-4 flex-none place-items-center rounded-full bg-mint text-teal-deep">
-                  <Check className="size-3" strokeWidth={3} />
-                </span>
-                {r}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="rounded-[18px] bg-mint px-5 py-[18px] sm:col-span-2">
-          <div className="mb-2.5 flex items-center justify-between gap-2.5">
-            <b className="text-[0.95rem] text-navy">Indicative salary · per year</b>
-            <span className="rounded-md bg-cream px-2 py-1 text-[0.68rem] font-extrabold tracking-[0.04em] text-amber-ink">SAMPLE DATA · VERIFY</span>
-          </div>
-          {c.sal.map((s, k) => (
-            <div
-              key={LEVELS[k]}
-              className="mt-2 grid grid-cols-[74px_1fr_92px] items-center gap-2 text-[0.8rem] font-bold text-navy sm:grid-cols-[100px_1fr_120px] sm:gap-3 sm:text-[0.86rem]"
-            >
-              <span>{LEVELS[k]}</span>
-              <Bar value={c.w[k]} delay={0.1 + k * 0.12} trackClassName="h-2.5 bg-white" />
-              <span className="text-right">{s}</span>
-            </div>
-          ))}
-          <p className="mt-2.5 text-[0.76rem] text-subtle">
-            {c.salNote ?? "Indicative ranges, not promises. Pay varies by employer, city, experience, skills and qualification."}
-          </p>
-        </div>
+      <div className="flex-1 px-4 pb-5 sm:px-8 sm:pb-8 lg:pb-5">
+        <table className="w-full lg:h-full border-separate border-spacing-0 overflow-hidden rounded-2xl border border-line text-left text-[0.88rem]">
+          <tbody className="[&_td]:border-t [&_td]:border-line [&_td]:px-4 [&_td]:py-2 lg:[&_td]:py-2 [&_th]:border-t [&_th]:border-line [&_th]:bg-mint [&_th]:px-4 [&_th]:py-2 [&_th]:align-top [&_th]:text-[0.68rem] [&_th]:font-extrabold [&_th]:tracking-[0.12em] [&_th]:whitespace-nowrap [&_th]:text-teal-deep [&_th]:uppercase [&_tr:first-child_td]:border-t-0 [&_tr:first-child_th]:border-t-0">
+            <tr>
+              <th scope="row">What you&apos;ll do</th>
+              <td>{c.work}</td>
+            </tr>
+            <tr>
+              <th scope="row">Typical roles</th>
+              <td className="font-bold text-navy">{c.roles.slice(0, 3).join(" · ")}</td>
+            </tr>
+            <tr>
+              <th scope="row">Route</th>
+              <td className="font-bold text-navy">{c.route.join(" → ")}</td>
+            </tr>
+            <tr>
+              <th scope="row">Duration</th>
+              <td className="font-bold text-navy">{c.dur}</td>
+            </tr>
+            <tr>
+              <th scope="row">Approx. cost</th>
+              <td className="font-bold text-navy">{c.cost}</td>
+            </tr>
+            <tr>
+              <th scope="row">Key skills</th>
+              <td className="font-bold text-navy">{c.skills.slice(0, 4).join(" · ")}</td>
+            </tr>
+            <tr>
+              <th scope="row">Good fit if you…</th>
+              <td>
+                <ul className="grid gap-1.5">
+                  {c.fit.slice(0, 2).map((r) => (
+                    <li key={r} className="flex gap-2">
+                      <Check className="mt-[3px] size-3.5 flex-none text-teal" strokeWidth={3} />
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                Salary / year
+                <span className="mt-1.5 block text-[0.6rem] tracking-[0.04em] text-amber-ink normal-case">Sample data · verify</span>
+              </th>
+              <td>
+                {c.sal.map((s, k) => (
+                  <div
+                    key={LEVELS[k]}
+                    className="grid grid-cols-[74px_1fr_88px] items-center gap-2 py-1 text-[0.8rem] font-bold text-navy sm:grid-cols-[100px_1fr_110px] sm:gap-3"
+                  >
+                    <span>{LEVELS[k]}</span>
+                    <Bar value={c.w[k]} delay={0.1 + k * 0.12} trackClassName="h-2.5 bg-mint" />
+                    <span className="text-right">{s}</span>
+                  </div>
+                ))}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </motion.div>
   );
@@ -205,14 +233,14 @@ export function CareerExplorer() {
   const c = CAREER_BY_ID[active];
 
   return (
-    <Section id="s05">
+    <Section id="s05" className="lg:flex lg:min-h-svh lg:flex-col lg:justify-center">
       <Wrap>
         <SectionHead
           eyebrow="Career explorer"
           title="“Commerce” Is Not One Career."
-          intro="Most students hear about the same few options after Class 12. But the world of commerce is much bigger."
+          intro="Pick a path to see what it takes."
         />
-        <Stagger className="grid items-start gap-3.5 sm:gap-5 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-stretch">
+        <Stagger className="grid items-start gap-3.5 sm:gap-5 lg:min-h-[clamp(540px,calc(100svh-290px),760px)] lg:grid-cols-[320px_minmax(0,1fr)] lg:items-stretch">
           <CareerList active={active} />
           <Tile pad="none" id="career-panel" role="tabpanel" aria-live="polite" className="overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
@@ -220,7 +248,7 @@ export function CareerExplorer() {
             </AnimatePresence>
           </Tile>
         </Stagger>
-        <FadeIn className="mt-8 flex justify-center">
+        <FadeIn className="mt-5 flex justify-center">
           <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill" }), "max-sm:w-full")}>
             Take the Olympiad &amp; Discover My Path <ArrowRight />
           </a>

@@ -53,7 +53,7 @@ export function Hero() {
             <div className="flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-[7px] text-[0.82rem] font-bold text-teal-deep">
                 <Users className="size-[15px]" />
-                For Class 11 &amp; 12 Commerce Students
+                For Commerce Students
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-cream px-3 py-[7px] text-[0.76rem] font-bold whitespace-nowrap text-amber-ink sm:px-3.5 sm:text-[0.82rem]">
                 <CalendarDays className="size-[15px]" />
@@ -119,7 +119,7 @@ export function Hero() {
             <span className="mt-1.5 block text-[clamp(1.9rem,2.8vw,2.4rem)] leading-[1.05] font-extrabold tracking-[-0.03em] text-white">
               {EVENT.dateLabel}
             </span>
-            <p className="mt-2 text-[0.9rem] font-semibold">Class 11 &amp; 12 Commerce · one free attempt</p>
+            <p className="mt-2 text-[0.9rem] font-semibold">Commerce Students · one free attempt</p>
           </Tile>
         </Stagger>
       </Wrap>

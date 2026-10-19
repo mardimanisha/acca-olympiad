@@ -16,7 +16,7 @@ export function FinalCta() {
         <FadeIn className="relative overflow-hidden rounded-tile bg-navy px-[22px] py-11 text-center text-mist sm:px-8 sm:py-[clamp(48px,6vw,80px)]">
           <span className="pointer-events-none absolute -top-[60%] left-1/2 -ml-[450px] h-[600px] w-[900px] animate-pulse rounded-full bg-[radial-gradient(circle,rgba(14,124,112,.35),transparent_65%)] [animation-duration:5s]" />
           <div className="relative">
-            <span className="eyebrow text-aqua">Class 11 &amp; 12 Commerce Students</span>
+            <span className="eyebrow text-aqua">Commerce Students</span>
             <h2 className="mx-auto mt-3 max-w-[20ch] text-[clamp(2rem,4vw,3rem)] leading-[1.08] font-extrabold tracking-[-0.03em] text-balance text-white">
               You Don&apos;t Need to Decide Your <em className="text-aqua not-italic">Entire Career</em> Today.
             </h2>

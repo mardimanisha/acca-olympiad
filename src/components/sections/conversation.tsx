@@ -105,7 +105,7 @@ function BubbleContent({ line, shown }: { line: Line; shown: boolean }) {
 function RegisterButton() {
   return (
     <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill" }), "w-full flex-none md:w-fit")}>
-      Register Free <ArrowRight />
+      Register Now <ArrowRight />
     </a>
   );
 }

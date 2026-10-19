@@ -3,10 +3,10 @@
 export const EVENT = {
   name: "National Commerce Olympiad 2027",
   short: "NCO 2027",
-  dateLabel: "28 Nov 2026",
-  dateLong: "28 November 2026",
+  dateLabel: "20 Dec 2026",
+  dateLong: "20 December 2026",
   /** Start time is not confirmed yet; 10:00 IST is a placeholder for the countdown. */
-  startsAt: "2026-11-28T10:00:00+05:30",
+  startsAt: "2026-12-20T10:00:00+05:30",
   phone: "+91 94147 94448",
   phoneHref: "tel:+919414794448",
   whatsappHref: "https://wa.me/919414794448",
@@ -65,7 +65,7 @@ export const CONVERSATION: Line[] = [
   {
     who: "father",
     kind: "about",
-    text: "It’s a free, 60-minute online Olympiad on 28 Nov 2026 for Class 11 & 12 Commerce. You get a personalized career report, and scholarships up to ₹50,000.",
+    text: "It’s a free, 60-minute online Olympiad on 20 Dec 2026 for Commerce Students. You get a personalized career report, and scholarships up to ₹50,000.",
   },
 ];
 
@@ -85,10 +85,10 @@ export const REELS = [
 ];
 
 export const KEY_FACTS = [
-  ["Date", "28 Nov 2026"],
+  ["Date", "20 Dec 2026"],
   ["Duration", "60 minutes"],
   ["Mode", "Online"],
-  ["Eligibility", "Class 11 & 12 Commerce"],
+  ["Eligibility", "Commerce Students"],
   ["Fee", "₹0 · Free"],
 ] as const;
 
@@ -130,7 +130,7 @@ export const FAQS = [
   { q: "Is it free?", a: "Yes. There is no participation fee." },
   {
     q: "When is the Olympiad and what time does it start?",
-    a: "The Olympiad is on 28 November 2026. The start time will be published once confirmed and shared with registered students on WhatsApp.",
+    a: "The Olympiad is on 20 December 2026. The start time will be published once confirmed and shared with registered students on WhatsApp.",
   },
   {
     q: "Is it online? What device do I need?",
@@ -146,7 +146,7 @@ export const FAQS = [
   },
   {
     q: "Do I need to prepare?",
-    a: "The Olympiad draws on Class 11 & 12 Commerce topics plus reasoning and interest questions. Any preparation guidance will be shared with registered students.",
+    a: "The Olympiad draws on Commerce topics plus reasoning and interest questions. Any preparation guidance will be shared with registered students.",
   },
   {
     q: "When will I get my report? Is counselling included?",

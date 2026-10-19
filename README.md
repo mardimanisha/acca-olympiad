@@ -22,4 +22,4 @@ npm run build
 - Video and reel cards have no video sources.
 - Footer legal links point to `#`.
 - FAQ answers 3–10 were drafted from facts elsewhere on the page and need review.
-- Countdown targets 10:00 IST on 28 Nov 2027, a placeholder until the start time is confirmed.
+- Countdown targets 10:00 IST on 20 Dec 2026, a placeholder until the start time is confirmed.

@@ -68,7 +68,7 @@ export function FloatingActions() {
             <div className="pointer-events-auto flex w-full flex-col gap-2 rounded-[20px] border border-[rgba(127,224,209,.3)] bg-[linear-gradient(135deg,rgba(1,67,49,.82),rgba(14,124,112,.58))] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.14),0_24px_50px_-20px_rgba(1,67,49,.6)] backdrop-blur-xl backdrop-saturate-150 sm:w-[max(360px,calc((min(100vw,1280px)-2*clamp(16px,3vw,32px)-20px)*.375))] sm:px-4 sm:py-3">
               {/* phones: secondary text above the button */}
               <p className="text-center text-[0.74rem] font-bold tracking-[0.02em] text-white sm:hidden">
-                Class 11–12 · 28 Nov · ₹0
+                Class 11–12 · 20 Dec · ₹0
               </p>
 
               <div className="flex w-full flex-col items-center gap-1.5">

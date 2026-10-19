@@ -22,7 +22,7 @@ function SiteHeader() {
         </a>
         <NavPills />
         <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill-sm" }), "max-sm:hidden")}>
-          Register Free
+          Register Now
         </a>
       </Wrap>
     </header>
