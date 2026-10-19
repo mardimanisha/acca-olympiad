@@ -15,8 +15,7 @@ export const EVENT = {
 
 export const NAV = [
   { label: "Olympiad", href: "#s01" },
-  { label: "Career paths", href: "#s05" },
-  { label: "Assessment", href: "#s08" },
+  { label: "Syllabus", href: "#s08" },
   { label: "Rewards", href: "#s12" },
   { label: "FAQs", href: "#s14" },
 ];
