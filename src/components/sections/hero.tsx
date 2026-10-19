@@ -97,8 +97,9 @@ export function Hero() {
             <Tile
               tone="amber"
               pad="none"
-              className="flex flex-col items-start justify-between gap-2.5 p-6 lg:px-[26px]"
+              className="flex flex-col items-start justify-between gap-1.5 px-5 py-4 lg:px-[22px]"
             >
+              <ScholarshipArt />
               <span className="eyebrow">Scholarships</span>
               <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em]">
                 <small className="mr-1.5 align-middle text-[0.38em] tracking-normal">up to</small>
@@ -107,7 +108,7 @@ export function Hero() {
               <div className="text-[0.95rem] font-semibold">
                 For eligible students, towards graduation degree programmes.
                 <br />
-                <a href="#s12" className="mt-2.5 inline-flex border-b-2 border-navy font-extrabold text-navy">
+                <a href="#s12" className="mt-1 inline-flex border-b-2 border-navy font-extrabold text-navy">
                   See all rewards →
                 </a>
               </div>
@@ -115,15 +116,17 @@ export function Hero() {
             <Tile
               tone="teal"
               pad="none"
-              className="flex flex-col items-start justify-between gap-2.5 p-6 lg:px-[26px]"
+              className="flex flex-col items-start justify-between gap-1.5 px-5 py-4 lg:px-[22px]"
             >
+              <WatchArt />
               <span className="eyebrow">Top 10 participants</span>
               <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em] text-white">
                 Digital watches
               </span>
               <div className="text-[0.95rem] font-semibold">For the top ten performers.</div>
             </Tile>
-            <Tile pad="none" className="flex flex-col items-start justify-between gap-2.5 p-6 lg:px-[26px]">
+            <Tile pad="none" className="flex flex-col items-start justify-between gap-1.5 px-5 py-4 lg:px-[22px]">
+              <CertificateArt />
               <span className="eyebrow">Every participant</span>
               <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em] text-navy">
                 Certificate
@@ -142,5 +145,115 @@ export function Hero() {
         </Stagger>
       </Wrap>
     </section>
+  );
+}
+
+/** Card illustrations for the rewards row. Decorative, so hidden from assistive tech. */
+function ScholarshipArt() {
+  return (
+    <svg viewBox="0 0 220 110" className="h-[58px] w-full" aria-hidden="true">
+      <defs>
+        <linearGradient id="coinG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#FFE9A8" />
+          <stop offset="1" stopColor="#F2B53A" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="110" cy="100" rx="86" ry="7" fill="#0B1A3D" opacity=".14" />
+      {/* banknote */}
+      <g transform="rotate(-6 70 70)">
+        <rect x="20" y="48" width="112" height="56" rx="8" fill="#FFF7E0" stroke="#0B1A3D" strokeWidth="2.5" />
+        <rect x="28" y="56" width="96" height="40" rx="5" fill="none" stroke="#0B1A3D" strokeWidth="1.2" strokeDasharray="3 3" opacity=".5" />
+        <circle cx="76" cy="76" r="14" fill="#0B1A3D" />
+        <text x="76" y="82" textAnchor="middle" fontSize="17" fontWeight="800" fill="#FFE9A8">₹</text>
+        <circle cx="38" cy="66" r="3.5" fill="#0B1A3D" opacity=".6" />
+        <circle cx="114" cy="86" r="3.5" fill="#0B1A3D" opacity=".6" />
+      </g>
+      {/* coin stack */}
+      {[88, 76, 64].map((y) => (
+        <g key={y}>
+          <ellipse cx="164" cy={y + 6} rx="26" ry="9" fill="#C98A12" />
+          <rect x="138" y={y - 2} width="52" height="8" fill="url(#coinG)" />
+          <ellipse cx="164" cy={y - 2} rx="26" ry="9" fill="url(#coinG)" stroke="#0B1A3D" strokeWidth="2" />
+        </g>
+      ))}
+      <text x="164" y="58" textAnchor="middle" fontSize="12" fontWeight="800" fill="#0B1A3D">₹</text>
+      {/* graduation cap */}
+      <g transform="translate(150 6)">
+        <path d="M30 6 L0 20 L30 34 L60 20 Z" fill="#0B1A3D" />
+        <path d="M14 28 V40 C14 46 46 46 46 40 V28 L30 36 Z" fill="#14285A" />
+        <path d="M56 22 V40" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+        <circle cx="56" cy="43" r="3.5" fill="#F59E0B" />
+      </g>
+    </svg>
+  );
+}
+
+function WatchArt() {
+  return (
+    <svg viewBox="0 0 220 110" className="h-[58px] w-full" aria-hidden="true">
+      <defs>
+        <linearGradient id="bezelG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#E9F3F1" />
+          <stop offset="1" stopColor="#8FB5AE" />
+        </linearGradient>
+        <linearGradient id="screenG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#0B1A3D" />
+          <stop offset="1" stopColor="#0B3D45" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="110" cy="102" rx="70" ry="6" fill="#000" opacity=".22" />
+      {/* straps */}
+      <path d="M84 4 H136 L132 30 H88 Z" fill="#0B1A3D" />
+      <path d="M88 80 H132 L136 106 H84 Z" fill="#0B1A3D" />
+      <g fill="#3E6F69">
+        <circle cx="110" cy="92" r="1.8" />
+        <circle cx="110" cy="98" r="1.8" />
+        <circle cx="110" cy="14" r="1.8" />
+      </g>
+      {/* case */}
+      <rect x="68" y="24" width="84" height="62" rx="20" fill="url(#bezelG)" />
+      <rect x="152" y="46" width="6" height="18" rx="3" fill="#8FB5AE" />
+      <rect x="74" y="30" width="72" height="50" rx="15" fill="url(#screenG)" />
+      {/* activity rings */}
+      <circle cx="94" cy="55" r="15" fill="none" stroke="#1d4a52" strokeWidth="5" />
+      <circle cx="94" cy="55" r="15" fill="none" stroke="#7DE3D2" strokeWidth="5" strokeLinecap="round" strokeDasharray="70 100" transform="rotate(-90 94 55)" />
+      <circle cx="94" cy="55" r="8" fill="none" stroke="#5a3d12" strokeWidth="4" />
+      <circle cx="94" cy="55" r="8" fill="none" stroke="#F59E0B" strokeWidth="4" strokeLinecap="round" strokeDasharray="36 100" transform="rotate(-90 94 55)" />
+      <text x="131" y="52" textAnchor="middle" fontSize="15" fontWeight="800" fill="#fff">10:28</text>
+      <text x="131" y="66" textAnchor="middle" fontSize="7.5" fontWeight="700" fill="#7DE3D2">TOP 10</text>
+      <path d="M78 36 Q96 32 112 35" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" opacity=".25" fill="none" />
+    </svg>
+  );
+}
+
+function CertificateArt() {
+  return (
+    <svg viewBox="0 0 220 110" className="h-[58px] w-full" aria-hidden="true">
+      <ellipse cx="110" cy="102" rx="84" ry="6" fill="#0B1A3D" opacity=".12" />
+      <g transform="rotate(-3 110 55)">
+        <rect x="26" y="10" width="168" height="88" rx="6" fill="#FFFDF6" stroke="#0B1A3D" strokeWidth="2.5" />
+        <rect x="33" y="17" width="154" height="74" rx="3" fill="none" stroke="#0F8579" strokeWidth="1.5" />
+        <rect x="37" y="21" width="146" height="66" rx="2" fill="none" stroke="#F59E0B" strokeWidth="1" strokeDasharray="2 3" />
+        <text x="110" y="34" textAnchor="middle" fontSize="8" fontWeight="800" letterSpacing="1.6" fill="#0F8579">CERTIFICATE</text>
+        <text x="110" y="43" textAnchor="middle" fontSize="5.5" fontWeight="700" letterSpacing="1" fill="#6B7A90">OF PARTICIPATION</text>
+        <path d="M70 58 C78 50 84 66 92 58 S106 52 114 58 S130 62 150 56" stroke="#0B1A3D" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <rect x="64" y="64" width="92" height="1.5" rx=".75" fill="#B8C3D3" />
+        <rect x="76" y="72" width="68" height="2.5" rx="1.25" fill="#DCE5EE" />
+        <rect x="88" y="78" width="44" height="2.5" rx="1.25" fill="#DCE5EE" />
+        {/* signature */}
+        <path d="M48 78 q5 -8 9 0 t9 -2" stroke="#0B1A3D" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+      </g>
+      {/* rosette */}
+      <g transform="translate(158 62)">
+        <path d="M-12 14 L-18 38 L-8 32 L-2 40 L2 16 Z" fill="#D97706" />
+        <path d="M12 14 L18 38 L8 32 L2 40 L-2 16 Z" fill="#F59E0B" />
+        <circle cx="0" cy="0" r="19" fill="#F59E0B" stroke="#0B1A3D" strokeWidth="2.5" />
+        {Array.from({ length: 12 }).map((_, i) => (
+          <circle key={i} cx={Math.cos((i / 12) * Math.PI * 2) * 19} cy={Math.sin((i / 12) * Math.PI * 2) * 19} r="3" fill="#F59E0B" stroke="#0B1A3D" strokeWidth="1.5" />
+        ))}
+        <circle cx="0" cy="0" r="13" fill="#FFE9A8" stroke="#0B1A3D" strokeWidth="1.5" />
+        <path d="M0 -7 L2.2 -2.2 L7.4 -1.8 L3.4 1.6 L4.7 6.6 L0 3.9 L-4.7 6.6 L-3.4 1.6 L-7.4 -1.8 L-2.2 -2.2 Z" fill="#0B1A3D" />
+      </g>
+    </svg>
   );
 }
