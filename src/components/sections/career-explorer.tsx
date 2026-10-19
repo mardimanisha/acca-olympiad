@@ -199,7 +199,7 @@ function CareerPanel({ c }: { c: Career }) {
   );
 }
 
-/** s05 — pick one of 15 careers and see the work, route, cost, skills and salary ranges. */
+/** s05 — pick one of 16 careers and see the work, route, cost, skills and salary ranges. */
 export function CareerExplorer() {
   const active = useSelectedCareer();
   const c = CAREER_BY_ID[active];

@@ -1,7 +1,7 @@
-import { ArrowRight, Award, BadgeIndianRupee, CalendarDays, Check, Clock, FileChartColumn, IndianRupee, MessageSquareText, MonitorPlay, Network, Route } from "lucide-react";
+import { ArrowRight, Award, BadgeIndianRupee, CalendarDays, Clock, FileChartColumn, IndianRupee, MessageSquareText, MonitorPlay, Network, Route } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { CountdownBlocks } from "@/components/hero/countdown";
-import { Bar, Stagger, StrikeLine, Tile } from "@/components/motion";
+import { Bar, Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
 import { EVENT } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -12,14 +12,6 @@ const MINI = [
   ["Economics", 74],
 ] as const;
 
-const UNDERSTAND = [
-  "What you're naturally stronger at.",
-  "Which commerce and finance careers you should explore.",
-  "What qualifications lead to those careers.",
-  "What skills you should start building.",
-  "And what your next step after Class 12 could look like.",
-];
-
 const tile = "flex flex-col gap-3.5 [&_p]:m-0";
 const h3 = "text-[1.15rem] leading-tight font-extrabold";
 
@@ -28,48 +20,11 @@ export function Receive() {
   return (
     <Section id="s04">
       <Wrap>
-        <SectionHead eyebrow="More than a score" title="This Is Not Just Another School Test." />
-        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,.85fr)_minmax(0,1.15fr)]">
-          <Tile className="flex flex-col justify-center gap-5">
-            <p className="text-[1.02rem] font-semibold text-navy">Your result isn&apos;t meant to simply tell you:</p>
-            <div className="self-start rounded-2xl border border-line bg-canvas px-6 py-5">
-              <span className="relative inline-block text-[clamp(1.5rem,2.6vw,2.1rem)] leading-none font-extrabold tracking-[-0.02em] text-subtle">
-                &ldquo;You scored 72/100.&rdquo;
-                <StrikeLine />
-              </span>
-            </div>
-          </Tile>
-          <Tile tone="mint">
-            <p className="text-[1.02rem] font-semibold text-navy">It is designed to help you understand:</p>
-            <ul className="mt-4 grid gap-3">
-              {UNDERSTAND.map((u) => (
-                <li key={u} className="flex gap-3 text-[1rem] leading-snug font-bold text-navy">
-                  <span className="mt-0.5 grid size-5 flex-none place-items-center rounded-full bg-teal text-white">
-                    <Check className="size-3" strokeWidth={3} />
-                  </span>
-                  {u}
-                </li>
-              ))}
-            </ul>
-          </Tile>
-          <Tile
-            tone="navy"
-            className="flex flex-col gap-1.5 lg:col-span-2"
-          >
-            <h3 className="text-[clamp(1.15rem,1.8vw,1.4rem)] font-extrabold">
-              You don&apos;t need to have your entire career figured out today.
-            </h3>
-            <p className="text-[1.02rem] font-semibold text-aqua">You just need a better starting point.</p>
-          </Tile>
-        </Stagger>
-
-        <div className="mt-10 sm:mt-14">
-          <SectionHead
-            eyebrow="What students get"
-            title="Walk Away With More Than Just a Score"
-            intro="Every student who completes the National Commerce Olympiad receives:"
-          />
-        </div>
+        <SectionHead
+          eyebrow="What students get"
+          title="Walk Away With More Than Just a Score"
+          intro="Every student who completes the National Commerce Olympiad receives:"
+        />
         <Stagger className="grid gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           <Tile className={`${tile} sm:col-span-2`}>
             <span className="ic"><FileChartColumn /></span>

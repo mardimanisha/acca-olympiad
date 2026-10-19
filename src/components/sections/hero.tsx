@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
@@ -16,8 +17,39 @@ export function Hero() {
     <section id="s01" className="pt-1 pb-6 sm:pt-1.5">
 
       <Wrap>
-        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[max(600px,calc(100svh-82px))_auto]" step={0.1}>
-          <Tile pad="none" className="flex min-h-[calc(100svh-84px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-82px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
+        <div className="relative mb-4 flex flex-col items-center text-center sm:mb-6">
+          <h1 className="text-[clamp(1.27rem,3.35vw,2.4rem)] leading-[1.05] font-black tracking-[-0.04em] text-balance text-navy">
+            <Image
+              src="/zskillup-logo-black.png"
+              alt="ZSkillup"
+              width={95}
+              height={32}
+              className="mr-1 inline-block h-[1.38em] w-auto translate-y-[0.22em] align-baseline"
+            />{" "}
+            <span className="bg-gradient-to-r from-teal via-teal-deep to-teal bg-clip-text text-transparent">
+              National Commerce
+            </span>{" "}
+            <span className="relative inline-block">
+              Olympiad
+              <svg
+                aria-hidden
+                viewBox="0 0 200 12"
+                preserveAspectRatio="none"
+                className="absolute -bottom-2 left-0 h-2.5 w-full text-amber sm:h-3"
+              >
+                <path
+                  d="M2 8 Q 27 1 52 7 T 102 7 T 152 7 T 198 6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </h1>
+        </div>
+        <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[minmax(max(640px,calc(100svh-140px)),auto)_auto]" step={0.1}>
+          <Tile pad="none" className="flex min-h-[calc(100svh-130px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-140px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
             <div className="flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-[7px] text-[0.82rem] font-bold text-teal-deep">
                 <Users className="size-[15px]" />
@@ -28,9 +60,9 @@ export function Hero() {
                 {EVENT.dateLong} · Online · Completely Free
               </span>
             </div>
-            <h1 className="mt-5 max-w-[22ch] text-[clamp(1.85rem,2.8vw,2.45rem)] leading-[1.12] font-extrabold tracking-[-0.03em] text-balance">
+            <h2 className="mt-5 max-w-[30ch] text-2xl leading-[1.2] font-extrabold tracking-[-0.02em] text-balance lg:text-[1.35rem]">
               Confused About What to Do After <em className="text-teal not-italic">12th Commerce</em>?
-            </h1>
+            </h2>
             <p className="mt-4 max-w-[52ch] text-[0.98rem]">
               Take the National Commerce Olympiad and discover the career paths worth exploring based on your strengths,
               interests and aptitude.
@@ -56,8 +88,8 @@ export function Hero() {
           </Tile>
 
           <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 sm:p-8 lg:p-7">
-            <h2 className="text-2xl font-extrabold tracking-[-0.02em] lg:text-[1.35rem]">Register free</h2>
-            <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · confirmation on WhatsApp</p>
+            <h2 className="text-2xl font-extrabold tracking-[-0.02em] lg:text-[1.35rem]">Register Free</h2>
+            <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · Confirmation on WhatsApp</p>
             <RegisterForm />
           </Tile>
 

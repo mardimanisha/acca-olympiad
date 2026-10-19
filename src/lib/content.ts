@@ -24,6 +24,7 @@ export const NAV = [
 /** Compass labels, clockwise from north; `id` links to the career explorer. `short` is used on narrow screens. */
 export const COMPASS: { id: string; long: string; short?: string }[] = [
   { id: "ca", long: "CA" },
+  { id: "cs", long: "CS" },
   { id: "acca", long: "ACCA" },
   { id: "cpa", long: "CPA" },
   { id: "cma", long: "CMA" },
@@ -52,7 +53,7 @@ export const CONVERSATION: Line[] = [
   { who: "father", text: "What do you want to become?" },
   { who: "student", text: "Maybe something in finance." },
   { who: "father", text: "Finance means what exactly?" },
-  { who: "student", text: "I’m not sure… CA? ACCA? CMA? B.Com? BBA? MBA later?" },
+  { who: "student", text: "I’m not sure… CA? CS? ACCA? CMA? B.Com? BBA? MBA later?" },
   { who: "father", text: "And how will you know which path is right for you?" },
   { who: "student", text: "That’s the problem. I don’t know yet." },
   { who: "father", text: "Then don’t guess." },
@@ -71,7 +72,7 @@ export const CONVERSATION: Line[] = [
 
 export const CHAPTERS = [
   ["0:00", "The breadth of commerce careers"],
-  ["0:48", "CA vs ACCA vs CMA vs CPA vs CFA"],
+  ["0:48", "CA vs CS vs ACCA vs CMA vs CPA vs CFA"],
   ["1:55", "Corporate, government or your own venture"],
   ["2:50", "Entry-level vs experienced pay"],
   ["4:30", "Take the Olympiad: your next step"],
@@ -109,7 +110,7 @@ export const STEPS = [
 ] as const;
 
 export const WEBINAR_TOPICS = [
-  "CA & CMA",
+  "CA, CS & CMA",
   "ACCA & CPA",
   "CFA & FRM",
   "Corporate finance",
@@ -142,7 +143,7 @@ export const FAQS = [
   },
   {
     q: "Is it only for CA or ACCA aspirants?",
-    a: "No. The Olympiad helps you explore 15 commerce paths, from professional qualifications to corporate and markets roles, degrees and higher studies, government careers and entrepreneurship.",
+    a: "No. The Olympiad helps you explore 16 commerce paths, from professional qualifications to corporate and markets roles, degrees and higher studies, government careers and entrepreneurship.",
   },
   {
     q: "Do I need to prepare?",

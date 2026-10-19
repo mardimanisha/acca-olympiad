@@ -32,6 +32,15 @@ export const CAREERS: Career[] = [
   skills:['Accounting','Tax law','Auditing','Analytical thinking','Attention to detail'],
   fit:['enjoy accountancy and rules-based problem solving','can stay consistent through multi-level exams','like advising people on money decisions'],
   sal:['₹7 – 12 L','₹15 – 30 L','₹35 L +'],w:[35,65,100],entry:'₹7–12 L entry'},
+ {id:'cs',angle:12,label:'CS',short:'CS',name:'Company Secretary (CS)',cat:'Professional qualification · ICSI',
+  one:"India's corporate governance qualification for company law, compliance and boardroom advisory.",
+  work:'Ensure companies follow corporate and securities laws, manage board and shareholder meetings, handle filings with regulators and advise on governance.',
+  roles:['Company secretary','Compliance officer','Corporate law associate','Governance & secretarial manager'],
+  route:['Class 12','CS Foundation','Executive','Professional','Practical training'],
+  qual:'ICSI CS; B.Com alongside is common, or graduate entry route · verify',dur:'3.5 – 5 years',cost:'Fees + coaching vary · verify',
+  skills:['Company law','Compliance','Corporate governance','Drafting','Attention to detail'],
+  fit:['enjoy law, rules and how companies are governed','can stay consistent through multi-level exams','like advising leadership on compliance'],
+  sal:['₹5 – 9 L','₹12 – 22 L','₹30 L +'],w:[28,58,92],entry:'₹5–9 L entry'},
  {id:'acca',angle:24,label:'ACCA',short:'ACCA',name:'ACCA · Global accounting',cat:'Professional qualification · UK body',
   one:'An internationally recognised accounting qualification built around global standards (IFRS).',
   work:'Financial reporting, audit, tax and business advisory, often for multinationals, Big 4 firms and global finance centres in India.',
@@ -160,7 +169,7 @@ export const CAREERS: Career[] = [
   sal:['₹5 – 10 L','₹10 – 20 L','₹25 L +'],w:[28,55,90],entry:'₹5–10 L entry'}
 ];
 
-export const GROUPS: [string, string[]][] = [['Professional qualifications', ['ca','acca','cma','cpa','cfa','frm']], ['Corporate & markets', ['fpa','research','ib','risk']], ['Degrees & higher studies', ['bcom','mba','higher']], ['Govt & own path', ['govt','entre']]];
+export const GROUPS: [string, string[]][] = [['Professional qualifications', ['ca','cs','acca','cma','cpa','cfa','frm']], ['Corporate & markets', ['fpa','research','ib','risk']], ['Degrees & higher studies', ['bcom','mba','higher']], ['Govt & own path', ['govt','entre']]];
 
 export const CAREER_BY_ID: Record<string, Career> = Object.fromEntries(CAREERS.map((c) => [c.id, c]));
 export const CAREER_ORDER: string[] = GROUPS.flatMap((g) => g[1]);

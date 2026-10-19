@@ -31,11 +31,11 @@ export function Compass() {
   const ref = useRef<SVGSVGElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
   const reduce = useReducedMotion();
-  const [active, setActive] = useState(1);
-  const activeRef = useRef(1);
+  const [active, setActive] = useState(2);
+  const activeRef = useRef(2);
   const [paused, setPaused] = useState(false);
   // cumulative rotation so the needle always takes the short way round
-  const [angle, setAngle] = useState(STEP);
+  const [angle, setAngle] = useState(2 * STEP);
 
   const pointAt = useCallback((i: number) => {
     activeRef.current = i;

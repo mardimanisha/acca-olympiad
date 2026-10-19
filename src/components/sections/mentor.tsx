@@ -27,9 +27,7 @@ export function Mentor() {
               className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
             />
             <div className="absolute inset-x-4 bottom-4 rounded-[18px] bg-white/96 px-[18px] py-3.5 backdrop-blur">
-              <b className="block text-[1.1rem] text-navy">Manish Temani</b>
-              <small className="font-semibold text-subtle">CA (AIR 26) · CS (AIR 1) · US CPA</small>
-            </div>
+              <b className="block text-[1.1rem] text-navy">Manish Temani</b>            </div>
           </Tile>
 
           <Tile pad="none" className="col-span-2 p-6 sm:p-9 lg:col-span-4">

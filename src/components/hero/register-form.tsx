@@ -7,12 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { EVENT } from "@/lib/content";
+import { STATES, STATE_CITIES } from "@/lib/locations";
 import { cn } from "@/lib/utils";
 
 const field =
   "h-[50px] lg:h-11 rounded-field border-line bg-canvas px-3.5 text-[0.93rem] text-navy placeholder:text-[#8F9BAE] md:text-[0.93rem]";
 const label = "text-[0.8rem] font-bold text-navy";
+const FIRST_YEAR = 2027;
+const PASSING_YEARS = Array.from({ length: 6 }, (_, i) => String(FIRST_YEAR + i));
 
 function PhoneInput({ id, name }: { id: string; name: string }) {
   return (
@@ -40,6 +44,9 @@ function PhoneInput({ id, name }: { id: string; name: string }) {
  */
 export function RegisterForm() {
   const [name, setName] = useState<string | null>(null);
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [year, setYear] = useState("");
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,28 +65,73 @@ export function RegisterForm() {
         >
           <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2 lg:mt-4 lg:gap-y-3">
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
-              <Label htmlFor="r-name" className={label}>Student full name</Label>
+              <Label htmlFor="r-name" className={label}>Student Full Name</Label>
               <Input id="r-name" name="name" required autoComplete="name" placeholder="e.g. Aarav Sharma" className={field} />
             </div>
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
-              <Label htmlFor="r-email" className={label}>Email address</Label>
+              <Label htmlFor="r-email" className={label}>Email Address</Label>
               <Input id="r-email" name="email" type="email" required autoComplete="email" placeholder="you@example.com" className={field} />
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-wa" className={label}>WhatsApp number</Label>
+              <Label htmlFor="r-wa" className={label}>WhatsApp Number</Label>
               <PhoneInput id="r-wa" name="whatsapp" />
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-parent" className={label}>Parent&apos;s number</Label>
+              <Label htmlFor="r-parent" className={label}>Parent&apos;s Number</Label>
               <PhoneInput id="r-parent" name="parent" />
             </div>
-            <div className="grid min-w-0 gap-[7px] sm:col-span-2">
-              <Label htmlFor="r-school" className={label}>School name</Label>
+            <div className="grid min-w-0 gap-[7px]">
+              <Label htmlFor="r-school" className={label}>School Name</Label>
               <Input id="r-school" name="school" required placeholder="e.g. DPS R.K. Puram" className={field} />
             </div>
-            <div className="grid min-w-0 gap-[7px] sm:col-span-2">
+            <div className="grid min-w-0 gap-[7px]">
+              <Label htmlFor="r-year" className={label}>Passing Year</Label>
+              <Select name="passingYear" required value={year || null} onValueChange={(v) => setYear(v ?? "")}>
+                <SelectTrigger id="r-year" placeholder="Select year" />
+                <SelectContent>
+                  {PASSING_YEARS.map((y) => (
+                    <SelectItem key={y} value={y}>{y}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid min-w-0 gap-[7px]">
+              <Label htmlFor="r-state" className={label}>State</Label>
+              <Select
+                name="state"
+                required
+                autoComplete="address-level1"
+                value={state || null}
+                onValueChange={(v) => {
+                  setState(v ?? "");
+                  setCity("");
+                }}
+              >
+                <SelectTrigger id="r-state" placeholder="Select your state" />
+                <SelectContent>
+                  {STATES.map((s) => (
+                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid min-w-0 gap-[7px]">
               <Label htmlFor="r-city" className={label}>City</Label>
-              <Input id="r-city" name="city" required autoComplete="address-level2" placeholder="e.g. Jaipur" className={field} />
+              <Select
+                name="city"
+                required
+                disabled={!state}
+                autoComplete="address-level2"
+                value={city || null}
+                onValueChange={(v) => setCity(v ?? "")}
+              >
+                <SelectTrigger id="r-city" placeholder={state ? "Select your city" : "Select a state first"} />
+                <SelectContent>
+                  {(STATE_CITIES[state] ?? []).map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-[7px] sm:col-span-2">
               <span className={label} id="r-stream">Stream</span>

@@ -26,7 +26,7 @@ export function Videos() {
             <div>
               <span className="eyebrow text-aqua">Featured video</span>
               <h3 className="mt-2.5 max-w-[18ch] text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.12] font-extrabold tracking-[-0.02em] text-white">
-                CA vs ACCA vs CMA vs CPA vs CFA: <em className="text-aqua not-italic">what&apos;s the real difference?</em>
+                CA vs CS vs ACCA vs CMA vs CPA vs CFA: <em className="text-aqua not-italic">what&apos;s the real difference?</em>
               </h3>
             </div>
             <div className="flex items-end justify-between">
