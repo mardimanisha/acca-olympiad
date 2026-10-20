@@ -28,7 +28,7 @@ function usePastHero() {
   return past;
 }
 
-/** Bottom-centre sticky CTA (button + countdown; compact on phones) and the WhatsApp community button. */
+/** Bottom-centre sticky CTA (button + countdown) and the WhatsApp community button. */
 export function FloatingActions() {
   const showBar = usePastHero();
 
@@ -46,7 +46,7 @@ export function FloatingActions() {
         transition={{ delay: 1.2, type: "spring", stiffness: 260, damping: 18 }}
         className={cn(
           "fixed right-3.5 z-50 flex items-center gap-2.5 rounded-full bg-wa font-extrabold text-white shadow-[0_16px_30px_-12px_rgba(37,211,102,.7)] transition-[bottom] duration-500 sm:right-[22px] sm:py-[9px] sm:pr-[18px] sm:pl-[9px] sm:text-[0.9rem]",
-          showBar ? "bottom-[124px] sm:bottom-[132px] lg:bottom-[22px]" : "bottom-4 sm:bottom-[22px]",
+          showBar ? "bottom-[104px] sm:bottom-[132px] lg:bottom-[22px]" : "bottom-4 sm:bottom-[22px]",
         )}
       >
         <span className="grid size-[54px] place-items-center rounded-full bg-wa sm:size-[38px] sm:bg-white">
@@ -65,26 +65,21 @@ export function FloatingActions() {
             transition={{ type: "spring", stiffness: 220, damping: 26 }}
             className="pointer-events-none fixed inset-x-3 bottom-3 z-45 flex justify-center sm:bottom-5"
           >
-            <div className="pointer-events-auto flex w-full flex-col gap-2 rounded-[20px] border border-[rgba(127,224,209,.3)] bg-[linear-gradient(135deg,rgba(1,67,49,.82),rgba(14,124,112,.58))] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.14),0_24px_50px_-20px_rgba(1,67,49,.6)] backdrop-blur-xl backdrop-saturate-150 sm:w-[max(420px,calc((min(100vw,1280px)-2*clamp(16px,3vw,32px)-20px)*.375))] sm:min-h-[100px] sm:justify-center sm:px-4 sm:py-3">
-              {/* phones: secondary text above the button */}
-              <p className="text-center text-[0.74rem] font-bold tracking-[0.02em] text-white sm:hidden">
-                Class 11–12 · 20 Dec · ₹0
-              </p>
-
-              <div className="flex w-full items-center gap-3">
+            <div className="pointer-events-auto flex w-full flex-col rounded-[20px] border border-[rgba(127,224,209,.3)] bg-[linear-gradient(135deg,rgba(1,67,49,.82),rgba(14,124,112,.58))] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.14),0_24px_50px_-20px_rgba(1,67,49,.6)] backdrop-blur-xl backdrop-saturate-150 sm:w-[max(420px,calc((min(100vw,1280px)-2*clamp(16px,3vw,32px)-20px)*.375))] sm:min-h-[100px] sm:justify-center sm:px-4 sm:py-3">
+              <div className="flex w-full items-center gap-2 min-[360px]:gap-3">
                 <a
                   href="#register"
                   className={buttonVariants({
                     variant: "amber",
                     size: "pill-sm",
-                    className: "w-full py-3 text-[0.9rem] sm:w-auto sm:shrink-0 sm:px-6 lg:text-[0.95rem]",
+                    className: "shrink-0 px-3.5 py-3 text-[0.84rem] min-[360px]:px-4 min-[360px]:text-[0.88rem] sm:px-6 sm:text-[0.9rem] lg:text-[0.95rem]",
                   })}
                 >
-                  Register Free <ArrowRight className="size-4" />
+                  Register Now <ArrowRight className="size-4 max-[359px]:hidden" />
                 </a>
-                <div className="ml-auto hidden flex-col items-center gap-1 whitespace-nowrap text-white sm:flex">
-                  <span className="text-[0.72rem] font-semibold">Starts in</span>
-                  <div className="text-[1.5rem]">
+                <div className="ml-auto flex flex-col items-center gap-1 whitespace-nowrap text-white">
+                  <span className="text-[0.68rem] font-semibold sm:text-[0.72rem]">Starts in</span>
+                  <div className="text-[1rem] min-[360px]:text-[1.15rem] sm:text-[1.5rem]">
                     <Countdown showSeconds={false} />
                   </div>
                 </div>
