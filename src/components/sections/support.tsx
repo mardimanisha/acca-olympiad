@@ -6,8 +6,8 @@ import { Section, SectionHead, Wrap } from "@/components/site";
 const SUPPORT = [
   {
     icon: UsersRound,
-    img: "/support/counsellor-in.jpg",
-    alt: "Counsellor going through a report with a student",
+    img: "/support/counselling-ai.jpg",
+    alt: "Counsellor walking a student through her career report",
     fade: "from-teal",
     title: "Personalized counselling",
     text: "Interpret your report, shortlist pathways and agree on next steps.",
@@ -15,8 +15,8 @@ const SUPPORT = [
   },
   {
     icon: MonitorPlay,
-    img: "/support/webinar-in.jpg",
-    alt: "Expert hosting a live online session",
+    img: "/support/webinars-ai.jpg",
+    alt: "Student taking notes during a live career webinar",
     fade: "from-white",
     title: "Career webinars",
     text: "Live sessions with experts on every major commerce pathway.",
@@ -24,8 +24,8 @@ const SUPPORT = [
   },
   {
     icon: House,
-    img: "/support/parents-in.jpg",
-    alt: "Parents planning costs together",
+    img: "/support/parents-ai.jpg",
+    alt: "Parents exploring career options with their daughter",
     fade: "from-mint",
     title: "Parent guidance",
     text: "Qualification routes, costs and time commitments, explained for families.",
