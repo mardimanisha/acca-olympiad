@@ -15,8 +15,9 @@ import { cn } from "@/lib/utils";
 const field =
   "h-[50px] lg:h-11 rounded-field border-line bg-canvas px-3.5 text-[0.93rem] text-navy placeholder:text-[#8F9BAE] md:text-[0.93rem]";
 const label = "text-[0.8rem] font-bold text-navy";
-const FIRST_YEAR = 2027;
-const PASSING_YEARS = Array.from({ length: 6 }, (_, i) => String(FIRST_YEAR + i));
+// 2017–2032: ten past years plus the upcoming batches
+const FIRST_YEAR = 2017;
+const PASSING_YEARS = Array.from({ length: 16 }, (_, i) => String(FIRST_YEAR + i));
 
 function PhoneInput({ id, name }: { id: string; name: string }) {
   return (
