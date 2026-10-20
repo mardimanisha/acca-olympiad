@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, CircleCheck } from "lucide-react";
+import { ArrowRight, CircleCheck, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,20 +38,51 @@ function PhoneInput({ id, name }: { id: string; name: string }) {
   );
 }
 
-/**
- * Registration form. Validates in the browser and shows a confirmation; it is not connected to a
- * backend yet — wire `onSubmit` to the registration API.
- */
+/** Registration form. Validates in the browser, posts to /api/register (Google Sheet) and shows a confirmation. */
 export function RegisterForm() {
   const [name, setName] = useState<string | null>(null);
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [year, setYear] = useState("");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    setName(String(data.get("name") ?? "").trim().split(/\s+/)[0] || "there");
+    if (sending) return;
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const get = (k: string) => String(data.get(k) ?? "").trim();
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: get("name"),
+          email: get("email"),
+          whatsapp: get("whatsapp"),
+          parent: get("parent"),
+          school: get("school"),
+          passingYear: year,
+          state,
+          city,
+          stream: get("stream") || "commerce",
+        }),
+      });
+      const reply = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !reply?.ok) throw new Error(reply?.error || "We couldn't save your registration. Please try again.");
+      form.reset();
+      setState("");
+      setCity("");
+      setYear("");
+      setName(get("name").split(/\s+/)[0] || "there");
+    } catch (err) {
+      setError(err instanceof Error && err.message !== "Failed to fetch" ? err.message : "Network error. Please check your connection and try again.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -155,8 +186,21 @@ export function RegisterForm() {
             </div>
           </div>
           <div className="min-h-[22px] flex-1" />
-          <Button type="submit" variant="brand" size="pill" className="w-full">
-            Register Now <ArrowRight />
+          {error && (
+            <p role="alert" className="mb-2.5 rounded-xl bg-[#FDECEC] px-3.5 py-2.5 text-center text-[0.84rem] font-semibold text-[#B42318]">
+              {error}
+            </p>
+          )}
+          <Button type="submit" variant="brand" size="pill" className="w-full" disabled={sending} aria-busy={sending}>
+            {sending ? (
+              <>
+                <LoaderCircle className="animate-spin" /> Registering…
+              </>
+            ) : (
+              <>
+                Register Now <ArrowRight />
+              </>
+            )}
           </Button>
           <p className="mt-2.5 text-center text-[0.74rem] text-subtle">
             Used for your confirmation, exam instructions and report.{" "}
