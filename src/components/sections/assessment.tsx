@@ -1,4 +1,15 @@
-import { ArrowRight, ChartNoAxesColumn, ChartPie, FileText, Laptop, MessageCircle, Sigma, Smile, Target, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpenCheck,
+  Calculator,
+  Globe,
+  Lightbulb,
+  MessageCircle,
+  Scale,
+  ShieldCheck,
+  Sigma,
+  Smile,
+} from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Item, Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
@@ -6,14 +17,14 @@ import { KEY_FACTS, STEPS } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 const TOPICS = [
-  { icon: ChartNoAxesColumn, title: "Accountancy", text: "Your understanding of fundamental accounting concepts." },
-  { icon: Sigma, title: "Maths & Quantitative Aptitude", text: "Numbers, calculations and quantitative thinking." },
-  { icon: TrendingUp, title: "Economics", text: "Understanding of economic concepts and real-world applications." },
-  { icon: MessageCircle, title: "English & Communication", text: "Comprehension, communication and interpretation." },
-  { icon: ChartPie, title: "Data & Analytical Reasoning", text: "Patterns, logic, data interpretation and problem solving." },
-  { icon: Laptop, title: "Technology & Digital Awareness", text: "Awareness of technology and today's digital business environment." },
-  { icon: FileText, title: "Case-Based Questions", text: "How you apply concepts to practical situations." },
-  { icon: Target, title: "Interest & Motivation", text: "The areas of commerce and finance that naturally interest you." },
+  { icon: BookOpenCheck, title: "Accounting & Reporting", text: "Recording transactions, financial statements and reporting basics." },
+  { icon: ShieldCheck, title: "Audit & Tax", text: "Checking accuracy, compliance and how taxation works." },
+  { icon: Calculator, title: "Costing & Business Finance", text: "Costs, budgets, pricing and how businesses manage money." },
+  { icon: Scale, title: "Law & Governance", text: "Business law, company rules and responsible governance." },
+  { icon: Globe, title: "Global / International Orientation", text: "Interest in international business, markets and global careers." },
+  { icon: Lightbulb, title: "Business Decision-Making", text: "Weighing options and making sound business choices." },
+  { icon: Sigma, title: "Numerical & Analytical Orientation", text: "Numbers, data, patterns and logical problem solving." },
+  { icon: MessageCircle, title: "Communication / Advisory", text: "Explaining ideas clearly and advising others with confidence." },
 ];
 
 /** s08 — what the Olympiad assesses, key facts and a no-pressure note. */

@@ -138,7 +138,7 @@ export const FAQS = [
   },
   {
     q: "What topics are covered? Is there negative marking?",
-    a: "Eight areas: Accountancy, Maths & Quant Aptitude, Economics, English & Communication, Data & Analytical Reasoning, Technology & Digital Awareness, Case-Based Questions, and Interest & Motivation. The question pattern and marking scheme will be published once confirmed.",
+    a: "Eight areas: Accounting & Reporting, Audit & Tax, Costing & Business Finance, Law & Governance, Global / International Orientation, Business Decision-Making, Numerical & Analytical Orientation, and Communication / Advisory. The question pattern and marking scheme will be published once confirmed.",
   },
   {
     q: "Is it only for CA or ACCA aspirants?",
