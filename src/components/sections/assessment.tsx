@@ -11,7 +11,7 @@ import {
   Smile,
 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { Item, Stagger, Tile } from "@/components/motion";
+import { Stagger, Tile } from "@/components/motion";
 import { Section, SectionHead, Wrap } from "@/components/site";
 import { KEY_FACTS, STEPS } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -80,9 +80,6 @@ export function Assessment() {
               </p>
             </div>
           </Tile>
-          <Item className="note-s -mt-1 lg:col-span-2">
-            Question pattern, marking scheme, start time and device requirements will be published once confirmed.
-          </Item>
         </Stagger>
       </Wrap>
     </Section>

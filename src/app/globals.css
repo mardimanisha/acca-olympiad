@@ -126,3 +126,17 @@
     @apply text-[0.78rem] text-subtle;
   }
 }
+
+/* Pinned mobile logo slides to the header's left edge; see components/hero/hero-logo.tsx. */
+@keyframes hero-logo-slide {
+  to { transform: translateX(var(--logo-dx)); }
+}
+@media (max-width: 639px) {
+  @supports (animation-timeline: scroll()) {
+    [data-logo-slide] {
+      animation: hero-logo-slide linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px var(--logo-d);
+    }
+  }
+}

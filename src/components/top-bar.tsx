@@ -1,6 +1,7 @@
-import Image from "next/image";
+import { HeaderLogo } from "@/components/header-logo";
 import { buttonVariants } from "@/components/ui/button";
 import { Wrap } from "@/components/site";
+import { MobileMenu } from "@/components/mobile-menu";
 import { NavPills } from "@/components/nav-pills";
 import { cn } from "@/lib/utils";
 
@@ -15,15 +16,16 @@ export function TopBar() {
 
 function SiteHeader() {
   return (
-    <header className="bg-canvas/90 backdrop-blur-md">
+    <header className="relative bg-canvas/90 backdrop-blur-md">
       <Wrap className="flex items-center justify-between py-2.5 sm:py-3">
-        <a href="#s01" aria-label="ZSkillup home">
-          <Image src="/zskillup-logo-black.png" alt="ZSkillup" width={95} height={32} className="h-8 w-auto" preload />
-        </a>
+        <HeaderLogo />
         <NavPills />
-        <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill-sm" }), "max-sm:hidden")}>
-          Register Now
-        </a>
+        <div className="flex items-center gap-2.5">
+          <a href="#register" className={cn(buttonVariants({ variant: "brand", size: "pill-sm" }), "max-sm:hidden")}>
+            Register Now
+          </a>
+          <MobileMenu />
+        </div>
       </Wrap>
     </header>
   );

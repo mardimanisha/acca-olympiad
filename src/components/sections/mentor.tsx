@@ -99,7 +99,7 @@ export function Mentor() {
           </Tile>
 
           {CREDENTIALS.map((c) => (
-            <Tile key={c.big} tone={c.tone} pad="none" className="relative flex flex-col justify-end p-[18px] sm:p-6">
+            <Tile key={c.big} tone={c.tone} pad="none" className="relative flex flex-col justify-end px-[18px] pb-[18px] pt-[62px] sm:px-6 sm:pb-6 sm:pt-[68px]">
               <c.art />
               <b
                 className={`block text-[1.3rem] leading-[1.1] font-extrabold tracking-[-0.02em] sm:text-[1.6rem] ${

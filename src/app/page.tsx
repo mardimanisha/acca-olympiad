@@ -4,6 +4,7 @@ import { FinalCta, Footer } from "@/components/sections/closing";
 import { Conversation } from "@/components/sections/conversation";
 import { CareerExplorer } from "@/components/sections/career-explorer";
 import { Faq } from "@/components/sections/faq";
+import { PinnedLogo } from "@/components/hero/hero-logo";
 import { Hero } from "@/components/sections/hero";
 import { TopBar } from "@/components/top-bar";
 import { Mentor } from "@/components/sections/mentor";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <main>
       <TopBar />
+      <PinnedLogo />
       <Hero />
       <Conversation />
       <CareerExplorer />

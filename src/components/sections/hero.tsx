@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
 import { Compass } from "@/components/hero/compass";
+import { HeroLogoHome } from "@/components/hero/hero-logo";
 import { RegisterForm } from "@/components/hero/register-form";
 import { EVENT } from "@/lib/content";
 
@@ -18,16 +18,14 @@ export function Hero() {
 
       <Wrap>
         <div className="relative mb-4 flex flex-col items-center text-center sm:mb-6">
-          <h1 className="text-[clamp(1.27rem,3.35vw,2.4rem)] leading-[1.05] font-black tracking-[-0.04em] text-balance text-navy">
-            <Image
-              src="/zskillup-logo-black.png"
-              alt="ZSkillup"
-              width={95}
-              height={32}
-              className="mr-1 inline-block h-[1.38em] w-auto translate-y-[0.22em] align-baseline"
-            />{" "}
+          <h1 id="hero-title" className="text-[1.45rem] sm:text-[clamp(1.27rem,3.35vw,2.4rem)] leading-[1.05] font-black tracking-[-0.04em] text-balance text-navy">
+            <HeroLogoHome />{" "}
             <span className="bg-gradient-to-r from-teal via-teal-deep to-teal bg-clip-text text-transparent">
-              National Commerce
+              National
+            </span>
+            <br className="sm:hidden" />
+            <span className="bg-gradient-to-r from-teal via-teal-deep to-teal bg-clip-text text-transparent sm:ml-[0.25em]">
+              Commerce
             </span>{" "}
             <span className="relative inline-block">
               Olympiad
@@ -49,7 +47,7 @@ export function Hero() {
           </h1>
         </div>
         <Stagger className="grid gap-3.5 sm:gap-5 lg:grid-cols-[minmax(0,1fr)_420px] lg:grid-rows-[minmax(max(640px,calc(100svh-140px)),auto)_auto]" step={0.1}>
-          <Tile pad="none" className="flex min-h-[calc(100svh-130px)] flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-140px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
+          <Tile pad="none" className="flex flex-col items-center px-[18px] pt-5 pb-5 text-center sm:min-h-[max(600px,calc(100svh-140px))] sm:px-11 sm:pt-8 sm:pb-7 lg:min-h-0">
             <div className="flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-mint px-3.5 py-[7px] text-[0.82rem] font-bold text-teal-deep">
                 <Users className="size-[15px]" />
@@ -67,7 +65,7 @@ export function Hero() {
               Take the National Commerce Olympiad and discover the career paths worth exploring based on your strengths,
               interests and aptitude.
             </p>
-            <div className="relative mt-3 min-h-[150px] w-full flex-1 sm:mt-4 sm:min-h-[220px]">
+            <div className="relative mt-3 aspect-[490/368] w-full flex-none sm:mt-4 sm:aspect-auto sm:min-h-[220px] sm:flex-1">
               <Compass />
             </div>
             <ul className="mt-3 flex-col items-center gap-2 max-sm:hidden sm:flex sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-5">
@@ -87,13 +85,13 @@ export function Hero() {
             </div>
           </Tile>
 
-          <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 sm:p-8 lg:p-7">
+          <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 max-lg:order-4 sm:p-8 lg:p-7">
             <h2 className="text-2xl font-extrabold tracking-[-0.02em] lg:text-[1.35rem]">Register Free</h2>
             <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · Confirmation on WhatsApp</p>
             <RegisterForm />
           </Tile>
 
-          <div className="grid min-w-0 gap-3.5 sm:grid-cols-3 sm:gap-5">
+          <div className="grid min-w-0 gap-3.5 max-lg:order-2 sm:grid-cols-3 sm:gap-5">
             <Tile
               tone="amber"
               pad="none"
@@ -135,7 +133,7 @@ export function Hero() {
             </Tile>
           </div>
 
-          <Tile tone="navy" pad="none" className="flex flex-col justify-center p-6 sm:px-8 sm:py-7">
+          <Tile tone="navy" pad="none" className="flex flex-col justify-center p-6 max-lg:order-3 sm:px-8 sm:py-7">
             <span className="eyebrow">Olympiad day</span>
             <span className="mt-1.5 block text-[clamp(1.9rem,2.8vw,2.4rem)] leading-[1.05] font-extrabold tracking-[-0.03em] text-white">
               {EVENT.dateLabel}

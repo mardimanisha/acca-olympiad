@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Share2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Countdown } from "@/components/hero/countdown";
 import { WhatsAppIcon } from "@/components/mascots";
@@ -28,6 +28,17 @@ function usePastHero() {
   return past;
 }
 
+/** Native share sheet where available; otherwise a prefilled WhatsApp message. */
+async function shareWithPeers() {
+  const data = { title: document.title, text: "Check out this Olympiad — worth a look!", url: "https://acca-olympiad.vercel.app/" };
+  try {
+    if (navigator.share) await navigator.share(data);
+    else window.open(`https://wa.me/?text=${encodeURIComponent(`${data.text} ${data.url}`)}`, "_blank", "noopener");
+  } catch {
+    // share cancelled
+  }
+}
+
 /** Bottom-centre sticky CTA (button + countdown) and the WhatsApp community button. */
 export function FloatingActions() {
   const showBar = usePastHero();
@@ -45,7 +56,7 @@ export function FloatingActions() {
         whileTap={{ scale: 0.95 }}
         transition={{ delay: 1.2, type: "spring", stiffness: 260, damping: 18 }}
         className={cn(
-          "fixed right-3.5 z-50 flex items-center gap-2.5 rounded-full bg-wa font-extrabold text-white shadow-[0_16px_30px_-12px_rgba(37,211,102,.7)] transition-[bottom] duration-500 sm:right-[22px] sm:py-[9px] sm:pr-[18px] sm:pl-[9px] sm:text-[0.9rem]",
+          "fixed right-3.5 z-50 flex items-center gap-2.5 rounded-full bg-wa font-extrabold text-white shadow-[0_16px_30px_-12px_rgba(37,211,102,.7)] transition-[bottom] duration-500 sm:right-[22px] sm:w-[220px] sm:py-[9px] sm:pr-[18px] sm:pl-[9px] sm:text-[0.9rem]",
           showBar ? "bottom-[104px] sm:bottom-[132px] lg:bottom-[22px]" : "bottom-4 sm:bottom-[22px]",
         )}
       >
@@ -54,6 +65,26 @@ export function FloatingActions() {
         </span>
         <span className="max-sm:hidden">Join the community</span>
       </motion.a>
+
+      <motion.button
+        type="button"
+        onClick={shareWithPeers}
+        aria-label="Share with peers"
+        initial={{ opacity: 0, scale: 0.6, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ delay: 1.35, type: "spring", stiffness: 260, damping: 18 }}
+        className={cn(
+          "fixed right-3.5 z-50 flex cursor-pointer items-center gap-2.5 rounded-full bg-navy font-extrabold text-white shadow-[0_16px_30px_-12px_rgba(11,26,61,.6)] transition-[bottom] duration-500 sm:right-[22px] sm:w-[220px] sm:py-[9px] sm:pr-[18px] sm:pl-[9px] sm:text-[0.9rem]",
+          showBar ? "bottom-[170px] sm:bottom-[200px] lg:bottom-[90px]" : "bottom-[82px] sm:bottom-[90px]",
+        )}
+      >
+        <span className="grid size-[54px] place-items-center rounded-full bg-navy sm:size-[38px] sm:bg-white">
+          <Share2 className="size-6 text-white sm:size-5 sm:text-navy" />
+        </span>
+        <span className="max-sm:hidden">Share with peers</span>
+      </motion.button>
 
       <AnimatePresence>
         {showBar && (

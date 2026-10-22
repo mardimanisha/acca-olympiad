@@ -163,8 +163,8 @@ function CareerPanel({ c }: { c: Career }) {
       </div>
 
       <div className="flex-1 px-4 pb-5 sm:px-8 sm:pb-8 lg:pb-5">
-        <table className="w-full lg:h-full border-separate border-spacing-0 overflow-hidden rounded-2xl border border-line text-left text-[0.88rem]">
-          <tbody className="[&_td]:border-t [&_td]:border-line [&_td]:px-4 [&_td]:py-2 lg:[&_td]:py-2 [&_th]:border-t [&_th]:border-line [&_th]:bg-mint [&_th]:px-4 [&_th]:py-2 [&_th]:align-top [&_th]:text-[0.68rem] [&_th]:font-extrabold [&_th]:tracking-[0.12em] [&_th]:whitespace-nowrap [&_th]:text-teal-deep [&_th]:uppercase [&_tr:first-child_td]:border-t-0 [&_tr:first-child_th]:border-t-0">
+        <table className="w-full max-sm:table-fixed lg:h-full border-separate border-spacing-0 overflow-hidden rounded-2xl border border-line text-left text-[0.88rem]">
+          <tbody className="[&_td]:border-t [&_td]:border-line [&_td]:px-4 [&_td]:py-2 lg:[&_td]:py-2 max-sm:[&_td]:px-3 max-sm:[&_td]:break-words max-sm:[&_th]:w-[34%] max-sm:[&_th]:px-3 max-sm:[&_th]:break-words [&_th]:border-t [&_th]:border-line [&_th]:bg-mint [&_th]:px-4 [&_th]:py-2 [&_th]:align-top [&_th]:text-[0.68rem] [&_th]:font-extrabold [&_th]:tracking-[0.12em] sm:[&_th]:whitespace-nowrap [&_th]:text-teal-deep [&_th]:uppercase [&_tr:first-child_td]:border-t-0 [&_tr:first-child_th]:border-t-0">
             <tr>
               <th scope="row">What you&apos;ll do</th>
               <td>{c.work}</td>
@@ -205,7 +205,6 @@ function CareerPanel({ c }: { c: Career }) {
             <tr>
               <th scope="row">
                 Salary / year
-                <span className="mt-1.5 block text-[0.6rem] tracking-[0.04em] text-amber-ink normal-case">Sample data · verify</span>
               </th>
               <td>
                 {c.sal.map((s, k) => (
