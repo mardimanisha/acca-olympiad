@@ -133,6 +133,10 @@ export function Hero() {
                 Certificate
               </span>
               <div className="text-[0.95rem] font-semibold">Digital participation certificate.</div>
+              <div className="mt-2 flex items-center gap-2 rounded-xl bg-amber px-3 py-2 text-[0.95rem] leading-snug font-extrabold text-navy">
+                <Award className="size-5 flex-none" />
+                A Certificate for each school topper
+              </div>
             </Tile>
           </div>
 
