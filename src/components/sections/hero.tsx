@@ -1,4 +1,4 @@
-import { CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
+import { Award, CalendarDays, Clock, Compass as CompassIcon, FileChartColumn, GraduationCap, Users } from "lucide-react";
 import { Stagger, Tile } from "@/components/motion";
 import { Wrap } from "@/components/site";
 import { Compass } from "@/components/hero/compass";
@@ -58,7 +58,7 @@ export function Hero() {
                 {EVENT.dateLong} · Online · Completely Free
               </span>
             </div>
-            <h2 className="mt-5 max-w-[30ch] text-2xl leading-[1.2] font-extrabold tracking-[-0.02em] text-balance lg:text-[1.35rem]">
+            <h2 className="mt-5 text-[3.7vw] leading-[1.2] font-extrabold tracking-[-0.02em] whitespace-nowrap sm:text-xl md:text-2xl lg:text-[1.35rem]">
               Confused About What to Do After <em className="text-teal not-italic">12th Commerce</em>?
             </h2>
             <p className="mt-4 max-w-[52ch] text-[0.98rem]">
@@ -81,6 +81,9 @@ export function Hero() {
                 <GraduationCap className="size-[18px] flex-none text-amber" />
                 Scholarships up to {EVENT.scholarship} + Certificate for Every Participant*
               </p>
+              <p className="mt-1.5 flex items-center justify-center gap-2 text-[0.95rem] font-bold text-navy">
+                <Award className="size-[18px] flex-none text-amber" />A Certificate for each school topper
+              </p>
               <p className="note-s mt-1.5">*Scholarships for eligible students, subject to published terms.</p>
             </div>
           </Tile>
@@ -95,7 +98,7 @@ export function Hero() {
             <Tile
               tone="amber"
               pad="none"
-              className="flex flex-col items-start justify-between gap-1.5 px-5 py-4 lg:px-[22px]"
+              className={REWARD_TILE}
             >
               <ScholarshipArt />
               <span className="eyebrow">Scholarships</span>
@@ -114,7 +117,7 @@ export function Hero() {
             <Tile
               tone="teal"
               pad="none"
-              className="flex flex-col items-start justify-between gap-1.5 px-5 py-4 lg:px-[22px]"
+              className={REWARD_TILE}
             >
               <WatchArt />
               <span className="eyebrow">Top 10 participants</span>
@@ -123,7 +126,7 @@ export function Hero() {
               </span>
               <div className="text-[0.95rem] font-semibold">For the top ten performers.</div>
             </Tile>
-            <Tile pad="none" className="flex flex-col items-start justify-between gap-1.5 px-5 py-4 lg:px-[22px]">
+            <Tile pad="none" className={REWARD_TILE}>
               <CertificateArt />
               <span className="eyebrow">Every participant</span>
               <span className="block text-[clamp(1.7rem,2.6vw,2.2rem)] leading-none font-extrabold tracking-[-0.04em] text-navy">
@@ -146,10 +149,14 @@ export function Hero() {
   );
 }
 
+/** On mobile each reward card is two columns: text on the left, art on the right. */
+const REWARD_TILE = "flex flex-col items-start justify-between gap-1.5 px-5 py-4 max-sm:grid max-sm:grid-cols-[1fr_auto] max-sm:gap-x-3 lg:px-[22px]";
+const ART = "h-[58px] w-full max-sm:col-start-2 max-sm:row-span-4 max-sm:row-start-1 max-sm:h-auto max-sm:w-[116px] max-sm:self-center";
+
 /** Card illustrations for the rewards row. Decorative, so hidden from assistive tech. */
 function ScholarshipArt() {
   return (
-    <svg viewBox="0 0 220 110" className="h-[58px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 220 110" className={ART} aria-hidden="true">
       <defs>
         <linearGradient id="coinG" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#FFE9A8" />
@@ -188,7 +195,7 @@ function ScholarshipArt() {
 
 function WatchArt() {
   return (
-    <svg viewBox="0 0 220 110" className="h-[58px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 220 110" className={ART} aria-hidden="true">
       <defs>
         <linearGradient id="bezelG" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#E9F3F1" />
@@ -226,7 +233,7 @@ function WatchArt() {
 
 function CertificateArt() {
   return (
-    <svg viewBox="0 0 220 110" className="h-[58px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 220 110" className={ART} aria-hidden="true">
       <ellipse cx="110" cy="102" rx="84" ry="6" fill="#0B1A3D" opacity=".12" />
       <g transform="rotate(-3 110 55)">
         <rect x="26" y="10" width="168" height="88" rx="6" fill="#FFFDF6" stroke="#0B1A3D" strokeWidth="2.5" />
