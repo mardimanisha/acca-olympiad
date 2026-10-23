@@ -18,12 +18,12 @@ function validate(body: unknown): Registration | string {
   const out = {} as Registration;
   for (const f of FIELDS) {
     const v = typeof src[f] === "string" ? (src[f] as string).trim() : "";
-    if (!v) return `Please fill in ${f}.`;
+    if (!v && f !== "parent") return `Please fill in ${f}.`;
     if (v.length > 200) return `${f} is too long.`;
     out[f] = v;
   }
   if (!EMAIL.test(out.email)) return "Please enter a valid email address.";
-  if (!PHONE.test(out.whatsapp) || !PHONE.test(out.parent)) return "Please enter valid 10-digit mobile numbers.";
+  if (!PHONE.test(out.whatsapp) || (out.parent && !PHONE.test(out.parent))) return "Please enter valid 10-digit mobile numbers.";
   return out;
 }
 

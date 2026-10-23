@@ -9,7 +9,7 @@ export const EVENT = {
   startsAt: "2026-12-20T10:00:00+05:30",
   phone: "+91 91530 05252",
   phoneHref: "tel:+919153005252",
-  whatsappHref: "https://wa.me/919153005252",
+  whatsappHref: "https://chat.whatsapp.com/D3h7wb45HWF3m7TDz0ykdS",
   scholarship: "₹50,000",
 };
 
@@ -69,12 +69,14 @@ export const CONVERSATION: Line[] = [
   },
 ];
 
+/** [label, start time in seconds, title] — timings follow the video script. */
 export const CHAPTERS = [
-  ["0:00", "The breadth of commerce careers"],
-  ["0:48", "CA vs CS vs ACCA vs CMA vs CPA vs CFA"],
-  ["1:55", "Corporate, government or your own venture"],
-  ["2:50", "Entry-level vs experienced pay"],
-  ["4:30", "Take the Olympiad: your next step"],
+  ["0:00", 0, "The hook: choosing a career after Class 12"],
+  ["0:25", 25, "Commerce is bigger than you think"],
+  ["1:00", 60, "Understanding the qualifications"],
+  ["1:35", 95, "Your career depends on more"],
+  ["2:05", 125, "Introducing the National Commerce Olympiad"],
+  ["2:35", 155, "The ending: understand where it can take you"],
 ] as const;
 
 export const REELS = [
@@ -125,20 +127,20 @@ export const WEBINAR_TOPICS = [
 export const FAQS = [
   {
     q: "Who can participate?",
-    a: "Students in Class 11 and Class 12 Commerce, subject to the final published eligibility rules.",
+    a: "All Commerce students can appear.",
   },
   { q: "Is it free?", a: "Yes. There is no participation fee." },
   {
     q: "When is the Olympiad and what time does it start?",
-    a: "The Olympiad is on 20 December 2026. The start time will be published once confirmed and shared with registered students on WhatsApp.",
+    a: "The Olympiad is on 20 December 2026.",
   },
   {
     q: "Is it online? What device do I need?",
-    a: "Yes, it is a 60-minute online assessment. Device requirements will be published once confirmed.",
+    a: "Yes, it is a 60-minute online assessment.",
   },
   {
     q: "What topics are covered? Is there negative marking?",
-    a: "Eight areas: Accounting & Reporting, Audit & Tax, Costing & Business Finance, Law & Governance, Global / International Orientation, Business Decision-Making, Numerical & Analytical Orientation, and Communication / Advisory. The question pattern and marking scheme will be published once confirmed.",
+    a: "Eight areas: Accounting & Reporting, Audit & Tax, Costing & Business Finance, Law & Governance, Global / International Orientation, Business Decision-Making, Numerical & Analytical Orientation, and Communication / Advisory.",
   },
   {
     q: "Is it only for CA or ACCA aspirants?",
@@ -150,11 +152,11 @@ export const FAQS = [
   },
   {
     q: "When will I get my report? Is counselling included?",
-    a: "Every participant receives a personalized career report after the Olympiad, along with access to career counselling and webinars at no cost. Report dates will be announced.",
+    a: "Every participant receives a personalized career report after the Olympiad, along with access to career counselling and webinars at no cost.",
   },
   {
     q: "How do scholarships work?",
-    a: "Scholarships of up to ₹50,000 are available for eligible students, towards graduation degree programmes. This is a maximum, not a guaranteed award, and is subject to published terms and selection criteria.",
+    a: "Scholarships of up to ₹50,000 are available for eligible students, towards graduation degree programmes.",
   },
   {
     q: "Can a parent attend? What happens after registration?",

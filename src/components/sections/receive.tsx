@@ -37,7 +37,7 @@ export function Receive() {
             <p>Every student who successfully completes the Olympiad receives a digital certificate.</p>
             <p className="flex items-center gap-2.5 rounded-xl bg-amber px-3.5 py-3 text-[1.05rem] leading-snug font-extrabold text-navy">
               <Award className="size-6 flex-none" />
-              A Certificate for each school topper
+              A Medal for each school topper
             </p>
             <div className="mt-auto rounded-2xl border-[3px] border-double border-amber bg-white px-4 py-[30px] text-center text-navy transition-transform duration-500 hover:-rotate-2 hover:scale-[1.03]">
               <small className="block text-[0.6rem] font-extrabold tracking-[0.14em] text-teal">CERTIFICATE OF PARTICIPATION</small>

@@ -82,7 +82,7 @@ export function Hero() {
                 Scholarships up to {EVENT.scholarship} + Certificate for Every Participant*
               </p>
               <p className="mt-1.5 flex items-center justify-center gap-2 text-[0.95rem] font-bold text-navy">
-                <Award className="size-[18px] flex-none text-amber" />A Certificate for each school topper
+                <Award className="size-[18px] flex-none text-amber" />A Medal for each school topper
               </p>
               <p className="note-s mt-1.5">*Scholarships for eligible students, subject to published terms.</p>
             </div>
@@ -135,7 +135,7 @@ export function Hero() {
               <div className="text-[0.95rem] font-semibold">Digital participation certificate.</div>
               <div className="mt-2 flex items-center gap-2 rounded-xl bg-amber px-3 py-2 text-[0.95rem] leading-snug font-extrabold text-navy">
                 <Award className="size-5 flex-none" />
-                A Certificate for each school topper
+                A Medal for each school topper
               </div>
             </Tile>
           </div>

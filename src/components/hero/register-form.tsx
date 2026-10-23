@@ -19,7 +19,9 @@ const label = "text-[0.8rem] font-bold text-navy";
 const FIRST_YEAR = 2017;
 const PASSING_YEARS = Array.from({ length: 16 }, (_, i) => String(FIRST_YEAR + i));
 
-function PhoneInput({ id, name }: { id: string; name: string }) {
+const Req = () => <span aria-hidden className="ml-0.5 text-[#B42318]">*</span>;
+
+function PhoneInput({ id, name, required = true }: { id: string; name: string; required?: boolean }) {
   return (
     <div className="flex h-[50px] items-center gap-2 rounded-field lg:h-11 border border-line bg-canvas pl-3.5 transition-shadow focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50">
       <b className="border-r border-line pr-2 text-[0.93rem] text-navy">+91</b>
@@ -28,7 +30,7 @@ function PhoneInput({ id, name }: { id: string; name: string }) {
         name={name}
         type="tel"
         inputMode="numeric"
-        required
+        required={required}
         pattern="[6-9][0-9]{9}"
         maxLength={10}
         title="10-digit Indian mobile number"
@@ -97,27 +99,27 @@ export function RegisterForm() {
         >
           <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2 lg:mt-4 lg:gap-y-3">
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
-              <Label htmlFor="r-name" className={label}>Student Full Name</Label>
+              <Label htmlFor="r-name" className={label}>Student Full Name<Req /></Label>
               <Input id="r-name" name="name" required autoComplete="name" placeholder="e.g. Aarav Sharma" className={field} />
             </div>
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
-              <Label htmlFor="r-email" className={label}>Email Address</Label>
+              <Label htmlFor="r-email" className={label}>Email Address<Req /></Label>
               <Input id="r-email" name="email" type="email" required autoComplete="email" placeholder="you@example.com" className={field} />
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-wa" className={label}>WhatsApp Number</Label>
+              <Label htmlFor="r-wa" className={label}>WhatsApp Number<Req /></Label>
               <PhoneInput id="r-wa" name="whatsapp" />
             </div>
             <div className="grid min-w-0 gap-[7px]">
               <Label htmlFor="r-parent" className={label}>Parent&apos;s Number</Label>
-              <PhoneInput id="r-parent" name="parent" />
+              <PhoneInput id="r-parent" name="parent" required={false} />
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-school" className={label}>School Name</Label>
+              <Label htmlFor="r-school" className={label}>School Name<Req /></Label>
               <Input id="r-school" name="school" required placeholder="e.g. DPS R.K. Puram" className={field} />
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-year" className={label}>Passing Year</Label>
+              <Label htmlFor="r-year" className={label}>Passing Year<Req /></Label>
               <Select name="passingYear" required value={year || null} onValueChange={(v) => setYear(v ?? "")}>
                 <SelectTrigger id="r-year" placeholder="Select year" />
                 <SelectContent>
@@ -128,7 +130,7 @@ export function RegisterForm() {
               </Select>
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-state" className={label}>State</Label>
+              <Label htmlFor="r-state" className={label}>State<Req /></Label>
               <Select
                 name="state"
                 required
@@ -148,7 +150,7 @@ export function RegisterForm() {
               </Select>
             </div>
             <div className="grid min-w-0 gap-[7px]">
-              <Label htmlFor="r-city" className={label}>City</Label>
+              <Label htmlFor="r-city" className={label}>City<Req /></Label>
               <Select
                 name="city"
                 required
@@ -166,7 +168,7 @@ export function RegisterForm() {
               </Select>
             </div>
             <div className="grid gap-[7px] sm:col-span-2">
-              <span className={label} id="r-stream">Stream</span>
+              <span className={label} id="r-stream">Stream<Req /></span>
               <RadioGroup name="stream" defaultValue="commerce" aria-labelledby="r-stream" className="grid grid-cols-2 gap-2">
                 {[
                   ["commerce", "Commerce"],
