@@ -59,7 +59,8 @@ export function RegisterForm() {
     setSending(true);
     setError("");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/register`, {
+      // Posts to the project origin: zskillup.com adds a trailing slash to proxied paths, which this app redirects away.
+      const res = await fetch(`${process.env.NEXT_PUBLIC_ASSET_URL ?? ""}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

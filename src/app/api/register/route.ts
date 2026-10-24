@@ -27,17 +27,30 @@ function validate(body: unknown): Registration | string {
   return out;
 }
 
+// The form is served from zskillup.com but posts straight to this project's domain, so allow cross-origin calls.
+const CORS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+const json = (body: object, status = 200) => Response.json(body, { status, headers: CORS });
+
+export function OPTIONS() {
+  return new Response(null, { status: 204, headers: CORS });
+}
+
 export async function POST(request: Request) {
   const url = process.env.SHEET_WEBHOOK_URL;
   const secret = process.env.SHEET_WEBHOOK_SECRET ?? "";
   if (!url) {
     console.error("register: SHEET_WEBHOOK_URL is not set");
-    return Response.json({ ok: false, error: "Registration is not available right now." }, { status: 503 });
+    return json({ ok: false, error: "Registration is not available right now." }, 503);
   }
 
   const body = await request.json().catch(() => null);
   const data = validate(body);
-  if (typeof data === "string") return Response.json({ ok: false, error: data }, { status: 400 });
+  if (typeof data === "string") return json({ ok: false, error: data }, 400);
 
   try {
     const res = await fetch(url, {
@@ -51,8 +64,8 @@ export async function POST(request: Request) {
     if (!res.ok || !reply?.ok) throw new Error(`sheet replied ${res.status} ${JSON.stringify(reply)}`);
   } catch (err) {
     console.error("register: could not save to sheet", err);
-    return Response.json({ ok: false, error: "We couldn't save your registration. Please try again." }, { status: 502 });
+    return json({ ok: false, error: "We couldn't save your registration. Please try again." }, 502);
   }
 
-  return Response.json({ ok: true });
+  return json({ ok: true });
 }
