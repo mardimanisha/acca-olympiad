@@ -30,7 +30,7 @@ function usePastHero() {
 
 /** Native share sheet where available; otherwise a prefilled WhatsApp message. */
 async function shareWithPeers() {
-  const data = { title: document.title, text: "Check out this Olympiad — worth a look!", url: "https://acca-olympiad.vercel.app/" };
+  const data = { title: document.title, text: "Check out this Olympiad — worth a look!", url: "https://www.zskillup.com/National-Commerce-Olympiad-2026/" };
   try {
     if (navigator.share) await navigator.share(data);
     else window.open(`https://wa.me/?text=${encodeURIComponent(`${data.text} ${data.url}`)}`, "_blank", "noopener");
