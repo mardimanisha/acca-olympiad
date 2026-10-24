@@ -6,7 +6,7 @@ import { Section, SectionHead, Wrap } from "@/components/site";
 const SUPPORT = [
   {
     icon: UsersRound,
-    img: "/support/counselling-ai.jpg",
+    img: "/support/counselling-ai.webp",
     alt: "Counsellor walking a student through her career report",
     fade: "from-teal",
     title: "Personalized counselling",
@@ -15,7 +15,7 @@ const SUPPORT = [
   },
   {
     icon: MonitorPlay,
-    img: "/support/webinars-ai.jpg",
+    img: "/support/webinars-ai.webp",
     alt: "Student taking notes during a live career webinar",
     fade: "from-white",
     title: "Career webinars",
@@ -24,7 +24,7 @@ const SUPPORT = [
   },
   {
     icon: House,
-    img: "/support/parents-ai.jpg",
+    img: "/support/parents-ai.webp",
     alt: "Parents exploring career options with their daughter",
     fade: "from-mint",
     title: "Parent guidance",

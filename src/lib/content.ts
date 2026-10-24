@@ -44,12 +44,12 @@ export type Line = { who: Speaker; text: string; kind?: "key" | "about" | "cta" 
  * THIRD_PARTY_NOTICES.md); without a `photo` the illustration is shown.
  */
 export const SPEAKERS: Record<Speaker, { name: string; caption: string; photo?: string }> = {
-  father: { name: "Father", caption: "Asking the big question", photo: "/avatars/father.png" },
-  student: { name: "Student", caption: "Class 12 Commerce", photo: "/avatars/student.png" },
+  father: { name: "Father", caption: "Asking the big question", photo: "/avatars/father.webp" },
+  student: { name: "Student", caption: "Class 12 Commerce", photo: "/avatars/student.webp" },
 };
 
 export const CONVERSATION: Line[] = [
-  { who: "father", text: "What do you want to become?" },
+  { who: "father", text: "What do you want to do in your career?" },
   { who: "student", text: "Maybe something in finance." },
   { who: "father", text: "Finance means what exactly?" },
   { who: "student", text: "I’m not sure… CA? CS? ACCA? CMA? B.Com? BBA? MBA later?" },

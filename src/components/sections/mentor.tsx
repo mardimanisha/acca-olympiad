@@ -75,7 +75,7 @@ export function Mentor() {
             className="group relative col-span-2 aspect-[4/4.4] overflow-hidden bg-mint lg:col-span-1 lg:row-span-2 lg:aspect-auto lg:min-h-[470px]"
           >
             <Image
-              src="/manish-temani.jpg"
+              src="/manish-temani.webp"
               alt="Manish Temani"
               fill
               sizes="(min-width: 1104px) 360px, 100vw"

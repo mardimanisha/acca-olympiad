@@ -22,6 +22,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={jakarta.variable}>
+      <head>
+        {/* Assets load from the project origin even when the page is reached via zskillup.com. */}
+        <link rel="preconnect" href="https://acca-olympiad.vercel.app" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://acca-olympiad.vercel.app" />
+      </head>
       <body>
         <MotionProvider>{children}</MotionProvider>
       </body>
