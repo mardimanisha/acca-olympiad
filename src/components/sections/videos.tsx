@@ -19,18 +19,15 @@ const SHOW_REELS = false;
 export function Videos() {
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const pendingSeek = useRef(0);
+  const assetUrl = process.env.NEXT_PUBLIC_ASSET_URL ?? "";
 
-  /** Jump to a chapter: start the player if needed, then seek. */
-  function goTo(seconds: number) {
+  /** Start playback from `seconds`. The video is mounted up front and preloaded, so this is instant. */
+  function start(seconds?: number) {
     const v = videoRef.current;
-    if (v) {
-      v.currentTime = seconds;
-      void v.play();
-    } else {
-      pendingSeek.current = seconds;
-      setPlaying(true);
-    }
+    setPlaying(true);
+    if (!v) return;
+    if (seconds !== undefined) v.currentTime = seconds;
+    void v.play().catch(() => {});
   }
 
   return (
@@ -46,26 +43,22 @@ export function Videos() {
             pad="none"
             className="group relative flex min-h-[280px] cursor-pointer flex-col justify-between overflow-hidden border-0 bg-linear-135 from-navy to-teal-deep p-6 sm:aspect-[16/8] sm:p-9 lg:col-span-3"
           >
-            {playing && (
-              <video
-                ref={videoRef}
-                onLoadedMetadata={(e) => {
-                  e.currentTarget.currentTime = pendingSeek.current;
-                }}
-                src="/acca1w.mp4"
-                controls
-                autoPlay
-                playsInline
-                className="absolute inset-0 z-10 size-full bg-black object-contain"
-              />
-            )}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/acca1w-thumb.jpg" alt="" className="absolute inset-0 size-full object-cover" />
+            {/* Mounted on load and preloaded so playback starts the instant play is pressed. */}
+            <video
+              ref={videoRef}
+              src={`${assetUrl}/acca1w.mp4`}
+              poster={`${assetUrl}/thumbnailwq.png`}
+              preload="auto"
+              controls={playing}
+              playsInline
+              onPlay={() => setPlaying(true)}
+              className="absolute inset-0 z-10 size-full bg-black object-contain"
+            />
             <h3 className="sr-only">CA vs CS vs ACCA vs CMA vs CPA vs CFA: what&apos;s the real difference?</h3>
-            <div className="relative mt-auto flex items-end justify-between">
+            <div className={cn("relative z-20 mt-auto flex items-end justify-between", playing && "hidden")}>
               <button
                 aria-label="Play Commerce Careers Decoded"
-                onClick={() => setPlaying(true)}
+                onClick={() => start()}
                 className="relative grid size-[72px] cursor-pointer place-items-center rounded-full bg-white"
               >
                 <motion.span
@@ -87,7 +80,7 @@ export function Videos() {
             {CHAPTERS.map(([t, secs, label]) => (
               <button
                 key={t}
-                onClick={() => goTo(secs)}
+                onClick={() => start(secs)}
                 className="grid w-full cursor-pointer grid-cols-[46px_1fr] border-t border-line py-[11px] text-left text-[0.9rem] leading-[1.35] font-semibold text-navy transition-colors hover:text-teal"
               >
                 <b className="text-teal tabular-nums">{t}</b>
