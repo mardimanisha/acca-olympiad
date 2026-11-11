@@ -1,4 +1,4 @@
-# NCO 2027 landing page (V15 "Bento Grid")
+# NCO 2026 landing page (V15 "Bento Grid")
 
 Next.js port of `../nco-2027-landing-v15.html`, built with Tailwind CSS 4, shadcn/ui (base-nova / Base UI) and Motion.
 

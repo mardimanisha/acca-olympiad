@@ -85,7 +85,7 @@ export function Footer() {
             ))}
           </div>
           <div className="mt-9 flex flex-wrap justify-between gap-3 border-t border-[#1A2A50] pt-[18px] text-[0.8rem]">
-            <span>© 2027 ZSkillup</span>
+            <span>© 2026 ZSkillup</span>
             <span>Salary figures are indicative and are not a guarantee of employment or pay.</span>
           </div>
         </Wrap>

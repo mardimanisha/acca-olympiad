@@ -1,8 +1,8 @@
-/** Static copy for the NCO 2027 landing page (V15). Career data lives in `careers.ts`. */
+/** Static copy for the NCO 2026 landing page (V15). Career data lives in `careers.ts`. */
 
 export const EVENT = {
-  name: "National Commerce Olympiad 2027",
-  short: "NCO 2027",
+  name: "National Commerce Olympiad 2026",
+  short: "NCO 2026",
   dateLabel: "20 Dec 2026",
   dateLong: "20 December 2026",
   /** Start time is not confirmed yet; 10:00 IST is a placeholder for the countdown. */
@@ -160,6 +160,6 @@ export const FAQS = [
   },
   {
     q: "Can a parent attend? What happens after registration?",
-    a: "Parents can join our parent guidance sessions on qualification routes, costs and time commitments. After registering you get a confirmation on WhatsApp, followed by exam instructions.",
+    a: "Parents can join our parent guidance sessions on qualification routes, costs and time commitments. After registering you get a confirmation by email, followed by exam instructions.",
   },
 ];

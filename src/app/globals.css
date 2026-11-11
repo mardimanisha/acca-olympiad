@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* NCO 2027 · V15 "Bento Grid" · ZSkillup ACCA brand */
+/* NCO 2026 · V15 "Bento Grid" · ZSkillup ACCA brand */
 @theme {
   --breakpoint-lg: 69rem; /* ~1104px: desktop bento layouts kick in */
 

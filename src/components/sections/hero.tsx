@@ -90,7 +90,7 @@ export function Hero() {
 
           <Tile id="register" pad="none" className="flex scroll-mt-20 flex-col px-5 py-6 max-lg:order-4 sm:p-8 lg:p-7">
             <h2 className="text-2xl font-extrabold tracking-[-0.02em] lg:text-[1.35rem]">Register Free</h2>
-            <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · Confirmation on WhatsApp</p>
+            <p className="mt-1 text-[0.86rem] text-subtle">Takes under 2 minutes · Confirmation by email</p>
             <RegisterForm />
           </Tile>
 

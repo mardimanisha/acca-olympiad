@@ -42,7 +42,7 @@ export function Receive() {
             <div className="mt-auto rounded-2xl border-[3px] border-double border-amber bg-white px-4 py-[30px] text-center text-navy transition-transform duration-500 hover:-rotate-2 hover:scale-[1.03]">
               <small className="block text-[0.6rem] font-extrabold tracking-[0.14em] text-teal">CERTIFICATE OF PARTICIPATION</small>
               <b className="mt-2.5 mb-2 block text-[1.6rem] font-extrabold tracking-[-0.02em]">Your Name</b>
-              <i className="text-[0.66rem] text-subtle not-italic">National Commerce Olympiad 2027 · ZSkillup</i>
+              <i className="text-[0.66rem] text-subtle not-italic">National Commerce Olympiad 2026 · ZSkillup</i>
             </div>
           </Tile>
           <Tile tone="teal" className={tile}>
