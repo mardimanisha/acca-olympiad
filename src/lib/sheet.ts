@@ -57,14 +57,14 @@ type InstituteRow = { code?: unknown; name?: unknown; active?: unknown };
 /**
  * The institutes list from the script, kept in Next's data cache so the form's lookup answers in milliseconds instead
  * of waiting several seconds for Apps Script. Cleared on every admin change (see INSTITUTES_TAG); also refreshed every
- * 10 minutes in case the Institutes tab is edited by hand.
+ * minute in case the Institutes tab is edited by hand.
  */
 async function cachedInstitutes(): Promise<InstituteRow[]> {
   const { url, secret } = config();
   const res = await fetch(`${url}?${new URLSearchParams({ action: "institutes", secret })}`, {
     redirect: "follow",
     cache: "force-cache",
-    next: { tags: [INSTITUTES_TAG], revalidate: 600 },
+    next: { tags: [INSTITUTES_TAG], revalidate: 60 },
     signal: AbortSignal.timeout(15000),
   });
   const reply = await read(res);

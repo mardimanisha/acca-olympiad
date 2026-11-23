@@ -294,11 +294,20 @@ export function AdminPanel() {
 
   async function toggle(inst: Institute) {
     if (!token || toggling) return;
+    const active = !inst.active;
     setToggling(inst.code);
     setError("");
+    setNotice(null);
     try {
-      await call("/institutes", token, { action: "setActive", code: inst.code, active: !inst.active });
-      setInstitutes((list) => list?.map((i) => (i.code === inst.code ? { ...i, active: !i.active } : i)) ?? null);
+      await call("/institutes", token, { action: "setActive", code: inst.code, active });
+      // Set (not flip) the state that was saved, so a late reply can't undo another change.
+      setInstitutes((list) => list?.map((i) => (i.code === inst.code ? { ...i, active } : i)) ?? null);
+      setNotice({
+        tone: "ok",
+        text: active
+          ? `${inst.name} is on again. Its link accepts registrations, and the Institutes tab says Yes.`
+          : `${inst.name} is off. Its link now shows that registrations are closed, and the Institutes tab says No.`,
+      });
     } catch (err) {
       fail(err, "Couldn't update the institute.");
     } finally {
@@ -390,7 +399,7 @@ export function AdminPanel() {
                       )}
                       <Button variant="outline" size="sm" onClick={() => toggle(inst)} disabled={!!toggling}>
                         {toggling === inst.code && <LoaderCircle className="animate-spin" />}
-                        {inst.active ? "Turn off" : "Turn on"}
+                        {toggling === inst.code ? (inst.active ? "Turning off…" : "Turning on…") : inst.active ? "Turn off" : "Turn on"}
                       </Button>
                     </div>
                   </div>
