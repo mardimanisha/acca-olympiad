@@ -1,9 +1,10 @@
 /**
- * GET ?ref=<code> → { ok, name } for an active partner institute, or { ok, name: null }. The registration form
- * uses it to show "Registering via …"; the institute is looked up again when the registration is saved.
+ * GET ?ref=<code> → { ok, name, active } for a partner institute, or { ok, name: null } for an unknown code (or when
+ * the sheet can't be reached). The registration form uses it to show "Registering via …", or that the institute's link
+ * is closed when it has been switched off in the admin. The server checks again when the registration is sent.
  */
 
-import { CORS, INSTITUTE_CODE, sheetGet } from "@/lib/sheet";
+import { CORS, INSTITUTE_CODE, instituteStatus } from "@/lib/sheet";
 
 export function OPTIONS() {
   return new Response(null, { status: 204, headers: CORS });
@@ -11,19 +12,17 @@ export function OPTIONS() {
 
 export async function GET(request: Request) {
   const ref = (new URL(request.url).searchParams.get("ref") ?? "").trim().toLowerCase();
-  let name: string | null = null;
+  let inst: { name: string; active: boolean } | null = null;
   if (INSTITUTE_CODE.test(ref)) {
     try {
-      const reply = await sheetGet({ action: "institute", ref });
-      const inst = reply.institute as { name?: unknown } | null | undefined;
-      if (reply.ok && typeof inst?.name === "string") name = inst.name;
+      inst = await instituteStatus(ref);
     } catch (err) {
       console.error("institute: lookup failed", err);
     }
   }
   return Response.json(
-    { ok: true, name },
-    // Lets the CDN answer repeat visits from the same link for a few minutes.
-    { headers: { ...CORS, "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } },
+    { ok: true, name: inst?.name ?? null, active: inst?.active ?? false },
+    // A short CDN cache for repeat visits; turning a link off in the admin shows on the form within about a minute.
+    { headers: { ...CORS, "Cache-Control": "public, s-maxage=60, stale-while-revalidate=60" } },
   );
 }

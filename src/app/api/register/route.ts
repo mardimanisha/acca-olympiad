@@ -12,7 +12,7 @@
 import { after } from "next/server";
 import { sendConfirmationEmail, sendOtpEmail } from "@/lib/email";
 import { OTP_MINUTES, checkOtp, issueOtp } from "@/lib/otp";
-import { INSTITUTE_CODE } from "@/lib/sheet";
+import { INSTITUTE_CODE, instituteStatus } from "@/lib/sheet";
 
 const FIELDS = ["name", "email", "whatsapp", "parent", "school", "passingYear", "state", "city", "stream"] as const;
 type Registration = Record<(typeof FIELDS)[number], string>;
@@ -78,6 +78,20 @@ async function alreadyRegistered(url: string, secret: string, email: string, mob
   }
 }
 
+/**
+ * The institute's name when its link has been switched off in the admin, otherwise null. Fails open when the sheet
+ * can't be reached; the script then saves the registration as "Direct" because the institute isn't active.
+ */
+async function closedInstitute(ref: string): Promise<string | null> {
+  try {
+    const inst = await instituteStatus(ref);
+    return inst && !inst.active ? inst.name : null;
+  } catch (err) {
+    console.error("register: could not check the institute", err);
+    return null;
+  }
+}
+
 export async function POST(request: Request) {
   const url = process.env.SHEET_WEBHOOK_URL;
   const secret = process.env.SHEET_WEBHOOK_SECRET ?? "";
@@ -92,6 +106,12 @@ export async function POST(request: Request) {
   const data = validate(body);
   if (typeof data === "string") return json({ ok: false, error: data }, 400);
 
+  // Partner institute code from the link; the sheet script checks it against the Institutes tab and records "Direct" otherwise.
+  const rawRef = typeof body?.ref === "string" ? body.ref.trim().toLowerCase() : "";
+  const ref = INSTITUTE_CODE.test(rawRef) ? rawRef : "";
+  const closed = ref ? await closedInstitute(ref) : null;
+  if (closed) return json({ ok: false, error: `We are not accepting registrations through ${closed} at the moment.` }, 403);
+
   if (body?.step === "send") {
     const taken = await alreadyRegistered(url, secret, data.email, data.whatsapp);
     if (taken) return json({ ok: false, error: ALREADY_REGISTERED[taken] }, 409);
@@ -103,10 +123,6 @@ export async function POST(request: Request) {
     return json({ ok: true, token, resendIn: RESEND_SECONDS });
   }
   if (body?.step !== "verify") return json({ ok: false, error: "Invalid request." }, 400);
-
-  // Partner institute code from the link; the sheet script checks it against the Institutes tab and records "Direct" otherwise.
-  const rawRef = typeof body.ref === "string" ? body.ref.trim().toLowerCase() : "";
-  const ref = INSTITUTE_CODE.test(rawRef) ? rawRef : "";
 
   const otp = typeof body.otp === "string" ? body.otp.trim() : "";
   const token = typeof body.token === "string" ? body.token : "";

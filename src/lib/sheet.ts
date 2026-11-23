@@ -46,6 +46,19 @@ export async function sheetPost(body: object, timeoutMs = 15000) {
 /** Institute codes as the script makes them: lowercase letters, digits and single hyphens, up to 60 characters. */
 export const INSTITUTE_CODE = /^[a-z0-9](?:[a-z0-9-]{0,58}[a-z0-9])?$/;
 
+/**
+ * A partner institute's name and whether its link is switched on, or null for an unknown code. Uses the script's
+ * "institutes" list (the "institute" lookup only reports institutes that are switched on). Throws when the sheet
+ * can't be reached.
+ */
+export async function instituteStatus(code: string): Promise<{ name: string; active: boolean } | null> {
+  if (!INSTITUTE_CODE.test(code)) return null;
+  const reply = await sheetGet({ action: "institutes" }, 15000);
+  if (!reply.ok || !Array.isArray(reply.institutes)) throw new Error(`sheet replied ${JSON.stringify(reply)}`);
+  const inst = (reply.institutes as { code?: unknown; name?: unknown; active?: unknown }[]).find((i) => i.code === code);
+  return inst && typeof inst.name === "string" ? { name: inst.name, active: inst.active === true } : null;
+}
+
 /** Shared by the cross-origin routes: pages on zskillup.com call this project's domain directly. */
 export const CORS = {
   "Access-Control-Allow-Origin": "*",

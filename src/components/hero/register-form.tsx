@@ -42,45 +42,69 @@ const errorText = (err: unknown) =>
 
 /**
  * Partner institute links add `?ref=<code>`. The code is kept for 30 days so a student who opens the link and
- * registers later is still counted for that institute; a newer link replaces it. The server looks the code up again
- * when saving, so an unknown or switched-off code simply registers as "Direct".
+ * registers later is still counted for that institute; a newer link replaces it. When the institute has been switched
+ * off in the admin, its link shows that registrations through it are closed and the form can't be sent; a code that
+ * was only remembered from an earlier visit is dropped instead, so that student registers as "Direct".
  */
 const REF_KEY = "nco-ref";
 const REF_DAYS = 30;
 const REF_CODE = /^[a-z0-9](?:[a-z0-9-]{0,58}[a-z0-9])?$/;
 
-function readRef(): string {
+type PageRef = { ref: string; fromUrl: boolean };
+const NO_REF: PageRef = { ref: "", fromUrl: false };
+
+function readRef(): PageRef {
   try {
     const fromUrl = (new URLSearchParams(window.location.search).get("ref") ?? "").trim().toLowerCase();
     if (REF_CODE.test(fromUrl)) {
       localStorage.setItem(REF_KEY, JSON.stringify({ ref: fromUrl, at: Date.now() }));
-      return fromUrl;
+      return { ref: fromUrl, fromUrl: true };
     }
     const saved = JSON.parse(localStorage.getItem(REF_KEY) ?? "null") as { ref?: string; at?: number } | null;
-    if (saved?.ref && REF_CODE.test(saved.ref) && Date.now() - (saved.at ?? 0) < REF_DAYS * 86_400_000) return saved.ref;
+    if (saved?.ref && REF_CODE.test(saved.ref) && Date.now() - (saved.at ?? 0) < REF_DAYS * 86_400_000) {
+      return { ref: saved.ref, fromUrl: false };
+    }
   } catch {}
-  return "";
+  return NO_REF;
+}
+
+function forgetRef() {
+  try {
+    localStorage.removeItem(REF_KEY);
+  } catch {}
 }
 
 // Read once per page load; the server render has no ref.
-let pageRef: string | null = null;
+let pageRef: PageRef | null = null;
 const getRef = () => (pageRef ??= readRef());
 const noSubscribe = () => () => {};
 
-/** The partner institute code from the link (or one saved earlier) and the institute's name once it's confirmed. */
+/**
+ * The partner institute for this visit: its code (sent with the registration), its name once confirmed, and
+ * `closed` when the link the student opened belongs to an institute that has been switched off.
+ */
 function useInstitute() {
-  const ref = useSyncExternalStore(noSubscribe, getRef, () => "");
-  const [name, setName] = useState("");
+  const { ref: code, fromUrl } = useSyncExternalStore(noSubscribe, getRef, () => NO_REF);
+  const [found, setFound] = useState<{ name: string; active: boolean } | null>(null);
   useEffect(() => {
-    if (!ref) return;
-    fetch(`${ORIGIN}/api/institute?ref=${encodeURIComponent(ref)}`)
+    if (!code) return;
+    fetch(`${ORIGIN}/api/institute?ref=${encodeURIComponent(code)}`)
       .then((res) => res.json())
-      .then((reply: { name?: unknown }) => {
-        if (typeof reply?.name === "string") setName(reply.name);
+      .then((reply: { name?: unknown; active?: unknown }) => {
+        if (typeof reply?.name !== "string") return;
+        const active = reply.active === true;
+        if (!active && !fromUrl) forgetRef();
+        setFound({ name: reply.name, active });
       })
       .catch(() => {});
-  }, [ref]);
-  return { ref, name };
+  }, [code, fromUrl]);
+  // A remembered code for a switched-off institute isn't sent, so that registration counts as "Direct".
+  const dropped = found !== null && !found.active && !fromUrl;
+  return {
+    ref: dropped ? "" : code,
+    name: found && !dropped ? found.name : "",
+    closed: found !== null && !found.active && fromUrl,
+  };
 }
 
 /**
@@ -156,7 +180,7 @@ export function RegisterForm() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (sending) return;
+    if (sending || institute.closed) return;
     const data = new FormData(e.currentTarget);
     const get = (k: string) => String(data.get(k) ?? "").trim();
     const next: Values = {
@@ -248,10 +272,16 @@ export function RegisterForm() {
         >
           {/* Honeypot: hidden from people, filled by bots; the server then refuses the registration. */}
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
-          {institute.name && (
-            <p className="mt-[18px] rounded-xl bg-mint px-3.5 py-2 text-center text-[0.84rem] font-semibold text-teal-deep lg:mt-3">
-              Registering via <b className="font-extrabold">{institute.name}</b>
+          {institute.closed ? (
+            <p role="alert" className="mt-[18px] rounded-xl bg-[#FDECEC] px-3.5 py-2.5 text-center text-[0.84rem] font-semibold text-[#B42318] lg:mt-3">
+              We are not accepting registrations through <b className="font-extrabold">{institute.name}</b> at the moment.
             </p>
+          ) : (
+            institute.name && (
+              <p className="mt-[18px] rounded-xl bg-mint px-3.5 py-2 text-center text-[0.84rem] font-semibold text-teal-deep lg:mt-3">
+                Registering via <b className="font-extrabold">{institute.name}</b>
+              </p>
+            )
           )}
           <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2 lg:mt-4 lg:gap-y-3">
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
@@ -346,7 +376,7 @@ export function RegisterForm() {
           </div>
           <div className="min-h-[22px] flex-1" />
           {errorBox}
-          <Button type="submit" variant="brand" size="pill" className="w-full" disabled={sending} aria-busy={sending}>
+          <Button type="submit" variant="brand" size="pill" className="w-full" disabled={sending || institute.closed} aria-busy={sending}>
             {sending ? (
               <>
                 <LoaderCircle className="animate-spin" /> Sending OTP…
