@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, CircleCheck, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,8 @@ const Req = () => <span aria-hidden className="ml-0.5 text-[#B42318]">*</span>;
 
 type Values = Record<"name" | "email" | "whatsapp" | "parent" | "school" | "passingYear" | "state" | "city" | "stream", string>;
 
-const API = `${process.env.NEXT_PUBLIC_ASSET_URL ?? ""}/api/register`;
+const ORIGIN = process.env.NEXT_PUBLIC_ASSET_URL ?? "";
+const API = `${ORIGIN}/api/register`;
 /** Posts one step of the registration and returns the reply, throwing the server's message on failure. */
 async function post(body: object) {
   // Posts to the project origin: zskillup.com adds a trailing slash to proxied paths, which this app redirects away.
@@ -38,6 +39,49 @@ async function post(body: object) {
 
 const errorText = (err: unknown) =>
   err instanceof Error && err.message !== "Failed to fetch" ? err.message : "Network error. Please check your connection and try again.";
+
+/**
+ * Partner institute links add `?ref=<code>`. The code is kept for 30 days so a student who opens the link and
+ * registers later is still counted for that institute; a newer link replaces it. The server looks the code up again
+ * when saving, so an unknown or switched-off code simply registers as "Direct".
+ */
+const REF_KEY = "nco-ref";
+const REF_DAYS = 30;
+const REF_CODE = /^[a-z0-9](?:[a-z0-9-]{0,58}[a-z0-9])?$/;
+
+function readRef(): string {
+  try {
+    const fromUrl = (new URLSearchParams(window.location.search).get("ref") ?? "").trim().toLowerCase();
+    if (REF_CODE.test(fromUrl)) {
+      localStorage.setItem(REF_KEY, JSON.stringify({ ref: fromUrl, at: Date.now() }));
+      return fromUrl;
+    }
+    const saved = JSON.parse(localStorage.getItem(REF_KEY) ?? "null") as { ref?: string; at?: number } | null;
+    if (saved?.ref && REF_CODE.test(saved.ref) && Date.now() - (saved.at ?? 0) < REF_DAYS * 86_400_000) return saved.ref;
+  } catch {}
+  return "";
+}
+
+// Read once per page load; the server render has no ref.
+let pageRef: string | null = null;
+const getRef = () => (pageRef ??= readRef());
+const noSubscribe = () => () => {};
+
+/** The partner institute code from the link (or one saved earlier) and the institute's name once it's confirmed. */
+function useInstitute() {
+  const ref = useSyncExternalStore(noSubscribe, getRef, () => "");
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (!ref) return;
+    fetch(`${ORIGIN}/api/institute?ref=${encodeURIComponent(ref)}`)
+      .then((res) => res.json())
+      .then((reply: { name?: unknown }) => {
+        if (typeof reply?.name === "string") setName(reply.name);
+      })
+      .catch(() => {});
+  }, [ref]);
+  return { ref, name };
+}
 
 /**
  * Ref for a step that replaces the taller form. On mobile the page below moves up when the form shrinks, leaving the
@@ -102,6 +146,7 @@ export function RegisterForm() {
   const [honeypot, setHoneypot] = useState("");
   // Signed by the server with the OTP it emailed; sent back with the code to verify it.
   const [token, setToken] = useState("");
+  const institute = useInstitute();
 
   useEffect(() => {
     if (resendIn <= 0) return;
@@ -129,7 +174,7 @@ export function RegisterForm() {
     setSending(true);
     setError("");
     try {
-      const reply = await post({ ...next, website: get("website"), step: "send" });
+      const reply = await post({ ...next, ref: institute.ref, website: get("website"), step: "send" });
       setToken(reply.token ?? "");
       setValues(next);
       setOtp("");
@@ -147,7 +192,7 @@ export function RegisterForm() {
     setSending(true);
     setError("");
     try {
-      const reply = await post({ ...values, website: honeypot, step: "send" });
+      const reply = await post({ ...values, ref: institute.ref, website: honeypot, step: "send" });
       setToken(reply.token ?? "");
       setOtp("");
       setResendIn(reply.resendIn ?? 30);
@@ -164,7 +209,7 @@ export function RegisterForm() {
     setSending(true);
     setError("");
     try {
-      await post({ ...values, otp, token, website: honeypot, step: "verify" });
+      await post({ ...values, ref: institute.ref, otp, token, website: honeypot, step: "verify" });
       setToken("");
       setState("");
       setCity("");
@@ -203,6 +248,11 @@ export function RegisterForm() {
         >
           {/* Honeypot: hidden from people, filled by bots; the server then refuses the registration. */}
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
+          {institute.name && (
+            <p className="mt-[18px] rounded-xl bg-mint px-3.5 py-2 text-center text-[0.84rem] font-semibold text-teal-deep lg:mt-3">
+              Registering via <b className="font-extrabold">{institute.name}</b>
+            </p>
+          )}
           <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2 lg:mt-4 lg:gap-y-3">
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">
               <Label htmlFor="r-name" className={label}>Student Full Name<Req /></Label>

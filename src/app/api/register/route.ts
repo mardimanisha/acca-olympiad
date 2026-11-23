@@ -12,6 +12,7 @@
 import { after } from "next/server";
 import { sendConfirmationEmail, sendOtpEmail } from "@/lib/email";
 import { OTP_MINUTES, checkOtp, issueOtp } from "@/lib/otp";
+import { INSTITUTE_CODE } from "@/lib/sheet";
 
 const FIELDS = ["name", "email", "whatsapp", "parent", "school", "passingYear", "state", "city", "stream"] as const;
 type Registration = Record<(typeof FIELDS)[number], string>;
@@ -103,6 +104,10 @@ export async function POST(request: Request) {
   }
   if (body?.step !== "verify") return json({ ok: false, error: "Invalid request." }, 400);
 
+  // Partner institute code from the link; the sheet script checks it against the Institutes tab and records "Direct" otherwise.
+  const rawRef = typeof body.ref === "string" ? body.ref.trim().toLowerCase() : "";
+  const ref = INSTITUTE_CODE.test(rawRef) ? rawRef : "";
+
   const otp = typeof body.otp === "string" ? body.otp.trim() : "";
   const token = typeof body.token === "string" ? body.token : "";
   if (!OTP.test(otp)) return json({ ok: false, error: "Please enter the 6-digit OTP." }, 400);
@@ -114,7 +119,7 @@ export async function POST(request: Request) {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, verified: "Yes", secret, submittedAt: new Date().toISOString() }),
+      body: JSON.stringify({ ...data, ref, verified: "Yes", secret, submittedAt: new Date().toISOString() }),
       redirect: "follow",
       signal: AbortSignal.timeout(15000),
     });
