@@ -7,7 +7,7 @@
  */
 
 import { isAdmin } from "@/lib/admin-auth";
-import { CORS, INSTITUTE_CODE, sheetGet, sheetPost, type SheetReply } from "@/lib/sheet";
+import { CORS, INSTITUTE_CODE, refreshInstitutes, sheetGet, sheetPost, type SheetReply } from "@/lib/sheet";
 
 const json = (body: object, status = 200) => Response.json(body, { status, headers: CORS });
 const UNAUTHORISED = { ok: false, error: "Please sign in again." };
@@ -17,9 +17,11 @@ export function OPTIONS() {
 }
 
 /** Passes the script's reply through, turning a failure to reach it into a 502. */
-async function relay(call: () => Promise<SheetReply>, what: string) {
+async function relay(request: Request, call: () => Promise<SheetReply>, what: string) {
   try {
     const reply = await call();
+    // The form's institute lookups are cached; clear them so a change shows on the next page load.
+    if (reply.ok && what !== "list institutes") refreshInstitutes(request);
     if (reply.error === "unknown action") {
       return json({ ok: false, error: "The Google Sheet script is out of date. Paste the new google-sheet.gs and deploy a new version." }, 502);
     }
@@ -32,7 +34,7 @@ async function relay(call: () => Promise<SheetReply>, what: string) {
 
 export async function GET(request: Request) {
   if (!isAdmin(request)) return json(UNAUTHORISED, 401);
-  return relay(() => sheetGet({ action: "institutes" }, 20000), "list institutes");
+  return relay(request, () => sheetGet({ action: "institutes" }, 20000), "list institutes");
 }
 
 export async function POST(request: Request) {
@@ -42,7 +44,7 @@ export async function POST(request: Request) {
 
   // An older script ignores `action` and would save the POST as a blank registration, so make sure it knows institutes first.
   try {
-    if ((await sheetGet({ action: "institutes" }, 20000)).error === "unknown action") return relay(async () => ({ error: "unknown action" }), "");
+    if ((await sheetGet({ action: "institutes" }, 20000)).error === "unknown action") return relay(request, async () => ({ error: "unknown action" }), "");
   } catch (err) {
     console.error("admin: could not reach the sheet", err);
     return json({ ok: false, error: "Couldn't reach the Google Sheet. Please try again." }, 502);
@@ -54,12 +56,12 @@ export async function POST(request: Request) {
     if (!name || name.length > 120) return json({ ok: false, error: "Please enter the institute's name (up to 120 characters)." }, 400);
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ ok: false, error: "Please enter a valid email address." }, 400);
     // Creating and sharing a spreadsheet can take several seconds.
-    return relay(() => sheetPost({ action: "addInstitute", name, email }, 45000), "add an institute");
+    return relay(request, () => sheetPost({ action: "addInstitute", name, email }, 45000), "add an institute");
   }
   if (body?.action === "setActive") {
     const code = str("code");
     if (!INSTITUTE_CODE.test(code) || typeof body.active !== "boolean") return json({ ok: false, error: "Invalid request." }, 400);
-    return relay(() => sheetPost({ action: "setInstituteActive", code, active: body.active }), "update an institute");
+    return relay(request, () => sheetPost({ action: "setInstituteActive", code, active: body.active }), "update an institute");
   }
   return json({ ok: false, error: "Invalid request." }, 400);
 }

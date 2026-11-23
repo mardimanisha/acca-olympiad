@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   }
   return Response.json(
     { ok: true, name: inst?.name ?? null, active: inst?.active ?? false },
-    // A short CDN cache for repeat visits; turning a link off in the admin shows on the form within about a minute.
-    { headers: { ...CORS, "Cache-Control": "public, s-maxage=60, stale-while-revalidate=60" } },
+    // Not cached at the CDN: the lookup itself is served from the data cache, which the admin clears on every change.
+    { headers: { ...CORS, "Cache-Control": "no-store" } },
   );
 }

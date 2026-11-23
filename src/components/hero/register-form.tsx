@@ -74,9 +74,29 @@ function forgetRef() {
   } catch {}
 }
 
-// Read once per page load; the server render has no ref.
+type Lookup = { name: string; active: boolean } | null;
+
+/** Asks this project's API about the institute; null when the code is unknown or the lookup fails. */
+function lookUp(code: string): Promise<Lookup> {
+  return fetch(`${ORIGIN}/api/institute?ref=${encodeURIComponent(code)}`)
+    .then((res) => res.json())
+    .then((reply: { name?: unknown; active?: unknown }) =>
+      typeof reply?.name === "string" ? { name: reply.name, active: reply.active === true } : null,
+    )
+    .catch(() => null);
+}
+
+// Read once per page load (the server render has no ref). The lookup starts right here, on the first client render,
+// rather than after the form has mounted, so a closed link's message appears as early as possible.
 let pageRef: PageRef | null = null;
-const getRef = () => (pageRef ??= readRef());
+let pageLookup: Promise<Lookup> | null = null;
+function getRef() {
+  if (!pageRef) {
+    pageRef = readRef();
+    if (pageRef.ref) pageLookup = lookUp(pageRef.ref);
+  }
+  return pageRef;
+}
 const noSubscribe = () => () => {};
 
 /**
@@ -88,15 +108,15 @@ function useInstitute() {
   const [found, setFound] = useState<{ name: string; active: boolean } | null>(null);
   useEffect(() => {
     if (!code) return;
-    fetch(`${ORIGIN}/api/institute?ref=${encodeURIComponent(code)}`)
-      .then((res) => res.json())
-      .then((reply: { name?: unknown; active?: unknown }) => {
-        if (typeof reply?.name !== "string") return;
-        const active = reply.active === true;
-        if (!active && !fromUrl) forgetRef();
-        setFound({ name: reply.name, active });
-      })
-      .catch(() => {});
+    let live = true;
+    (pageLookup ?? lookUp(code)).then((inst) => {
+      if (!inst || !live) return;
+      if (!inst.active && !fromUrl) forgetRef();
+      setFound(inst);
+    });
+    return () => {
+      live = false;
+    };
   }, [code, fromUrl]);
   // A remembered code for a switched-off institute isn't sent, so that registration counts as "Direct".
   const dropped = found !== null && !found.active && !fromUrl;
