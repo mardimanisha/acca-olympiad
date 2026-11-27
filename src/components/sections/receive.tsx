@@ -1,4 +1,5 @@
 import { ArrowRight, Award, BadgeIndianRupee, CalendarDays, Clock, FileChartColumn, GraduationCap, IndianRupee, MessageSquareText, MonitorPlay, Network, Route, Watch } from "lucide-react";
+import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
 import { CountdownBlocks } from "@/components/hero/countdown";
 import { Bar, Stagger, Tile } from "@/components/motion";
@@ -39,11 +40,14 @@ export function Receive() {
               <Award className="size-6 flex-none" />
               A Medal for each school topper
             </p>
-            <div className="mt-auto rounded-2xl border-[3px] border-double border-amber bg-white px-4 py-[30px] text-center text-navy transition-transform duration-500 hover:-rotate-2 hover:scale-[1.03]">
-              <small className="block text-[0.6rem] font-extrabold tracking-[0.14em] text-teal">CERTIFICATE OF PARTICIPATION</small>
-              <b className="mt-2.5 mb-2 block text-[1.6rem] font-extrabold tracking-[-0.02em]">Your Name</b>
-              <i className="text-[0.66rem] text-subtle not-italic">National Commerce Olympiad 2026 · ZSkillup</i>
-            </div>
+            <Image
+              src="/olympiad-certificate.webp"
+              alt="Sample National Commerce Olympiad 2026 Certificate of Participation from ZSkillup"
+              width={1754}
+              height={1240}
+              sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw"
+              className="mt-auto h-auto w-full rounded-xl bg-white shadow-lg ring-1 ring-white/20 transition-transform duration-500 hover:-rotate-2 hover:scale-[1.03]"
+            />
           </Tile>
           <Tile tone="teal" className={tile}>
             <span className="ic"><Watch /></span>
