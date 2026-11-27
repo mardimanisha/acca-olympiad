@@ -7,8 +7,8 @@ export const EVENT = {
   dateLong: "20 December 2026",
   /** Start time is not confirmed yet; 10:00 IST is a placeholder for the countdown. */
   startsAt: "2026-12-20T10:00:00+05:30",
-  phone: "+91 91530 05252",
-  phoneHref: "tel:+919153005252",
+  phone: "+91 70300 76969",
+  phoneHref: "tel:+917030076969",
   whatsappHref: "https://chat.whatsapp.com/D3h7wb45HWF3m7TDz0ykdS",
   scholarship: "₹50,000",
 };
