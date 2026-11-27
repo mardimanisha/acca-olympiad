@@ -292,16 +292,10 @@ export function RegisterForm() {
         >
           {/* Honeypot: hidden from people, filled by bots; the server then refuses the registration. */}
           <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
-          {institute.closed ? (
+          {institute.closed && (
             <p role="alert" className="mt-[18px] rounded-xl bg-[#FDECEC] px-3.5 py-2.5 text-center text-[0.84rem] font-semibold text-[#B42318] lg:mt-3">
               We are not accepting registrations through <b className="font-extrabold">{institute.name}</b> at the moment.
             </p>
-          ) : (
-            institute.name && (
-              <p className="mt-[18px] rounded-xl bg-mint px-3.5 py-2 text-center text-[0.84rem] font-semibold text-teal-deep lg:mt-3">
-                Registering via <b className="font-extrabold">{institute.name}</b>
-              </p>
-            )
           )}
           <div className="mt-[22px] grid grid-cols-1 gap-x-3 gap-y-[18px] sm:grid-cols-2 lg:mt-4 lg:gap-y-3">
             <div className="grid gap-[7px] sm:col-span-2 lg:col-span-1">

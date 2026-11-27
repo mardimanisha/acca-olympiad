@@ -1,6 +1,6 @@
 /**
  * GET ?ref=<code> → { ok, name, active } for a partner institute, or { ok, name: null } for an unknown code (or when
- * the sheet can't be reached). The registration form uses it to show "Registering via …", or that the institute's link
+ * the sheet can't be reached). The registration form uses it to show that the institute's link
  * is closed when it has been switched off in the admin. The server checks again when the registration is sent.
  */
 
