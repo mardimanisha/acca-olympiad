@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { GoogleTag } from "@/components/analytics/GoogleTag";
 import { MotionProvider } from "@/components/motion";
 import "./globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={jakarta.variable}>
       <head>
+        <GoogleTag />
         {/* Assets load from the project origin even when the page is reached via zskillup.com. */}
         <link rel="preconnect" href="https://acca-olympiad.vercel.app" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://acca-olympiad.vercel.app" />
