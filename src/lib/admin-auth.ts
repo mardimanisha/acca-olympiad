@@ -4,7 +4,7 @@
  * A bearer token rather than a cookie because the page is reached through zskillup.com while the API lives on
  * this project's own domain.
  *
- * Env: ADMIN_PASSWORD (the shared admin password) and OTP_SECRET (also used for email OTPs). Changing either one
+ * Env: ADMIN_PASSWORD (the shared admin password) and OTP_SECRET (also signs mobile OTP tokens). Changing either one
  * signs everyone out.
  */
 

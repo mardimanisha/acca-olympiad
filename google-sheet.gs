@@ -1,8 +1,8 @@
 /**
  * Google Apps Script that receives website registrations and appends them to this sheet (the master sheet).
- * Each email and each mobile number can register only once: GET ?action=exists&email=…&mobile=… tells the
- * site whether either is already in the sheet (checked before an OTP is sent), and a POST for an email or
- * mobile number that is already there is refused.
+ * Each mobile number can register only once (it is the number the student verifies with an OTP; emails may repeat):
+ * GET ?action=exists&mobile=… tells the site whether the number is already in the sheet (checked before an OTP is
+ * sent), and a POST for a number that is already there is refused.
  *
  * Partner institutes: the "Institutes" tab lists each institute's code, name and its own spreadsheet. A student
  * who arrives through an institute's link (…/National-Commerce-Olympiad-2026/?ref=<code>) is saved here with that
@@ -23,8 +23,10 @@
  *
  * After editing this script, use Deploy → Manage deployments → Edit → New version (the URL stays the same).
  * If Google asks to authorise again (creating and sharing institute spreadsheets needs it), allow it.
- * Missing headers ("Email verified" in K) are filled in by the script on the next registration. The "Referral Institution" column is
- * found by its heading; when there is none, the script adds it after the last used column (existing columns are left alone).
+ * Missing headers ("Email verified" in K) are filled in by the script on the next registration. The "Referral Institution",
+ * "Mobile verified" and "Mobile verified at" columns are found by their headings; when one isn't there, the script adds it
+ * after the last used column (existing columns are left alone). "Email verified" stays for registrations made before
+ * mobile OTP; new registrations fill the two mobile columns instead.
  */
 
 const SECRET = "";
@@ -34,10 +36,11 @@ const HEADERS = [
   "School", "Passing year", "State", "City", "Stream", "Email verified",
 ];
 // An institute's own spreadsheet gets the same columns; the master sheet also has a "Referral Institution" column (see instituteColumn).
-const INSTITUTE_HEADERS = HEADERS;
 const INSTITUTE_HEADER = "Referral Institution";
+const MOBILE_VERIFIED_HEADER = "Mobile verified";
+const MOBILE_VERIFIED_AT_HEADER = "Mobile verified at";
+const INSTITUTE_HEADERS = HEADERS.concat([MOBILE_VERIFIED_HEADER, MOBILE_VERIFIED_AT_HEADER]);
 
-const EMAIL_COLUMN = 3;
 const MOBILE_COLUMN = 4;
 const DIRECT = "Direct";
 
@@ -50,7 +53,7 @@ function doGet(e) {
     const p = e.parameter;
     if (SECRET && p.secret !== SECRET) return reply({ ok: false, error: "unauthorised" });
     if (p.action === "exists") {
-      const taken = takenField(getSheet(), p.email, p.mobile);
+      const taken = takenField(getSheet(), p.mobile);
       return reply({ ok: true, exists: !!taken, field: taken });
     }
     if (p.action === "institute") {
@@ -88,7 +91,7 @@ function doPost(e) {
 function register(d) {
   const sheet = getSheet();
   // Checked again under the lock so two submits at once can't both get in.
-  const taken = takenField(sheet, d.email, d.whatsapp);
+  const taken = takenField(sheet, d.whatsapp);
   if (taken) return { ok: false, error: "duplicate", field: taken };
 
   const found = d.ref ? findInstitute(d.ref) : null;
@@ -100,14 +103,24 @@ function register(d) {
     "'" + d.whatsapp, "'" + d.parent,
     d.school, d.passingYear, d.state, d.city, d.stream, d.verified || "",
   ].map(clean);
-  const column = instituteColumn(sheet);
-  const padded = row.concat(Array(column - 1 - row.length).fill(""));
-  sheet.appendRow(padded.concat([clean(inst ? inst.name : DIRECT)]));
+  const verified = clean(d.mobileVerified || "");
+  const verifiedAt = d.mobileVerifiedAt ? new Date(d.mobileVerifiedAt) : "";
+
+  // Columns found by heading, so their place in the master sheet doesn't matter.
+  const extra = [
+    [instituteColumn(sheet), clean(inst ? inst.name : DIRECT)],
+    [headerColumn(sheet, MOBILE_VERIFIED_HEADER), verified],
+    [headerColumn(sheet, MOBILE_VERIFIED_AT_HEADER), verifiedAt],
+  ];
+  const width = Math.max(row.length, ...extra.map((e) => e[0]));
+  const full = row.concat(Array(width - row.length).fill(""));
+  extra.forEach(([column, value]) => (full[column - 1] = value));
+  sheet.appendRow(full);
 
   // The master row is what counts; a failure here is logged and doesn't refuse the student.
   if (inst) {
     try {
-      instituteSheet(inst.sheetId).appendRow(row);
+      instituteSheet(inst.sheetId).appendRow(row.concat([verified, verifiedAt]));
     } catch (err) {
       console.error("could not copy registration to institute sheet " + inst.code + ": " + err);
     }
@@ -138,22 +151,25 @@ function ensureHeaders(sheet, headers) {
 
 /** 1-based column headed "Referral Institution" in the master sheet; added after the last used column when it isn't there yet. */
 function instituteColumn(sheet) {
+  return headerColumn(sheet, INSTITUTE_HEADER);
+}
+
+/** 1-based column with this heading in the master sheet; added after the last used column when it isn't there yet. */
+function headerColumn(sheet, title) {
   const lastColumn = Math.max(sheet.getLastColumn(), HEADERS.length);
   const headers = sheet.getRange(1, 1, 1, lastColumn).getValues()[0];
-  const found = headers.findIndex((h) => String(h).trim().toLowerCase() === INSTITUTE_HEADER.toLowerCase());
+  const found = headers.findIndex((h) => String(h).trim().toLowerCase() === title.toLowerCase());
   if (found >= 0) return found + 1;
   let column = lastColumn;
   while (column > HEADERS.length && String(headers[column - 1]).trim() === "") column--;
   column += 1;
-  sheet.getRange(1, column).setValue(INSTITUTE_HEADER).setFontWeight("bold");
+  sheet.getRange(1, column).setValue(title).setFontWeight("bold");
   return column;
 }
 
-/** "email" or "mobile" when that value is already registered, otherwise "". */
-function takenField(sheet, email, mobile) {
-  if (inColumn(sheet, EMAIL_COLUMN, email)) return "email";
-  if (inColumn(sheet, MOBILE_COLUMN, mobile)) return "mobile";
-  return "";
+/** "mobile" when the mobile number is already registered, otherwise "". */
+function takenField(sheet, mobile) {
+  return inColumn(sheet, MOBILE_COLUMN, mobile) ? "mobile" : "";
 }
 
 /** True when the value (any letter case, whole cell) is already in that column below the header. */

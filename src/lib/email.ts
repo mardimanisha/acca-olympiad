@@ -1,6 +1,6 @@
 /**
- * Emails through the Google Workspace mailbox over Gmail SMTP: the OTP that verifies the student's email,
- * and the registration confirmation. Workspace allows about 2,000 emails a day per mailbox.
+ * Emails through the Google Workspace mailbox over Gmail SMTP: the registration confirmation (the OTP now goes
+ * by SMS, see `src/lib/mobile-otp.ts`). Workspace allows about 2,000 emails a day per mailbox.
  *
  * Env: SMTP_USER (the mailbox, e.g. communications@zskillup.com), SMTP_PASS (a 16-character App Password
  * for that mailbox, created under Google Account → Security → App passwords), optional EMAIL_FROM_NAME
@@ -38,19 +38,6 @@ async function send(to: string, subject: string, html: string) {
     subject,
     html,
   });
-}
-
-export function sendOtpEmail(to: string, name: string, otp: string, minutes: number) {
-  return send(
-    to,
-    `${otp} is your ${EVENT.short} verification code`,
-    `<p>Hi ${firstName(name)},</p>
-<p>Your OTP to complete your ${EVENT.name} registration is:</p>
-<p style="font-size:28px;font-weight:700;letter-spacing:6px">${otp}</p>
-<p>It is valid for ${minutes} minutes. Do not share it with anyone.</p>
-<p>If you didn't request this, you can ignore this email.</p>
-<p>Team ZSkillup</p>`,
-  );
 }
 
 export function sendConfirmationEmail(to: string, name: string) {

@@ -171,7 +171,7 @@ function PhoneInput({
 }
 
 /**
- * Registration form. Validates in the browser, then verifies the student's email with an OTP
+ * Registration form. Validates in the browser, then verifies the student's mobile number with an SMS OTP
  * (/api/register step "send"), and only after the right code saves to the Google Sheet and emails a
  * confirmation (step "verify").
  */
@@ -180,7 +180,7 @@ export function RegisterForm() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [year, setYear] = useState("");
-  // Set once the OTP has been sent; kept when going back so "Change email" doesn't wipe the form.
+  // Set once the OTP has been sent; kept when going back so "Change number" doesn't wipe the form.
   const [values, setValues] = useState<Values | null>(null);
   const [step, setStep] = useState<"form" | "otp">("form");
   const [otp, setOtp] = useState("");
@@ -188,7 +188,7 @@ export function RegisterForm() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [honeypot, setHoneypot] = useState("");
-  // Signed by the server with the OTP it emailed; sent back with the code to verify it.
+  // Signed by the server for the OTP it texted; sent back with the code to verify it.
   const [token, setToken] = useState("");
   const institute = useInstitute();
 
@@ -402,7 +402,7 @@ export function RegisterForm() {
             )}
           </Button>
           <p className="mt-2.5 text-center text-[0.74rem] text-subtle">
-            We&apos;ll email an OTP to verify the student&apos;s email.{" "}
+            We&apos;ll send an OTP by SMS to verify the mobile number.{" "}
             <a href="#" className="underline underline-offset-2">Privacy notice</a>
           </p>
         </motion.form>
@@ -419,10 +419,10 @@ export function RegisterForm() {
           <div className="mt-[22px] grid gap-[7px] lg:mt-4">
             <Label htmlFor="r-otp" className={label}>Enter OTP<Req /></Label>
             <p className="text-[0.88rem] text-subtle">
-              We emailed a 6-digit code to <b className="break-all text-navy">{values.email}</b>. Check your spam folder if
-              you don&apos;t see it.{" "}
+              We sent a 6-digit code by SMS to <b className="whitespace-nowrap text-navy">+91 {values.whatsapp.slice(0, 5)} {values.whatsapp.slice(5)}</b>.
+              It&apos;s valid for 5 minutes.{" "}
               <button type="button" onClick={backToForm} className="font-bold text-teal-deep underline underline-offset-4">
-                Change email
+                Change number
               </button>
             </p>
             <Input

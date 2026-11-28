@@ -1,26 +1,38 @@
 /**
- * Registration endpoint, in two steps so the student's email is verified with an OTP first:
- *   step "send" validates the form, refuses an email or mobile number that has already registered, emails a 6-digit OTP and
- *   returns a signed token (`src/lib/otp.ts`); nothing is saved yet. Resend is the same call again.
- *   step "verify" checks the OTP against the token, appends the row to the Google Sheet through the Apps
- *   Script web app in `google-sheet.gs` (deploy steps are in that file) and emails a confirmation.
+ * Registration endpoint, in two steps so the student's mobile number is verified with an SMS OTP first:
+ *   step "send" validates the form, checks the rate limits, refuses a registration the sheet already has, texts an OTP
+ *   through Message Central and returns a signed token (`src/lib/mobile-otp.ts`); nothing is saved yet. Resend is the
+ *   same call again, at most once every 30 seconds.
+ *   step "verify" checks the OTP with Message Central, appends the row (with "Mobile verified" and the time) to the
+ *   Google Sheet through the Apps Script web app in `google-sheet.gs` and emails a confirmation.
  *
- * Env: SHEET_WEBHOOK_URL (the web app /exec URL). Optional SHEET_WEBHOOK_SECRET must match SECRET
- * in the script when that is set. Email and OTP env vars are listed in `src/lib/email.ts` and `src/lib/otp.ts`.
+ * Each mobile number can register only once (it is what the OTP verifies; emails may repeat); the sheet script checks it.
+ *
+ * Env: SHEET_WEBHOOK_URL / SHEET_WEBHOOK_SECRET (`src/lib/sheet.ts`), Message Central and OTP_SECRET
+ * (`src/lib/mobile-otp.ts`), Redis for rate limits (`src/lib/otp-store.ts`), SMTP (`src/lib/email.ts`).
  */
 
 import { after } from "next/server";
-import { sendConfirmationEmail, sendOtpEmail } from "@/lib/email";
-import { OTP_MINUTES, checkOtp, issueOtp } from "@/lib/otp";
-import { INSTITUTE_CODE, instituteStatus } from "@/lib/sheet";
+import { sendConfirmationEmail } from "@/lib/email";
+import { OTP_LENGTH, OTP_MINUTES, checkOtp, readToken, sendOtp } from "@/lib/mobile-otp";
+import * as store from "@/lib/otp-store";
+import { INSTITUTE_CODE, instituteStatus, sheetGet, sheetPost } from "@/lib/sheet";
 
 const FIELDS = ["name", "email", "whatsapp", "parent", "school", "passingYear", "state", "city", "stream"] as const;
 type Registration = Record<(typeof FIELDS)[number], string>;
 
 const PHONE = /^[6-9]\d{9}$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const OTP = /^\d{6}$/;
+const OTP = new RegExp(`^\\d{${OTP_LENGTH}}$`);
+
+// Rate limits for sending OTPs, and how many codes may be tried for one OTP.
 const RESEND_SECONDS = 30;
+const LIMITS = [
+  { key: "m10", per: "mobile", max: 3, seconds: 600, error: "Too many OTP requests for this number. Please try again in 10 minutes." },
+  { key: "day", per: "mobile", max: 6, seconds: 86_400, error: "Too many OTP requests for this number today. Please try again tomorrow." },
+  { key: "ip", per: "ip", max: 15, seconds: 3600, error: "Too many OTP requests. Please try again in an hour." },
+] as const;
+const MAX_TRIES = 5;
 
 function validate(body: unknown): Registration | string {
   if (!body || typeof body !== "object") return "Invalid request.";
@@ -50,31 +62,20 @@ export function OPTIONS() {
   return new Response(null, { status: 204, headers: CORS });
 }
 
-const ALREADY_REGISTERED = {
-  email: "This email is already registered for the Olympiad. Each email can register only once.",
-  mobile: "This mobile number is already registered for the Olympiad. Each number can register only once.",
-};
-type Taken = keyof typeof ALREADY_REGISTERED;
-
-// An older sheet script only checks email and doesn't say which field matched.
-const takenField = (field: unknown): Taken => (field === "mobile" ? "mobile" : "email");
+const ALREADY_REGISTERED = "This mobile number is already registered for the Olympiad.";
 
 /**
- * Asks the sheet whether this email or mobile number has already registered and returns which one, or null.
- * Fails open (returns null) when the check itself fails; the save step still refuses duplicates.
+ * Asks the sheet whether this mobile number has already registered.
+ * Fails open (returns false) when the check itself fails; the save step still refuses duplicates.
  */
-async function alreadyRegistered(url: string, secret: string, email: string, mobile: string): Promise<Taken | null> {
+async function alreadyRegistered(mobile: string): Promise<boolean> {
   try {
-    const res = await fetch(`${url}?${new URLSearchParams({ action: "exists", email, mobile, secret })}`, {
-      redirect: "follow",
-      signal: AbortSignal.timeout(10000),
-    });
-    const reply = (await res.json().catch(() => null)) as { ok?: boolean; exists?: boolean; field?: string } | null;
-    if (!res.ok || !reply?.ok) throw new Error(`sheet replied ${res.status} ${JSON.stringify(reply)}`);
-    return reply.exists === true ? takenField(reply.field) : null;
+    const reply = await sheetGet({ action: "exists", mobile });
+    if (!reply.ok) throw new Error(`sheet replied ${JSON.stringify(reply)}`);
+    return reply.exists === true;
   } catch (err) {
     console.error("register: could not check for an existing registration", err);
-    return null;
+    return false;
   }
 }
 
@@ -92,10 +93,48 @@ async function closedInstitute(ref: string): Promise<string | null> {
   }
 }
 
+function clientIp(request: Request) {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
+}
+
+/**
+ * The error to show when this send is over a rate limit, otherwise null. When the store can't be reached the limits
+ * are skipped (logged) rather than blocking registration.
+ */
+async function rateLimited(mobile: string, ip: string): Promise<string | null> {
+  try {
+    if (!(await store.claim(`otp:cd:${mobile}`, RESEND_SECONDS))) {
+      const wait = (await store.ttl(`otp:cd:${mobile}`)) || RESEND_SECONDS;
+      return `Please wait ${wait} seconds before requesting another OTP.`;
+    }
+    for (const limit of LIMITS) {
+      const who = limit.per === "mobile" ? mobile : ip;
+      if ((await store.hit(`otp:${limit.key}:${who}`, limit.seconds)) > limit.max) return limit.error;
+    }
+    return null;
+  } catch (err) {
+    console.error("register: rate limit check failed, allowing the request", err);
+    return null;
+  }
+}
+
+const SEND_FAILED = {
+  pending: "An OTP was just sent to this number. Please wait a minute before requesting another.",
+  limit: "Too many OTP requests for this number. Please try again later.",
+  "invalid-number": "Please enter a valid 10-digit Indian mobile number.",
+  failed: "We couldn't send the OTP right now. Please try again in a minute.",
+};
+
+const CHECK_FAILED = {
+  wrong: "Incorrect OTP. Please check the code and try again.",
+  expired: "This OTP has expired. Tap Resend OTP to get a new one.",
+  used: "This OTP has already been used. Tap Resend OTP to get a new one.",
+  limit: "Too many incorrect attempts. Tap Resend OTP to get a new code.",
+  failed: "We couldn't check the OTP right now. Please try again.",
+};
+
 export async function POST(request: Request) {
-  const url = process.env.SHEET_WEBHOOK_URL;
-  const secret = process.env.SHEET_WEBHOOK_SECRET ?? "";
-  if (!url) {
+  if (!process.env.SHEET_WEBHOOK_URL) {
     console.error("register: SHEET_WEBHOOK_URL is not set");
     return json({ ok: false, error: "Registration is not available right now." }, 503);
   }
@@ -105,6 +144,7 @@ export async function POST(request: Request) {
   if (body?.website) return json({ ok: false, error: "Invalid request." }, 400);
   const data = validate(body);
   if (typeof data === "string") return json({ ok: false, error: data }, 400);
+  const mobile = data.whatsapp;
 
   // Partner institute code from the link; the sheet script checks it against the Institutes tab and records "Direct" otherwise.
   const rawRef = typeof body?.ref === "string" ? body.ref.trim().toLowerCase() : "";
@@ -113,39 +153,79 @@ export async function POST(request: Request) {
   if (closed) return json({ ok: false, error: `We are not accepting registrations through ${closed} at the moment.` }, 403);
 
   if (body?.step === "send") {
-    const taken = await alreadyRegistered(url, secret, data.email, data.whatsapp);
-    if (taken) return json({ ok: false, error: ALREADY_REGISTERED[taken] }, 409);
-    const { otp, token } = issueOtp(data.email);
-    // Gmail SMTP takes a few seconds, so the OTP step opens right away and the email goes out after the reply.
-    after(() =>
-      sendOtpEmail(data.email, data.name, otp, OTP_MINUTES).catch((err) => console.error("register: could not send OTP email", err)),
-    );
-    return json({ ok: true, token, resendIn: RESEND_SECONDS });
+    const limited = await rateLimited(mobile, clientIp(request));
+    if (limited) return json({ ok: false, error: limited }, 429);
+    if (await alreadyRegistered(mobile)) return json({ ok: false, error: ALREADY_REGISTERED }, 409);
+
+    let sent;
+    try {
+      sent = await sendOtp(mobile);
+    } catch (err) {
+      console.error("register: could not send OTP", err);
+      sent = { ok: false as const, reason: "failed" as const };
+    }
+    if (!sent.ok) {
+      // Nothing went out, so don't make the student wait for the resend cooldown.
+      await store.del(`otp:cd:${mobile}`).catch(() => {});
+      return json({ ok: false, error: SEND_FAILED[sent.reason] }, sent.reason === "failed" ? 502 : 429);
+    }
+    return json({ ok: true, token: sent.token, resendIn: RESEND_SECONDS, otpLength: OTP_LENGTH, minutes: OTP_MINUTES });
   }
   if (body?.step !== "verify") return json({ ok: false, error: "Invalid request." }, 400);
 
   const otp = typeof body.otp === "string" ? body.otp.trim() : "";
   const token = typeof body.token === "string" ? body.token : "";
-  if (!OTP.test(otp)) return json({ ok: false, error: "Please enter the 6-digit OTP." }, 400);
-  const result = checkOtp(data.email, otp, token);
-  if (result === "expired") return json({ ok: false, error: "This OTP has expired. Tap Resend OTP to get a new one." }, 400);
-  if (result === "wrong") return json({ ok: false, error: "Incorrect OTP. Please check the code and try again." }, 400);
+  if (!OTP.test(otp)) return json({ ok: false, error: `Please enter the ${OTP_LENGTH}-digit OTP.` }, 400);
+  const claims = readToken(token, mobile);
+  if (claims === "expired") return json({ ok: false, error: CHECK_FAILED.expired }, 400);
+  if (claims === "invalid") return json({ ok: false, error: "Please request a new OTP for this mobile number." }, 400);
+  const id = claims.verificationId;
+
+  // One OTP completes one registration. A code that was right but whose save failed may be retried without asking
+  // Message Central again (it would answer "already verified").
+  let verifiedAt: string | null;
+  try {
+    if (await store.get(`otp:used:${id}`)) return json({ ok: false, error: CHECK_FAILED.used }, 400);
+    verifiedAt = await store.get(`otp:ok:${id}`);
+    if (!verifiedAt && (await store.hit(`otp:try:${id}`, OTP_MINUTES * 60 + 60)) > MAX_TRIES) {
+      return json({ ok: false, error: CHECK_FAILED.limit }, 429);
+    }
+  } catch (err) {
+    console.error("register: OTP store unavailable", err);
+    verifiedAt = null;
+  }
+
+  if (!verifiedAt) {
+    let result;
+    try {
+      result = await checkOtp(id, otp);
+    } catch (err) {
+      console.error("register: could not check OTP", err);
+      result = "failed" as const;
+    }
+    if (result !== "ok") return json({ ok: false, error: CHECK_FAILED[result] }, result === "failed" ? 502 : 400);
+    verifiedAt = new Date().toISOString();
+    await store.set(`otp:ok:${id}`, verifiedAt, 15 * 60).catch((err) => console.error("register: OTP store unavailable", err));
+  }
 
   try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, ref, verified: "Yes", secret, submittedAt: new Date().toISOString() }),
-      redirect: "follow",
-      signal: AbortSignal.timeout(15000),
+    const reply = await sheetPost({
+      ...data,
+      ref,
+      mobileVerified: "Yes",
+      mobileVerifiedAt: verifiedAt,
+      submittedAt: new Date().toISOString(),
     });
-    const reply = (await res.json().catch(() => null)) as { ok?: boolean; error?: string; field?: string } | null;
-    if (reply?.error === "duplicate") return json({ ok: false, error: ALREADY_REGISTERED[takenField(reply.field)] }, 409);
-    if (!res.ok || !reply?.ok) throw new Error(`sheet replied ${res.status} ${JSON.stringify(reply)}`);
+    if (reply.error === "duplicate") return json({ ok: false, error: ALREADY_REGISTERED }, 409);
+    if (!reply.ok) throw new Error(`sheet replied ${JSON.stringify(reply)}`);
   } catch (err) {
     console.error("register: could not save to sheet", err);
     return json({ ok: false, error: "We couldn't save your registration. Please try again." }, 502);
   }
+
+  await Promise.all([store.set(`otp:used:${id}`, "1", 86_400), store.del(`otp:ok:${id}`)]).catch((err) =>
+    console.error("register: OTP store unavailable", err),
+  );
 
   // The row is saved, so the confirmation goes out after the reply and a failure is only logged.
   after(() =>
