@@ -54,37 +54,24 @@ const errorText = (err: unknown) =>
   err instanceof Error && err.message !== "Failed to fetch" ? err.message : "Network error. Please check your connection and try again.";
 
 /**
- * Partner institute links add `?ref=<code>`. The code is kept for 30 days so a student who opens the link and
- * registers later is still counted for that institute; a newer link replaces it. When the institute has been switched
- * off in the admin, its link shows that registrations through it are closed and the form can't be sent; a code that
- * was only remembered from an earlier visit is dropped instead, so that student registers as "Direct".
+ * Partner institute links add `?ref=<code>`. Only the link the student opened counts: with a partner's code the
+ * registration is saved under that institute, and without one (the direct link) it is saved as "Direct". Nothing is
+ * remembered between visits. When the institute has been switched off in the admin, its link shows that
+ * registrations through it are closed and the form can't be sent.
  */
-const REF_KEY = "nco-ref";
-const REF_DAYS = 30;
 const REF_CODE = /^[a-z0-9](?:[a-z0-9-]{0,58}[a-z0-9])?$/;
+// Earlier versions kept the code in the browser for 30 days; it is cleared so it can't linger.
+const OLD_REF_KEY = "nco-ref";
 
-type PageRef = { ref: string; fromUrl: boolean };
-const NO_REF: PageRef = { ref: "", fromUrl: false };
-
-function readRef(): PageRef {
+function readRef(): string {
+  try {
+    localStorage.removeItem(OLD_REF_KEY);
+  } catch {}
   try {
     const fromUrl = (new URLSearchParams(window.location.search).get("ref") ?? "").trim().toLowerCase();
-    if (REF_CODE.test(fromUrl)) {
-      localStorage.setItem(REF_KEY, JSON.stringify({ ref: fromUrl, at: Date.now() }));
-      return { ref: fromUrl, fromUrl: true };
-    }
-    const saved = JSON.parse(localStorage.getItem(REF_KEY) ?? "null") as { ref?: string; at?: number } | null;
-    if (saved?.ref && REF_CODE.test(saved.ref) && Date.now() - (saved.at ?? 0) < REF_DAYS * 86_400_000) {
-      return { ref: saved.ref, fromUrl: false };
-    }
+    if (REF_CODE.test(fromUrl)) return fromUrl;
   } catch {}
-  return NO_REF;
-}
-
-function forgetRef() {
-  try {
-    localStorage.removeItem(REF_KEY);
-  } catch {}
+  return "";
 }
 
 type Lookup = { name: string; active: boolean } | null;
@@ -101,12 +88,12 @@ function lookUp(code: string): Promise<Lookup> {
 
 // Read once per page load (the server render has no ref). The lookup starts right here, on the first client render,
 // rather than after the form has mounted, so a closed link's message appears as early as possible.
-let pageRef: PageRef | null = null;
+let pageRef: string | null = null;
 let pageLookup: Promise<Lookup> | null = null;
 function getRef() {
-  if (!pageRef) {
+  if (pageRef === null) {
     pageRef = readRef();
-    if (pageRef.ref) pageLookup = lookUp(pageRef.ref);
+    if (pageRef) pageLookup = lookUp(pageRef);
   }
   return pageRef;
 }
@@ -117,26 +104,22 @@ const noSubscribe = () => () => {};
  * `closed` when the link the student opened belongs to an institute that has been switched off.
  */
 function useInstitute() {
-  const { ref: code, fromUrl } = useSyncExternalStore(noSubscribe, getRef, () => NO_REF);
+  const code = useSyncExternalStore(noSubscribe, getRef, () => "");
   const [found, setFound] = useState<{ name: string; active: boolean } | null>(null);
   useEffect(() => {
     if (!code) return;
     let live = true;
     (pageLookup ?? lookUp(code)).then((inst) => {
-      if (!inst || !live) return;
-      if (!inst.active && !fromUrl) forgetRef();
-      setFound(inst);
+      if (inst && live) setFound(inst);
     });
     return () => {
       live = false;
     };
-  }, [code, fromUrl]);
-  // A remembered code for a switched-off institute isn't sent, so that registration counts as "Direct".
-  const dropped = found !== null && !found.active && !fromUrl;
+  }, [code]);
   return {
-    ref: dropped ? "" : code,
-    name: found && !dropped ? found.name : "",
-    closed: found !== null && !found.active && fromUrl,
+    ref: code,
+    name: found ? found.name : "",
+    closed: found !== null && !found.active,
   };
 }
 
