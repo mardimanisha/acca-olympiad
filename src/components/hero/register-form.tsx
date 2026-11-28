@@ -37,6 +37,19 @@ async function post(body: object) {
   return reply;
 }
 
+/**
+ * Tells Google Tag Manager (GTM-59FB7JZ4, see GoogleTag.tsx) that a registration was saved. Called only after the
+ * server answers { ok: true } to the verify step, so OTP requests and failed attempts never count. GA4 should map
+ * its registration conversion to this event, not to gtm.formSubmit (which both form buttons trigger).
+ */
+function trackRegistration() {
+  try {
+    const w = window as unknown as { dataLayer?: object[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: "registration_success", registration_type: "National Commerce Olympiad" });
+  } catch {}
+}
+
 const errorText = (err: unknown) =>
   err instanceof Error && err.message !== "Failed to fetch" ? err.message : "Network error. Please check your connection and try again.";
 
@@ -254,6 +267,7 @@ export function RegisterForm() {
     setError("");
     try {
       await post({ ...values, ref: institute.ref, otp, token, website: honeypot, step: "verify" });
+      trackRegistration();
       setToken("");
       setState("");
       setCity("");
