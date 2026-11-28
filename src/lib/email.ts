@@ -12,11 +12,6 @@ import { EVENT } from "@/lib/content";
 
 let transport: Transporter | null = null;
 
-const escape = (s: string) =>
-  s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
-
-const firstName = (name: string) => escape(name.split(/\s+/)[0] || "there");
-
 async function send(to: string, subject: string, html: string) {
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
@@ -40,14 +35,20 @@ async function send(to: string, subject: string, html: string) {
   });
 }
 
-export function sendConfirmationEmail(to: string, name: string) {
+const WHATSAPP_GROUP = "https://chat.whatsapp.com/D3h7wb45HWF3m7TDz0ykdS";
+
+export function sendConfirmationEmail(to: string) {
   return send(
     to,
     `You're registered for ${EVENT.name}`,
-    `<p>Hi ${firstName(name)},</p>
-<p>Your registration for <b>${EVENT.name}</b> is confirmed. The Olympiad is on <b>${EVENT.dateLong}</b>.</p>
-<p>Exam instructions will be sent to this email closer to the date.</p>
-<p>Questions? Call us on ${EVENT.phone}.</p>
-<p>Team ZSkillup</p>`,
+    `<p>Congratulations! 🎉</p>
+<p>Your registration for the <b>ZSkillup National Commerce Olympiad 2026</b> is successfully confirmed!</p>
+<p>📅 Date: 20 December 2026<br>
+⏱️ Duration: 60 minutes<br>
+💻 Mode: Online</p>
+<p>Join our official WhatsApp group for important test instructions, announcements and reminders.</p>
+<p>👉 <a href="${WHATSAPP_GROUP}">${WHATSAPP_GROUP}</a></p>
+<p>All the best!</p>
+<p><b>Team ZSkillup</b></p>`,
   );
 }

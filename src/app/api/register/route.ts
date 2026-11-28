@@ -229,7 +229,7 @@ export async function POST(request: Request) {
 
   // The row is saved, so the confirmation goes out after the reply and a failure is only logged.
   after(() =>
-    sendConfirmationEmail(data.email, data.name).catch((err) => console.error("register: could not send confirmation email", err)),
+    sendConfirmationEmail(data.email).catch((err) => console.error("register: could not send confirmation email", err)),
   );
 
   return json({ ok: true });
